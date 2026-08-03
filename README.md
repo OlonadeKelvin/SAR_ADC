@@ -1,130 +1,154 @@
-# 10-Bit 1 MS/s Differential SAR ADC
+# 10-Bit SAR ADC — Chipalooza Challenge
 
-**Target PDK:** IHP SG13CMOS5L[cite: 1, 2]  
-**Project:** Chipalooza Challenge #2 (IHP SG13CMOS5L)[cite: 1, 2]  
-**License:** [Apache-2.0](LICENSE)[cite: 2]
+Mixed-signal IP: a 1 MS/s, 10-bit differential-input successive-approximation-register ADC, targeting the IHP SG13CMOS5L 130nm process.
 
----
+## Team
 
-## 1. Project Overview
+| Name | Email |
+|---|---|
+| Arjun Ananth | arjunananth200@gmail.com |
+| Man Yu | manyu@manyu.xyz |
+| Kelvin Olonade | olonadekelvin@gmail.com |
 
-This repository contains the design, behavioral models, schematics, and layout for a **10-bit, 1 MS/s Differential Input Successive Approximation Register (SAR) Analog-to-Digital Converter** fabricated on the open-source **IHP SG13CMOS5L** 130nm process node[cite: 1, 2]. 
+## Overview
 
-The IP block is engineered as a reusable, general-purpose mixed-signal converter suitable for sensor readouts, system monitoring, and broader System-on-Chip (SoC) integration[cite: 1, 2].
+- **IP type:** Mixed-signal — 1 MS/s, 10-bit differential-input SAR ADC
+- **Target process:** IHP SG13CMOS5L
+- **Application:** Reusable converter for sensor interfaces, monitoring circuits, and general-purpose SoC integration
 
-### Block Diagram
+## Block Diagram
 
-![10-Bit SAR ADC Block Diagram](docs/block_diagram.png)
+![Block Diagram](docs/Block_Diagram.png)
 
----
+Signal path: differential input (`vin_p`/`vin_n`) → bootstrapped-switch sample & hold → 10-bit split-array CDAC (charge redistribution) → dynamic-latch comparator → 1.2V↔3.3V level shifters → SAR sequencer → output register (`adc_data[9:0]`, status flags) → digital interface. A 1.2V bandgap reference network supplies `vref_p` / `vref_n` / `vcm` to the CDAC and sample-and-hold.
 
-## 2. Target Specifications
+## Architecture
 
-All specifications are defined across PVT corners (-40°C to +110°C).
+- Active differential input sampling
+- Dynamic comparator
+- Differential capacitive DAC (VCM-based monotonic switching)
+- SAR control logic
+- Digital calibration (optional)
+- Output register and conversion-status logic
+- SPI output interface
+- Pipelined operation (if needed)
 
-| Parameter | Minimum | Nominal | Maximum | Unit | Notes / Conditions |
-| :--- | :---: | :---: | :---: | :---: | :--- |
-| **Nominal Resolution** | — | 10[cite: 2] | — | Bits[cite: 2] | — |
-| **Effective Number of Bits (ENOB)** | 9[cite: 2] | — | — | Bits[cite: 2] | At 1 MS/s sampling rate[cite: 2] |
-| **Sampling Rate** | — | 1[cite: 2] | — | MS/s[cite: 2] | — |
-| **SAR Internal Clock** | — | 15[cite: 2] | — | MHz[cite: 2] | Bit-trial sequencer clock[cite: 1, 2] |
-| **Conversion Cycles** | 12[cite: 2] | — | 14[cite: 2] | Cycles[cite: 2] | Total cycles per conversion[cite: 2] |
-| **Differential Linearity (DNL)** | — | — | $\pm 1$[cite: 2] | LSB[cite: 2] | No missing codes[cite: 2] |
-| **Integral Linearity (INL)** | — | — | $\pm 1$[cite: 2] | LSB[cite: 2] | — |
-| **Offset Error** | — | — | $\pm 2$[cite: 2] | LSB[cite: 2] | — |
-| **Gain Error** | — | — | 1[cite: 2] | % FS[cite: 2] | Percent of full scale[cite: 2] |
-| **Total Unadjusted Error** | — | — | $\pm 3$[cite: 2] | LSB[cite: 2] | Nominal conditions[cite: 2] |
-| **Analog Power Supply ($V_{DDA}$)** | — | 3.3[cite: 2] | — | V[cite: 2] | Analog sampling & CDAC domain[cite: 1, 2] |
-| **Digital Power Supply ($V_{DDD}$)** | — | 1.2[cite: 2] | — | V[cite: 2] | SAR logic & digital output domain[cite: 1, 2] |
-| **Signal-to-Noise & Distortion (SNDR)** | 55[cite: 2] | — | — | dB[cite: 2] | — |
-| **Signal-to-Noise Ratio (SNR)** | 55[cite: 2] | — | — | dB[cite: 2] | — |
-| **Spurious-Free Dynamic Range (SFDR)** | 60[cite: 2] | — | — | dB[cite: 2] | — |
-| **Input Bandwidth** | 500[cite: 2] | — | — | kHz[cite: 2] | Nyquist limit for 1 MS/s[cite: 2] |
-| **Comparator Input RMS Noise** | — | — | 250[cite: 2] | $\mu\text{V}$[cite: 2] | Input-referred noise[cite: 2] |
-| **CDAC Settling Error** | — | — | 0.25[cite: 2] | LSB[cite: 2] | — |
-| **Input Leakage Current** | — | — | 200[cite: 2] | nA[cite: 2] | At maximum conversion rate[cite: 2] |
-| **Power Consumption** | — | — | 5[cite: 2] | mW[cite: 2] | Active full-speed conversion[cite: 2] |
+## Conversion Sequence
 
----
+1. Differential input sampled onto the CDAC
+2. Input sampling switches open
+3. SAR controller applies the MSB trial code to the DAC
+4. Comparator resolves the polarity of the DAC residue
+5. Result stored; steps 3–4 repeat for the remaining bits
+6. Final 10-bit code transferred to the output register
+7. End-of-conversion status flag asserted
+8. Result read out over SPI
 
-## 3. I/O Pin List & Interface
+## Pinout
 
-The macro interfaces with both the 3.3V analog padframe and the 1.2V digital system bus[cite: 1, 2].
+| Analog I/O & refs | Supplies | Digital inputs | Digital outputs |
+|---|---|---|---|
+| Vinp | Vdda – 3.3V | Enable | SPI (4 pins) |
+| Vinn | Vssa – 0V | Start | Test points for MSBs (optional) |
+| Vref_p | Vddd – 1.2V | Clk | Comp_test |
+| Vref_n | Vssd – 0V | Reset_n | |
+| Vcm | | test_mode | |
+| | | iDAC[4:0] | |
 
-### I/O Signal Summary
+Up to 16 digital control/test signals over a simple SPI control/status bus.
 
-| Pin Name | Direction | Domain | Description |
-| :--- | :---: | :---: | :--- |
-| `Vinp`[cite: 2] | Input[cite: 2] | Analog (3.3V)[cite: 1, 2] | Positive differential analog input[cite: 1, 2] |
-| `Vinn`[cite: 2] | Input[cite: 2] | Analog (3.3V)[cite: 1, 2] | Negative differential analog input[cite: 1, 2] |
-| `Vref_p`[cite: 2] | Input[cite: 2] | Analog (3.3V)[cite: 1, 2] | Positive reference voltage input[cite: 1, 2] |
-| `Vref_n`[cite: 2] | Input[cite: 2] | Analog (3.3V)[cite: 1, 2] | Negative reference voltage input[cite: 1, 2] |
-| `Vcm`[cite: 2] | Input[cite: 2] | Analog (3.3V)[cite: 1, 2] | Common-mode reference voltage[cite: 1, 2] |
-| `iDAC[4:0]`[cite: 2] | Input[cite: 2] | Analog (3.3V)[cite: 1, 2] | 5-bit bias current control[cite: 2] |
-| `Vdda`[cite: 2] | Power[cite: 2] | Analog (3.3V)[cite: 1, 2] | 3.3V analog power supply[cite: 1, 2] |
-| `Vssa`[cite: 2] | Ground[cite: 2] | Analog (0V)[cite: 2] | Analog ground reference[cite: 2] |
-| `Vddd`[cite: 2] | Power[cite: 2] | Digital (1.2V)[cite: 1, 2] | 1.2V digital core supply[cite: 1, 2] |
-| `Vssd`[cite: 2] | Ground[cite: 2] | Digital (0V)[cite: 2] | Digital ground reference[cite: 2] |
-| `Enable`[cite: 2] | Input[cite: 2] | Digital (1.2V)[cite: 1, 2] | Macro enable/power-down control[cite: 1, 2] |
-| `Start`[cite: 2] | Input[cite: 2] | Digital (1.2V)[cite: 1, 2] | Conversion trigger pulse[cite: 1, 2] |
-| `Clk`[cite: 2] | Input[cite: 2] | Digital (1.2V)[cite: 1, 2] | System / SAR clock input[cite: 1, 2] |
-| `Reset_n`[cite: 2] | Input[cite: 2] | Digital (1.2V)[cite: 1, 2] | Active-low asynchronous reset[cite: 1, 2] |
-| `test_mode`[cite: 2] | Input[cite: 2] | Digital (1.2V)[cite: 1, 2] | Test & calibration mode selection[cite: 1, 2] |
-| `SPI [3:0]`[cite: 2] | Output[cite: 2] | Digital (1.2V)[cite: 1, 2] | 4-pin SPI serial data interface[cite: 2] |
-| `Comp_test`[cite: 2] | Output[cite: 2] | Digital (1.2V)[cite: 1, 2] | Direct comparator evaluation test tap[cite: 2] |
+## Target Specifications
 
----
+| Parameter | Min | Nominal | Max |
+|---|---|---|---|
+| Resolution | | 10 bits | |
+| ENOB | 9 bits | | |
+| Sampling rate | | 1 MS/s | |
+| SAR clock | | 15 MHz | |
+| Conversion cycles | 12 | | 14 |
+| DNL | | | ±1 LSB |
+| INL | | | ±1 LSB |
+| Offset error | | | ±2 LSB |
+| Gain error | | | 1% of FS |
+| Total error | No missing codes (nominal) | | ±3 LSB |
+| Input leakage | | | 200 nA |
+| SFDR | 60 dB | | |
+| SNDR | 55 dB | | |
+| SNR | 55 dB | | |
+| Input bandwidth | | 500 kHz | |
+| Comparator input-referred noise | | | 250 µV RMS |
+| CDAC settling error | | | 0.25 LSB |
+| Power consumption | | | 5 mW |
 
-## 4. Architecture & Sub-Block Description
+## Verification Plan
 
-The converter consists of five primary sub-blocks bridging the 3.3V analog and 1.2V digital domains[cite: 1, 2]:
+Top-level checks: schematic-level transient sim, static code-density sim, PVT-corner sim, extracted post-layout sim, DRC/LVS, and mixed-signal full-conversion sim.
 
-1. **Sample & Hold (3.3V Domain):** Bootstrapped input switches preserve input-dependent linearity across a full $V_{cm}$ swing[cite: 1, 2].
-2. **Capacitive DAC (CDAC) Array (3.3V Domain):** A 10-bit split array configured for $V_{cm}$-based monotonic switching, significantly reducing total capacitance and switching energy[cite: 1, 2].
-3. **Dynamic Latch Comparator (3.3V Domain):** High-speed regenerative latch optimized for low offset and minimal hysteresis[cite: 1, 2].
-4. **Level Shifters:** Bidirectional interface converting control and decision signals between the 3.3V analog frontend and 1.2V digital SAR logic[cite: 1, 2].
-5. **SAR Logic & Output Sequencer (1.2V Domain):** Finite state machine executing bit-trial sequencing, code registers, and SPI status output[cite: 1, 2].
+- **Sampling front-end** — charge injection, clock feedthrough, leakage/droop, linearity (THD/SNDR/SFDR at 10k/100k/250kHz and near Nyquist)
+- **Comparator** — decision polarity, input-referred offset, transition point, noise histogram, metastability probability, decision-time across corners
+- **CDAC** — unit-cap nominal + mismatch (Monte Carlo), parasitic extraction, full 1024-code sweep for DNL/INL, boundary and settling behavior
+- **SAR control** — FSM state/transition coverage, assertions, toggle coverage, timing
+- **Level shifters** — 1.2V↔3.3V transitions, cross-domain delay from SAR output through the shifter and bootstrap switch to CDAC settling
+- **Full ADC** — ramp-based DNL/INL/missing-code check; near-full-scale sine for SFDR/SNDR/SNR/ENOB; input leakage, bandwidth, and power (max/average/standby)
 
----
+**Silicon bring-up:** continuity check → apply 1.2V/3.3V supplies → hold in reset → measure static current → enable and check reset behavior → enable clock, apply mid-scale input, trigger a conversion → sweep zero/mid/full-scale → DC transfer-function ramp (~10 hits/code) → sample-rate sweep → hot/cold corner test.
 
-## 5. Verification & Simulation Plan
+**Success criteria:** functional 10-bit conversion, no missing codes, ENOB ≥ 9 bits, SFDR/SNDR meeting spec, at 1 MSps.
 
-### Verification Steps
-* **Schematic Transient Simulation:** Full-system dynamic response under nominal conditions[cite: 2].
-* **Static Code Density Simulation:** Ramp testing across all 1024 output codes to evaluate INL/DNL[cite: 2].
-* **PVT Corners Simulation:** Verification across process (TT/FF/SS), supply ($\pm 10\%$), and temperature (-40°C to +110°C)[cite: 2].
-* **Parasitic Extracted Simulation:** Post-layout netlist verification including parasitic cap extraction on bottom-plate CDAC routing[cite: 2].
-* **DRC / LVS Sign-Off:** Clean DRC and Netgen LVS using KLayout and Magic rule decks[cite: 2].
+## Required Lab Equipment
 
----
+- DC power supplies
+- Voltage reference source
+- Differential signal generator
+- Digital clock generator
+- Oscilloscope
+- Digital multimeter
 
-## 6. Physical Measurement & Test Plan
+## Repository Layout
 
-### Hardware Requirements
-* Differential Signal Generator
-* Digital Clock Generator / Pattern Generator
-* Oscilloscope & Digital Multimeter
-* DC Power Supplies (3.3V, 1.2V)[cite: 1]
-* Precision Voltage Reference Source[cite: 1]
+```
+.
+├── src/          # chip_top.sv / chip_core.sv — top-level pads + SAR ADC core
+├── librelane/     # LibreLane flow config (config.yaml, chip_top.sdc, pad placement)
+├── cocotb/        # cocotb testbench (chip_top_tb.py) + waveform output
+├── ip/            # hard IP (e.g. bondpad cells)
+├── docs/          # Block_Diagram.png, proposal, equipment/team docs
+└── Makefile
+```
 
-### Bring-up & Test Sequence
-1. **Continuity Check:** Verify pin-to-pin resistance to prevent supply shorts[cite: 2].
-2. **Static Power Check:** Apply $V_{DDD}$ (1.2V) and $V_{DDA}$ (3.3V) while holding `Reset_n` low; measure quiescent current[cite: 2].
-3. **Functional DC Verification:** Enable clock, apply DC differential voltages ($0\text{V}$, $V_{cm}$, $V_{FS}$), and verify conversion code output over SPI[cite: 2].
-4. **DC Transfer Characterization:** Apply a slow input ramp (10 hits per code) to measure DNL, INL, and check for missing codes[cite: 2].
-5. **AC Dynamic Characterization:** Apply a near-full-scale coherent sine wave (10 kHz to 500 kHz) to extract SNR, SNDR, SFDR, and ENOB via FFT analysis[cite: 2].
+## Building the Design
 
----
+Built on the [IHP SG13CMOS5L LibreLane template](https://github.com/IHP-GmbH/ihp-sg13cmos5l-librelane-template).
 
-## 7. Repository Structure & Build Instructions
+**Prerequisites**
+- Clone the PDK per the [ihp-sg13cmos5l](https://github.com/IHP-GmbH/ihp-sg13cmos5l) repo instructions and set `$PDK_ROOT` / `$PDK`
+- Install LibreLane via the Nix-based install guide: https://librelane.readthedocs.io/en/latest/installation/nix_installation/index.html
 
-```text
-├── docs/                 # Schematics, block diagrams, PDFs, and documentation
-│   └── block_diagram.png # Top-level block diagram
-├── hdl/
-│   ├── rtl/              # Verilog/SystemVerilog RTL for SAR FSM & SPI
-│   └── testbench/        # cocotb testbenches
-├── xschem/               # Xschem schematics and symbol files
-├── klayout/              # KLayout GDSII, DRC, and LVS scripts
-├── Makefile              # Top-level build and automation script
-└── README.md             # Project documentation
+**Implement**
+```
+nix-shell
+make librelane
+```
+
+**View the result**
+```
+make librelane-openroad   # OpenROAD GUI
+make librelane-klayout    # KLayout
+```
+
+**Freeze a run**
+```
+make copy-final
+```
+Copies the latest successful run into `final/` — only works if that run completed without errors.
+
+**Simulate (cocotb + Icarus Verilog)**
+```
+make sim         # RTL simulation
+make sim-gl      # gate-level simulation (needs final/ populated first)
+make sim-view    # opens the .fst waveform, e.g. in GTKWave
+```
+
+## License
+
+Apache-2.0, matching the base template — update if your team is using something different.
