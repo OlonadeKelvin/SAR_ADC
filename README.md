@@ -13,45 +13,18 @@ This repository contains the design, behavioral models, schematics, and layout f
 The IP block is engineered as a reusable, general-purpose mixed-signal converter suitable for sensor readouts, system monitoring, and broader System-on-Chip (SoC) integration[cite: 1, 2].
 
 ### Block Diagram
-+-------------------------------------------------------+
-             |                 3.3V Analog Domain                    |
-             |                                                       |
-vin_p ---->+---+---------------+       +---------------+               |
-|   | Sample &      | held  | CDAC          | residue       |
-|   | Hold          |------>| 10-Bit Split  |------------>+-+--------------+
-vin_n ---->+---+ (Bootstrapped)| signal| Array (Vcm    |             | Comparator   |
-| Switches)     |       | Monotonic)    |             | (Dynamic     |
-+-------+-------+       +-------+-------+             | Latch)       |
-^                       ^                     +-------+------+
-| samp/hold             | vref/vcm                    | 3.3V
-|                       |                             v
-+-------+-----------------------+-------+             +-------+------+
-| Reference Network                     |             | Level        |
-| (1.2V Bandgap, Vref_p/n, Vcm Decoupl) |             | Shifters     |
-+---------------------------------------+             +-------+------+
-| 1.2V
-+------------------------------------------------------------------------------+------------------+
-|                                  1.2V Digital Domain                         |                  |
-|                                                                              v                  |
-|  +-------------------+  ctrl/clk   +-------------------+  10-bit result   +---------------+   |
-|  | Digital Interface |------------>| SAR Logic         |----------------->| Output        |   |
-|  | (Enable, Start,   |             | (10-Bit Sequencer |                  | Register      |   |
-|  |  Clk, Reset_n)    |             |  Bit-Trial Ctrl)  |                  | (Busy, Valid, |   |
-|  +-------------------+             +-------------------+                  |  Data[9:0])   |   |
-|                                                                           +-------+-------+   |
-|                                                                                   |           |
-|                                     SPI Interface <-------------------------------+           |
-+--------------------------------------------------------------------------------------------------+
+
+![10-Bit SAR ADC Block Diagram](docs/block_diagram.png)
 
 ---
 
 ## 2. Target Specifications
 
-All specifications are defined across PVT corners.
+All specifications are defined across PVT corners (-40°C to +110°C).
 
 | Parameter | Minimum | Nominal | Maximum | Unit | Notes / Conditions |
 | :--- | :---: | :---: | :---: | :---: | :--- |
-| **Nominal Resolution** | — | 10 | — | Bits[cite: 2] | — |
+| **Nominal Resolution** | — | 10[cite: 2] | — | Bits[cite: 2] | — |
 | **Effective Number of Bits (ENOB)** | 9[cite: 2] | — | — | Bits[cite: 2] | At 1 MS/s sampling rate[cite: 2] |
 | **Sampling Rate** | — | 1[cite: 2] | — | MS/s[cite: 2] | — |
 | **SAR Internal Clock** | — | 15[cite: 2] | — | MHz[cite: 2] | Bit-trial sequencer clock[cite: 1, 2] |
@@ -117,11 +90,11 @@ The converter consists of five primary sub-blocks bridging the 3.3V analog and 1
 ## 5. Verification & Simulation Plan
 
 ### Verification Steps
-* **Schematic Transient Simulation:** Full-system dynamic response under nominal conditions.
-* **Static Code Density Simulation:** Ramp testing across all 1024 output codes to evaluate INL/DNL.
-* **PVT Corners Simulation:** Verification across process (TT/FF/SS), supply ($\pm 10\%$), and temperature (-40°C to +110°C).
-* **Parasitic Extracted Simulation:** Post-layout netlist verification including parasitic cap extraction on bottom-plate CDAC routing.
-* **DRC / LVS Sign-Off:** Clean DRC and Netgen LVS using KLayout and Magic rule decks.
+* **Schematic Transient Simulation:** Full-system dynamic response under nominal conditions[cite: 2].
+* **Static Code Density Simulation:** Ramp testing across all 1024 output codes to evaluate INL/DNL[cite: 2].
+* **PVT Corners Simulation:** Verification across process (TT/FF/SS), supply ($\pm 10\%$), and temperature (-40°C to +110°C)[cite: 2].
+* **Parasitic Extracted Simulation:** Post-layout netlist verification including parasitic cap extraction on bottom-plate CDAC routing[cite: 2].
+* **DRC / LVS Sign-Off:** Clean DRC and Netgen LVS using KLayout and Magic rule decks[cite: 2].
 
 ---
 
@@ -135,18 +108,19 @@ The converter consists of five primary sub-blocks bridging the 3.3V analog and 1
 * Precision Voltage Reference Source[cite: 1]
 
 ### Bring-up & Test Sequence
-1. **Continuity Check:** Verify pin-to-pin resistance to prevent supply shorts.
-2. **Static Power Check:** Apply $V_{DDD}$ (1.2V) and $V_{DDA}$ (3.3V) while holding `Reset_n` low; measure quiescent current.
-3. **Functional DC Verification:** Enable clock, apply DC differential voltages ($0\text{V}$, $V_{cm}$, $V_{FS}$), and verify conversion code output over SPI.
-4. **DC Transfer Characterization:** Apply a slow input ramp (10 hits per code) to measure DNL, INL, and check for missing codes.
-5. **AC Dynamic Characterization:** Apply a near-full-scale coherent sine wave (10 kHz to 500 kHz) to extract SNR, SNDR, SFDR, and ENOB via FFT analysis.
+1. **Continuity Check:** Verify pin-to-pin resistance to prevent supply shorts[cite: 2].
+2. **Static Power Check:** Apply $V_{DDD}$ (1.2V) and $V_{DDA}$ (3.3V) while holding `Reset_n` low; measure quiescent current[cite: 2].
+3. **Functional DC Verification:** Enable clock, apply DC differential voltages ($0\text{V}$, $V_{cm}$, $V_{FS}$), and verify conversion code output over SPI[cite: 2].
+4. **DC Transfer Characterization:** Apply a slow input ramp (10 hits per code) to measure DNL, INL, and check for missing codes[cite: 2].
+5. **AC Dynamic Characterization:** Apply a near-full-scale coherent sine wave (10 kHz to 500 kHz) to extract SNR, SNDR, SFDR, and ENOB via FFT analysis[cite: 2].
 
 ---
 
 ## 7. Repository Structure & Build Instructions
 
 ```text
-├── docs/                 # Schematics, PDFs, and design documentation
+├── docs/                 # Schematics, block diagrams, PDFs, and documentation
+│   └── block_diagram.png # Top-level block diagram
 ├── hdl/
 │   ├── rtl/              # Verilog/SystemVerilog RTL for SAR FSM & SPI
 │   └── testbench/        # cocotb testbenches
@@ -154,31 +128,3 @@ The converter consists of five primary sub-blocks bridging the 3.3V analog and 1
 ├── klayout/              # KLayout GDSII, DRC, and LVS scripts
 ├── Makefile              # Top-level build and automation script
 └── README.md             # Project documentation
-
-
-Running Verification Targets
-
-Ensure PDK_ROOT and PDK environment variables are set to point to ihp-sg13cmos5l.
-
-# Clone the repository
-git clone [https://github.com/your-username/ihp-10b-sar-adc.git](https://github.com/your-username/ihp-10b-sar-adc.git)
-cd ihp-10b-sar-adc
-
-# Run Digital RTL Simulation
-make sim
-
-# Run DRC Verification
-make run-drc
-
-# Run LVS Verification
-make run-lvs
-
-8. Project Team
-
-    Arjun Ananth — <arjunananth200@gmail.com>
-    Man Yu — <manyu@manyu.xyz>
-    Kelvin Olonade — <olonadekelvin@gmail.com>
-
-9. License
-
-Distributed under the Apache License 2.0.
