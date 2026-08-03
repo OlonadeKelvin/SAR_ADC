@@ -1,96 +1,184 @@
-# ihp-sg13cmos5l LibreLane Template
+# 10-Bit 1 MS/s Differential SAR ADC
 
-A LibreLane template to implement a full chip design using the ihp-sg13cmos5l PDK.
+**Target PDK:** IHP SG13CMOS5L[cite: 1, 2]  
+**Project:** Chipalooza Challenge #2 (IHP SG13CMOS5L)[cite: 1, 2]  
+**License:** [Apache-2.0](LICENSE)[cite: 2]
 
-![IHP template render in OpenROAD GUI](ihp_chip.png)
+---
 
-## Prerequisites
+## 1. Project Overview
 
-To clone the latest PDK version follow the instructions from the [ihp-sg13cmos5l](https://github.com/IHP-GmbH/ihp-sg13cmos5l) repository and set correctly `$PDK_ROOT` and `$PDK` variables.
+This repository contains the design, behavioral models, schematics, and layout for a **10-bit, 1 MS/s Differential Input Successive Approximation Register (SAR) Analog-to-Digital Converter** fabricated on the open-source **IHP SG13CMOS5L** 130nm process node[cite: 1, 2]. 
 
-In the next step, install LibreLane by following the Nix-based installation instructions: https://librelane.readthedocs.io/en/latest/installation/nix_installation/index.html
+The IP block is engineered as a reusable, general-purpose mixed-signal converter suitable for sensor readouts, system monitoring, and broader System-on-Chip (SoC) integration[cite: 1, 2].
 
-## Implement the Design
+### Block Diagram
++-------------------------------------------------------+
+             |                 3.3V Analog Domain                    |
+             |                                                       |
+vin_p ---->+---+---------------+       +---------------+               |
+|   | Sample &      | held  | CDAC          | residue       |
+|   | Hold          |------>| 10-Bit Split  |------------>+-+--------------+
+vin_n ---->+---+ (Bootstrapped)| signal| Array (Vcm    |             | Comparator   |
+| Switches)     |       | Monotonic)    |             | (Dynamic     |
++-------+-------+       +-------+-------+             | Latch)       |
+^                       ^                     +-------+------+
+| samp/hold             | vref/vcm                    | 3.3V
+|                       |                             v
++-------+-----------------------+-------+             +-------+------+
+| Reference Network                     |             | Level        |
+| (1.2V Bandgap, Vref_p/n, Vcm Decoupl) |             | Shifters     |
++---------------------------------------+             +-------+------+
+| 1.2V
++------------------------------------------------------------------------------+------------------+
+|                                  1.2V Digital Domain                         |                  |
+|                                                                              v                  |
+|  +-------------------+  ctrl/clk   +-------------------+  10-bit result   +---------------+   |
+|  | Digital Interface |------------>| SAR Logic         |----------------->| Output        |   |
+|  | (Enable, Start,   |             | (10-Bit Sequencer |                  | Register      |   |
+|  |  Clk, Reset_n)    |             |  Bit-Trial Ctrl)  |                  | (Busy, Valid, |   |
+|  +-------------------+             +-------------------+                  |  Data[9:0])   |   |
+|                                                                           +-------+-------+   |
+|                                                                                   |           |
+|                                     SPI Interface <-------------------------------+           |
++--------------------------------------------------------------------------------------------------+
 
-This repository contains a Nix flake that provides a shell with the [`dev`](https://github.com/librelane/librelane/tree/dev) branch of LibreLane.
+---
 
-Simply run `nix-shell` in the root of this repository.
+## 2. Target Specifications
 
-> [!NOTE]
-> Since we are working on a branch of LibreLane, OpenROAD needs to be compiled locally. This will be done automatically by Nix, and the binary will be cached locally. 
+All specifications are defined across PVT corners.
 
-With this shell enabled, run the implementation:
+| Parameter | Minimum | Nominal | Maximum | Unit | Notes / Conditions |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **Nominal Resolution** | — | 10 | — | Bits[cite: 2] | — |
+| **Effective Number of Bits (ENOB)** | 9[cite: 2] | — | — | Bits[cite: 2] | At 1 MS/s sampling rate[cite: 2] |
+| **Sampling Rate** | — | 1[cite: 2] | — | MS/s[cite: 2] | — |
+| **SAR Internal Clock** | — | 15[cite: 2] | — | MHz[cite: 2] | Bit-trial sequencer clock[cite: 1, 2] |
+| **Conversion Cycles** | 12[cite: 2] | — | 14[cite: 2] | Cycles[cite: 2] | Total cycles per conversion[cite: 2] |
+| **Differential Linearity (DNL)** | — | — | $\pm 1$[cite: 2] | LSB[cite: 2] | No missing codes[cite: 2] |
+| **Integral Linearity (INL)** | — | — | $\pm 1$[cite: 2] | LSB[cite: 2] | — |
+| **Offset Error** | — | — | $\pm 2$[cite: 2] | LSB[cite: 2] | — |
+| **Gain Error** | — | — | 1[cite: 2] | % FS[cite: 2] | Percent of full scale[cite: 2] |
+| **Total Unadjusted Error** | — | — | $\pm 3$[cite: 2] | LSB[cite: 2] | Nominal conditions[cite: 2] |
+| **Analog Power Supply ($V_{DDA}$)** | — | 3.3[cite: 2] | — | V[cite: 2] | Analog sampling & CDAC domain[cite: 1, 2] |
+| **Digital Power Supply ($V_{DDD}$)** | — | 1.2[cite: 2] | — | V[cite: 2] | SAR logic & digital output domain[cite: 1, 2] |
+| **Signal-to-Noise & Distortion (SNDR)** | 55[cite: 2] | — | — | dB[cite: 2] | — |
+| **Signal-to-Noise Ratio (SNR)** | 55[cite: 2] | — | — | dB[cite: 2] | — |
+| **Spurious-Free Dynamic Range (SFDR)** | 60[cite: 2] | — | — | dB[cite: 2] | — |
+| **Input Bandwidth** | 500[cite: 2] | — | — | kHz[cite: 2] | Nyquist limit for 1 MS/s[cite: 2] |
+| **Comparator Input RMS Noise** | — | — | 250[cite: 2] | $\mu\text{V}$[cite: 2] | Input-referred noise[cite: 2] |
+| **CDAC Settling Error** | — | — | 0.25[cite: 2] | LSB[cite: 2] | — |
+| **Input Leakage Current** | — | — | 200[cite: 2] | nA[cite: 2] | At maximum conversion rate[cite: 2] |
+| **Power Consumption** | — | — | 5[cite: 2] | mW[cite: 2] | Active full-speed conversion[cite: 2] |
 
-```
-make librelane
-```
+---
 
-## View the Design
+## 3. I/O Pin List & Interface
 
-After completion, you can view the design using the OpenROAD GUI:
+The macro interfaces with both the 3.3V analog padframe and the 1.2V digital system bus[cite: 1, 2].
 
-```
-make librelane-openroad
-```
+### I/O Signal Summary
 
-Or using KLayout:
+| Pin Name | Direction | Domain | Description |
+| :--- | :---: | :---: | :--- |
+| `Vinp`[cite: 2] | Input[cite: 2] | Analog (3.3V)[cite: 1, 2] | Positive differential analog input[cite: 1, 2] |
+| `Vinn`[cite: 2] | Input[cite: 2] | Analog (3.3V)[cite: 1, 2] | Negative differential analog input[cite: 1, 2] |
+| `Vref_p`[cite: 2] | Input[cite: 2] | Analog (3.3V)[cite: 1, 2] | Positive reference voltage input[cite: 1, 2] |
+| `Vref_n`[cite: 2] | Input[cite: 2] | Analog (3.3V)[cite: 1, 2] | Negative reference voltage input[cite: 1, 2] |
+| `Vcm`[cite: 2] | Input[cite: 2] | Analog (3.3V)[cite: 1, 2] | Common-mode reference voltage[cite: 1, 2] |
+| `iDAC[4:0]`[cite: 2] | Input[cite: 2] | Analog (3.3V)[cite: 1, 2] | 5-bit bias current control[cite: 2] |
+| `Vdda`[cite: 2] | Power[cite: 2] | Analog (3.3V)[cite: 1, 2] | 3.3V analog power supply[cite: 1, 2] |
+| `Vssa`[cite: 2] | Ground[cite: 2] | Analog (0V)[cite: 2] | Analog ground reference[cite: 2] |
+| `Vddd`[cite: 2] | Power[cite: 2] | Digital (1.2V)[cite: 1, 2] | 1.2V digital core supply[cite: 1, 2] |
+| `Vssd`[cite: 2] | Ground[cite: 2] | Digital (0V)[cite: 2] | Digital ground reference[cite: 2] |
+| `Enable`[cite: 2] | Input[cite: 2] | Digital (1.2V)[cite: 1, 2] | Macro enable/power-down control[cite: 1, 2] |
+| `Start`[cite: 2] | Input[cite: 2] | Digital (1.2V)[cite: 1, 2] | Conversion trigger pulse[cite: 1, 2] |
+| `Clk`[cite: 2] | Input[cite: 2] | Digital (1.2V)[cite: 1, 2] | System / SAR clock input[cite: 1, 2] |
+| `Reset_n`[cite: 2] | Input[cite: 2] | Digital (1.2V)[cite: 1, 2] | Active-low asynchronous reset[cite: 1, 2] |
+| `test_mode`[cite: 2] | Input[cite: 2] | Digital (1.2V)[cite: 1, 2] | Test & calibration mode selection[cite: 1, 2] |
+| `SPI [3:0]`[cite: 2] | Output[cite: 2] | Digital (1.2V)[cite: 1, 2] | 4-pin SPI serial data interface[cite: 2] |
+| `Comp_test`[cite: 2] | Output[cite: 2] | Digital (1.2V)[cite: 1, 2] | Direct comparator evaluation test tap[cite: 2] |
 
-```
-make librelane-klayout
-```
+---
 
-## Copying the Design to the Final Folder
+## 4. Architecture & Sub-Block Description
 
-To copy your latest run to the `final/` folder in the root directory of the repository, run the following command:
+The converter consists of five primary sub-blocks bridging the 3.3V analog and 1.2V digital domains[cite: 1, 2]:
 
-```
-make copy-final
-```
+1. **Sample & Hold (3.3V Domain):** Bootstrapped input switches preserve input-dependent linearity across a full $V_{cm}$ swing[cite: 1, 2].
+2. **Capacitive DAC (CDAC) Array (3.3V Domain):** A 10-bit split array configured for $V_{cm}$-based monotonic switching, significantly reducing total capacitance and switching energy[cite: 1, 2].
+3. **Dynamic Latch Comparator (3.3V Domain):** High-speed regenerative latch optimized for low offset and minimal hysteresis[cite: 1, 2].
+4. **Level Shifters:** Bidirectional interface converting control and decision signals between the 3.3V analog frontend and 1.2V digital SAR logic[cite: 1, 2].
+5. **SAR Logic & Output Sequencer (1.2V Domain):** Finite state machine executing bit-trial sequencing, code registers, and SPI status output[cite: 1, 2].
 
-This will only work if the last run was completed without errors.
+---
 
-> [!CAUTION]
-> The verification using `cocotb` is still WiP
+## 5. Verification & Simulation Plan
 
-## Verification and Simulation
+### Verification Steps
+* **Schematic Transient Simulation:** Full-system dynamic response under nominal conditions.
+* **Static Code Density Simulation:** Ramp testing across all 1024 output codes to evaluate INL/DNL.
+* **PVT Corners Simulation:** Verification across process (TT/FF/SS), supply ($\pm 10\%$), and temperature (-40°C to +110°C).
+* **Parasitic Extracted Simulation:** Post-layout netlist verification including parasitic cap extraction on bottom-plate CDAC routing.
+* **DRC / LVS Sign-Off:** Clean DRC and Netgen LVS using KLayout and Magic rule decks.
 
-We use [cocotb](https://www.cocotb.org/), a Python-based testbench environment, for the verification of the chip.
-The underlying simulator is Icarus Verilog (https://github.com/steveicarus/iverilog).
+---
 
-The testbench is located in `cocotb/chip_top_tb.py`. To run the RTL simulation, run the following command:
+## 6. Physical Measurement & Test Plan
 
-```
+### Hardware Requirements
+* Differential Signal Generator
+* Digital Clock Generator / Pattern Generator
+* Oscilloscope & Digital Multimeter
+* DC Power Supplies (3.3V, 1.2V)[cite: 1]
+* Precision Voltage Reference Source[cite: 1]
+
+### Bring-up & Test Sequence
+1. **Continuity Check:** Verify pin-to-pin resistance to prevent supply shorts.
+2. **Static Power Check:** Apply $V_{DDD}$ (1.2V) and $V_{DDA}$ (3.3V) while holding `Reset_n` low; measure quiescent current.
+3. **Functional DC Verification:** Enable clock, apply DC differential voltages ($0\text{V}$, $V_{cm}$, $V_{FS}$), and verify conversion code output over SPI.
+4. **DC Transfer Characterization:** Apply a slow input ramp (10 hits per code) to measure DNL, INL, and check for missing codes.
+5. **AC Dynamic Characterization:** Apply a near-full-scale coherent sine wave (10 kHz to 500 kHz) to extract SNR, SNDR, SFDR, and ENOB via FFT analysis.
+
+---
+
+## 7. Repository Structure & Build Instructions
+
+```text
+├── docs/                 # Schematics, PDFs, and design documentation
+├── hdl/
+│   ├── rtl/              # Verilog/SystemVerilog RTL for SAR FSM & SPI
+│   └── testbench/        # cocotb testbenches
+├── xschem/               # Xschem schematics and symbol files
+├── klayout/              # KLayout GDSII, DRC, and LVS scripts
+├── Makefile              # Top-level build and automation script
+└── README.md             # Project documentation
+
+
+Running Verification Targets
+
+Ensure PDK_ROOT and PDK environment variables are set to point to ihp-sg13cmos5l.
+
+# Clone the repository
+git clone [https://github.com/your-username/ihp-10b-sar-adc.git](https://github.com/your-username/ihp-10b-sar-adc.git)
+cd ihp-10b-sar-adc
+
+# Run Digital RTL Simulation
 make sim
-```
 
-To run the GL (gate-level) simulation, run the following command:
+# Run DRC Verification
+make run-drc
 
-```
-make sim-gl
-```
+# Run LVS Verification
+make run-lvs
 
-> [!NOTE]
-> You need to have the latest implementation of your design in the `final/` folder. After implementing the design, execute 'make copy-final' to copy all necessary files.
+8. Project Team
 
-In both cases, a waveform file will be generated under `cocotb/sim_build/chip_top.fst`.
-You can view it using a waveform viewer, for example, [GTKWave](https://gtkwave.github.io/gtkwave/).
+    Arjun Ananth — <arjunananth200@gmail.com>
+    Man Yu — <manyu@manyu.xyz>
+    Kelvin Olonade — <olonadekelvin@gmail.com>
 
-```
-make sim-view
-```
+9. License
 
-You can now update the testbench according to your design.
-
-## Implementing Your Own Design
-
-The source files for this template can be found in the `src/` directory. `chip_top.sv` defines the top-level ports and instantiates `chip_core`.
-To change the number of power/ground pads of the core domain, change the `NUM_VDD_PADS`/`NUM_VSS_PADS` parameters.
-To change the number of power/ground pads of the I/O domain, change the `NUM_IOVDD_PADS`/`NUM_IOVSS_PADS` parameters.
-In order to change the number and types of the signal pads, use `NUM_INPUT_PADS`, `NUM_OUTPUT_PADS`, `NUM_BIDIR_PADS` and `NUM_ANALOG_PADS`.
-
-The actual pad positions are defined in the LibreLane configuration file under `librelane/config.yaml`. The variables `PAD_SOUTH`/`PAD_EAST`/`PAD_NORTH`/`PAD_WEST` determine the respective pad placement. The LibreLane configuration also allows you to customize the flow (enable or disable steps), specify the source files, set various variables for the steps, and instantiate macros. For more information about the configuration, please refer to the LibreLane documentation: https://librelane.readthedocs.io/en/latest/
-
-To implement your own design, simply edit `chip_core.sv`. The `chip_core` module receives the clock and reset, as well as the signals from the pads defined in `chip_top`. As an example, a counter is implemented.
-
-> [!NOTE]
-> For more comprehensive SystemVerilog support, enable the `USE_SLANG` variable in the LibreLane configuration.
+Distributed under the Apache License 2.0.
