@@ -151,4 +151,4 @@ make sim-view    # opens the .fst waveform, e.g. in GTKWave
 
 ## License
 
-Apache-2.0, matching the base template — update if your team is using something different.
+Apache-2.0
