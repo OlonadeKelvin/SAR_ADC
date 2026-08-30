@@ -1,0 +1,46 @@
+** sch_path: /foss/designs/capDrivers.sch
+**.subckt capDrivers VDD Drv9 In9 Drv8 In8 Drv7 In7 Drv6 In6 Drv5 In5 In4 Drv4 Drv3 In3 In2 Drv2 In1 Drv1 Drv0 In0 VSS
+*.iopin VDD
+*.iopin VSS
+*.opin Drv9
+*.opin Drv8
+*.opin Drv7
+*.opin Drv6
+*.opin Drv5
+*.opin Drv4
+*.opin Drv3
+*.opin Drv2
+*.opin Drv1
+*.opin Drv0
+*.ipin In9
+*.ipin In8
+*.ipin In7
+*.ipin In6
+*.ipin In5
+*.ipin In4
+*.ipin In3
+*.ipin In2
+*.ipin In1
+*.ipin In0
+XM1 Drv9 In9 VDD VDD sg13_lv_pmos w=0.15u l=0.13u ng=1 m=16 mm_ok=1
+XM2 Drv9 In9 VSS VSS sg13_lv_nmos w=0.15u l=0.13u ng=1 m=16 mm_ok=1
+XM3 Drv8 In8 VDD VDD sg13_lv_pmos w=0.15u l=0.13u ng=1 m=8 mm_ok=1
+XM4 Drv8 In8 VSS VSS sg13_lv_nmos w=0.15u l=0.13u ng=1 m=8 mm_ok=1
+XM5 Drv7 In7 VDD VDD sg13_lv_pmos w=0.15u l=0.13u ng=1 m=8 mm_ok=1
+XM6 Drv7 In7 VSS VSS sg13_lv_nmos w=0.15u l=0.13u ng=1 m=8 mm_ok=1
+XM7 Drv6 In6 VDD VDD sg13_lv_pmos w=0.15u l=0.13u ng=1 m=4 mm_ok=1
+XM8 Drv6 In6 VSS VSS sg13_lv_nmos w=0.15u l=0.13u ng=1 m=4 mm_ok=1
+XM9 Drv5 In5 VDD VDD sg13_lv_pmos w=0.15u l=0.13u ng=1 m=4 mm_ok=1
+XM10 Drv5 In5 VSS VSS sg13_lv_nmos w=0.15u l=0.13u ng=1 m=4 mm_ok=1
+XM11 Drv4 In4 VDD VDD sg13_lv_pmos w=0.15u l=0.13u ng=1 m=4 mm_ok=1
+XM12 Drv4 In4 VSS VSS sg13_lv_nmos w=0.15u l=0.13u ng=1 m=4 mm_ok=1
+XM13 Drv3 In3 VDD VDD sg13_lv_pmos w=0.15u l=0.13u ng=1 m=2 mm_ok=1
+XM14 Drv3 In3 VSS VSS sg13_lv_nmos w=0.15u l=0.13u ng=1 m=2 mm_ok=1
+XM15 Drv2 In2 VDD VDD sg13_lv_pmos w=0.15u l=0.13u ng=1 m=2 mm_ok=1
+XM16 Drv2 In2 VSS VSS sg13_lv_nmos w=0.15u l=0.13u ng=1 m=2 mm_ok=1
+XM17 Drv1 In1 VDD VDD sg13_lv_pmos w=0.15u l=0.13u ng=1 m=2 mm_ok=1
+XM18 Drv1 In1 VSS VSS sg13_lv_nmos w=0.15u l=0.13u ng=1 m=2 mm_ok=1
+XM19 Drv0 In0 VDD VDD sg13_lv_pmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
+XM20 Drv0 In0 VSS VSS sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
+**.ends
+.end

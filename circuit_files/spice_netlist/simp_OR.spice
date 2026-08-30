@@ -1,0 +1,15 @@
+** sch_path: /foss/designs/simp_OR.sch
+**.subckt simp_OR VDD_OR VSS_OR OR_out B A
+*.iopin VDD_OR
+*.iopin VSS_OR
+*.opin OR_out
+*.ipin B
+*.ipin A
+XM2 net2 B VDD_OR VDD_OR sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM3 net1 A net2 VDD_OR sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM4 net1 A VSS_OR VSS_OR sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM6 net1 B VSS_OR VSS_OR sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM7 OR_out net1 VDD_OR VDD_OR sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM8 OR_out net1 VSS_OR VSS_OR sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+**.ends
+.end

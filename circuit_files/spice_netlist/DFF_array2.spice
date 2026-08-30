@@ -1,0 +1,200 @@
+** sch_path: /foss/designs/DFF_array2.sch
+**.subckt DFF_array2 VDD_array CompB Valid_DFF VSS_array Ck2 Ck8 Ck3 Ck9 Ck1 Ck0 Ck4 Ck6 Ck7 Ck5 Comp Reset_decision Comp_outP
+*+ CLK_comp P9_cap P8_cap P7_cap P6_cap P5_cap P4_cap P3_cap P2_cap P1_cap P0_cap Comp_outN N9_cap N8_cap N7_cap N6_cap N5_cap N4_cap N3_cap
+*+ N2_cap N1_cap N0_cap P9_out P8_out P7_out P6_out P5_out P4_out P3_out P2_out P1_out P0_out Output_all Rst_output_DFFs N9_out N8_out
+*+ N7_out N6_out N5_out N4_out N3_out N2_out N1_out N0_out
+*.opin P0_cap
+*.opin P9_cap
+*.opin P8_cap
+*.opin P7_cap
+*.opin P6_cap
+*.opin P5_cap
+*.opin P3_cap
+*.opin P1_cap
+*.opin P4_cap
+*.opin N9_cap
+*.opin N0_cap
+*.opin P2_cap
+*.opin N7_cap
+*.opin N8_cap
+*.opin N5_cap
+*.opin N6_cap
+*.opin N3_cap
+*.opin N4_cap
+*.opin N1_cap
+*.opin N2_cap
+*.opin P9_out
+*.opin P8_out
+*.opin P7_out
+*.opin P6_out
+*.opin P5_out
+*.opin P4_out
+*.opin P2_out
+*.opin P0_out
+*.opin P1_out
+*.opin P3_out
+*.opin N9_out
+*.opin N7_out
+*.opin N5_out
+*.opin N3_out
+*.opin N1_out
+*.opin N8_out
+*.opin N6_out
+*.opin N4_out
+*.opin N2_out
+*.opin N0_out
+*.iopin VDD_array
+*.ipin CompB
+*.ipin Valid_DFF
+*.iopin VSS_array
+*.ipin Comp_outP
+*.ipin Comp_outN
+*.ipin Output_all
+*.ipin Rst_output_DFFs
+*.opin CLK_comp
+*.iopin Reset_decision
+*.ipin Comp
+*.opin Ck9
+*.opin Ck8
+*.opin Ck7
+*.opin Ck6
+*.opin Ck5
+*.opin Ck4
+*.opin Ck3
+*.opin Ck2
+*.opin Ck1
+*.opin Ck0
+x11 VDD_array Reset_decision P9_cap Comp_outP Ck9 VSS_array simp_DFF
+x12 VDD_array Reset_decision P8_cap Comp_outP Ck8 VSS_array simp_DFF
+x13 VDD_array Reset_decision P7_cap Comp_outP Ck7 VSS_array simp_DFF
+x14 VDD_array Reset_decision P6_cap Comp_outP Ck6 VSS_array simp_DFF
+x15 VDD_array Reset_decision P5_cap Comp_outP Ck5 VSS_array simp_DFF
+x16 VDD_array Reset_decision P4_cap Comp_outP Ck4 VSS_array simp_DFF
+x17 VDD_array Reset_decision P3_cap Comp_outP Ck3 VSS_array simp_DFF
+x18 VDD_array Reset_decision P2_cap Comp_outP Ck2 VSS_array simp_DFF
+x19 VDD_array Reset_decision P1_cap Comp_outP Ck1 VSS_array simp_DFF
+x20 VDD_array Reset_decision P0_cap Comp_outP Ck0 VSS_array simp_DFF
+x41 VDD_array Rst_output_DFFs N9_out N9_cap Output_all VSS_array simp_DFF
+x42 VDD_array Rst_output_DFFs N8_out N8_cap Output_all VSS_array simp_DFF
+x43 VDD_array Rst_output_DFFs N7_out N7_cap Output_all VSS_array simp_DFF
+x44 VDD_array Rst_output_DFFs N6_out N6_cap Output_all VSS_array simp_DFF
+x45 VDD_array Rst_output_DFFs N5_out N5_cap Output_all VSS_array simp_DFF
+x46 VDD_array Rst_output_DFFs N4_out N4_cap Output_all VSS_array simp_DFF
+x47 VDD_array Rst_output_DFFs N3_out N3_cap Output_all VSS_array simp_DFF
+x48 VDD_array Rst_output_DFFs N2_out N2_cap Output_all VSS_array simp_DFF
+x49 VDD_array Rst_output_DFFs N1_out N1_cap Output_all VSS_array simp_DFF
+x50 VDD_array Rst_output_DFFs N0_out N0_cap Output_all VSS_array simp_DFF
+x51 VDD_array Ck0 CLK_comp Valid_DFF Comp VSS_array simp_NOR3
+x1 VDD_array CompB Valid_DFF S9 VSS_array Sn9 Ck9 simp_DFF_yannan
+x2 VDD_array S9 Valid_DFF S8 VSS_array Sn8 Ck8 simp_DFF_yannan
+x3 VDD_array S8 Valid_DFF S7 VSS_array Sn7 Ck7 simp_DFF_yannan
+x4 VDD_array S7 Valid_DFF S6 VSS_array Sn6 Ck6 simp_DFF_yannan
+x5 VDD_array S6 Valid_DFF S5 VSS_array Sn5 Ck5 simp_DFF_yannan
+x6 VDD_array S5 Valid_DFF S4 VSS_array Sn4 Ck4 simp_DFF_yannan
+x7 VDD_array S4 Valid_DFF S3 VSS_array Sn3 Ck3 simp_DFF_yannan
+x8 VDD_array S3 Valid_DFF S2 VSS_array Sn2 Ck2 simp_DFF_yannan
+x9 VDD_array S2 Valid_DFF S1 VSS_array Sn1 Ck1 simp_DFF_yannan
+x10 VDD_array S1 Valid_DFF S0 VSS_array Sn0 Ck0 simp_DFF_yannan
+x52 VDD_array Reset_decision N9_cap Comp_outN Ck9 VSS_array simp_DFF
+x53 VDD_array Reset_decision N8_cap Comp_outN Ck8 VSS_array simp_DFF
+x54 VDD_array Reset_decision N7_cap Comp_outN Ck7 VSS_array simp_DFF
+x55 VDD_array Reset_decision N6_cap Comp_outN Ck6 VSS_array simp_DFF
+x56 VDD_array Reset_decision N5_cap Comp_outN Ck5 VSS_array simp_DFF
+x57 VDD_array Reset_decision N4_cap Comp_outN Ck4 VSS_array simp_DFF
+x58 VDD_array Reset_decision N3_cap Comp_outN Ck3 VSS_array simp_DFF
+x59 VDD_array Reset_decision N2_cap Comp_outN Ck2 VSS_array simp_DFF
+x60 VDD_array Reset_decision N1_cap Comp_outN Ck1 VSS_array simp_DFF
+x61 VDD_array Reset_decision N0_cap Comp_outN Ck0 VSS_array simp_DFF
+x21 VDD_array Rst_output_DFFs P9_out P9_cap Output_all VSS_array simp_DFF
+x22 VDD_array Rst_output_DFFs P8_out P8_cap Output_all VSS_array simp_DFF
+x23 VDD_array Rst_output_DFFs P7_out P7_cap Output_all VSS_array simp_DFF
+x24 VDD_array Rst_output_DFFs P6_out P6_cap Output_all VSS_array simp_DFF
+x25 VDD_array Rst_output_DFFs P5_out P5_cap Output_all VSS_array simp_DFF
+x26 VDD_array Rst_output_DFFs P4_out P4_cap Output_all VSS_array simp_DFF
+x27 VDD_array Rst_output_DFFs P3_out P3_cap Output_all VSS_array simp_DFF
+x28 VDD_array Rst_output_DFFs P2_out P2_cap Output_all VSS_array simp_DFF
+x29 VDD_array Rst_output_DFFs P1_out P1_cap Output_all VSS_array simp_DFF
+x30 VDD_array Rst_output_DFFs P0_out P0_cap Output_all VSS_array simp_DFF
+**.ends
+
+* expanding   symbol:  simp_DFF.sym # of pins=6
+** sym_path: /foss/designs/simp_DFF.sym
+** sch_path: /foss/designs/simp_DFF.sch
+.subckt simp_DFF VDD_DFF Rst_DFF out_DFF in_DFF CLK_DFF VSS_DFF
+*.ipin in_DFF
+*.ipin CLK_DFF
+*.ipin Rst_DFF
+*.opin out_DFF
+*.iopin VDD_DFF
+*.iopin VSS_DFF
+XM1 net1 in_DFF VSS_DFF VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM2 net1 CLK_DFF net2 VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM3 net2 in_DFF VDD_DFF VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM4 net3 CLK_DFF VSS_DFF VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM5 net5 net1 net3 VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM6 net4 CLK_DFF VDD_DFF VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM7 net5 Rst_DFF net4 VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM8 net5 Rst_DFF VSS_DFF VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM9 net5 net7 VDD_DFF VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM10 net9 net5 VSS_DFF VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM11 net7 net5 VDD_DFF VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM12 net7 out_DFF VDD_DFF VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM13 net7 out_DFF net6 VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM14 net6 net5 VSS_DFF VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM15 net8 net5 VDD_DFF VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM16 net8 CLK_DFF net9 VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM17 out_DFF net8 VDD_DFF VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM18 out_DFF net8 VSS_DFF VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM19 out_DFF Rst_DFF VSS_DFF VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+.ends
+
+
+* expanding   symbol:  simp_NOR3.sym # of pins=6
+** sym_path: /foss/designs/simp_NOR3.sym
+** sch_path: /foss/designs/simp_NOR3.sch
+.subckt simp_NOR3 VDD_NOR3 A NOR_out C B VSS_NOR3
+*.iopin VDD_NOR3
+*.iopin VSS_NOR3
+*.opin NOR_out
+*.ipin A
+*.ipin B
+*.ipin C
+XM1 net2 A VDD_NOR3 VDD_NOR3 sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM2 net1 B net2 VDD_NOR3 sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM3 NOR_out C net1 VDD_NOR3 sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM4 NOR_out C VSS_NOR3 VSS_NOR3 sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM5 NOR_out A VSS_NOR3 VSS_NOR3 sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM6 NOR_out B VSS_NOR3 VSS_NOR3 sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+.ends
+
+
+* expanding   symbol:  simp_DFF_yannan.sym # of pins=7
+** sym_path: /foss/designs/simp_DFF_yannan.sym
+** sch_path: /foss/designs/simp_DFF_yannan.sch
+.subckt simp_DFF_yannan VDD_CKc Rst_CKc CKc Sn VSS_CKc SCn CLKn
+*.ipin CKc
+*.ipin Rst_CKc
+*.iopin VDD_CKc
+*.iopin VSS_CKc
+*.opin Sn
+*.opin SCn
+*.opin CLKn
+XM1 net2 Rst_CKc VSS_CKc VSS_CKc sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM3 net1 Rst_CKc VDD_CKc VDD_CKc sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM12 net3 net1 VDD_CKc VDD_CKc sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM10 Sn net1 VSS_CKc VSS_CKc sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM2 net1 CKc net2 VSS_CKc sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM4 Sn CKc net3 VDD_CKc sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM5 net4 Sn VDD_CKc VDD_CKc sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM6 net4 Sn VSS_CKc VSS_CKc sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM11 SCn net4 VDD_CKc VDD_CKc sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM7 SCn Rst_CKc VDD_CKc VDD_CKc sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM13 SCn Rst_CKc net5 VSS_CKc sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM14 net5 net4 VSS_CKc VSS_CKc sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM8 CLKn net1 VSS_CKc VSS_CKc sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM9 CLKn SCn VSS_CKc VSS_CKc sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM15 CLKn SCn net6 VDD_CKc sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM16 net6 net1 VDD_CKc VDD_CKc sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+.ends
+
+.end

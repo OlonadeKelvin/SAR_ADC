@@ -1,0 +1,29 @@
+** sch_path: /foss/designs/simp_DFF.sch
+**.subckt simp_DFF VDD_DFF Rst_DFF out_DFF in_DFF CLK_DFF VSS_DFF
+*.ipin in_DFF
+*.ipin CLK_DFF
+*.ipin Rst_DFF
+*.opin out_DFF
+*.iopin VDD_DFF
+*.iopin VSS_DFF
+XM1 net1 in_DFF VSS_DFF VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM2 net1 CLK_DFF net2 VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM3 net2 in_DFF VDD_DFF VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM4 net3 CLK_DFF VSS_DFF VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM5 net5 net1 net3 VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM6 net4 CLK_DFF VDD_DFF VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM7 net5 Rst_DFF net4 VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM8 net5 Rst_DFF VSS_DFF VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM9 net5 net7 VDD_DFF VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM10 net9 net5 VSS_DFF VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM11 net7 net5 VDD_DFF VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM12 net7 out_DFF VDD_DFF VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM13 net7 out_DFF net6 VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM14 net6 net5 VSS_DFF VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM15 net8 net5 VDD_DFF VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM16 net8 CLK_DFF net9 VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM17 out_DFF net8 VDD_DFF VDD_DFF sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM18 out_DFF net8 VSS_DFF VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM19 out_DFF Rst_DFF VSS_DFF VSS_DFF sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+**.ends
+.end
