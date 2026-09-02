@@ -1,0 +1,16 @@
+.subckt simple_comparator Voutp Voutn Vinp Vinn CLK VDD_comparator VSS_comparator
+
+XM1 Voutp Voutn VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM2 Vleft_gm_net Vinp VS_dp VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM3 Voutp Voutn Vleft_gm_net VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM4 Vright_gm_net Vinn VS_dp VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM5 Voutn Voutp Vright_gm_net VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM6 Voutn Voutp VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM7 VS_dp CLK VSS_comparator VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM8 Voutn CLK VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 mm_ok=1
+XM9 Voutp CLK VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 mm_ok=1
+
+.ends simple_comparator
+.end
+
+
