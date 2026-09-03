@@ -1,0 +1,464 @@
+v {xschem version=3.4.8RC file_version=1.3}
+G {}
+K {}
+V {}
+S {}
+F {}
+E {}
+P 4 1 100 -160 {}
+N -100 -110 -100 -60 {lab=VDD}
+N 90 -60 90 20 {lab=out}
+N 60 -60 90 -60 {lab=out}
+N 90 -70 90 -60 {lab=out}
+N 130 -110 130 -100 {lab=VDD}
+N 130 -30 130 -10 {lab=Qb}
+N 130 50 130 70 {lab=VSS}
+N 130 20 150 20 {lab=VSS}
+N 150 20 150 70 {lab=VSS}
+N 130 70 150 70 {lab=VSS}
+N 130 -70 150 -70 {lab=VDD}
+N 150 -110 150 -70 {lab=VDD}
+N 130 -110 150 -110 {lab=VDD}
+N 150 70 240 70 {lab=VSS}
+N 200 -30 200 20 {lab=Qb}
+N 240 -110 240 -100 {lab=VDD}
+N 240 -40 240 -10 {lab=cap}
+N 240 50 240 70 {lab=VSS}
+N 240 20 260 20 {lab=VSS}
+N 260 20 260 70 {lab=VSS}
+N 240 70 260 70 {lab=VSS}
+N 240 -70 260 -70 {lab=VDD}
+N 260 -110 260 -70 {lab=VDD}
+N 240 -110 260 -110 {lab=VDD}
+N -100 -110 130 -110 {lab=VDD}
+N 130 -30 200 -30 {lab=Qb}
+N 130 -40 130 -30 {lab=Qb}
+N 200 -70 200 -30 {lab=Qb}
+N 390 -40 390 20 {lab=cap}
+N 390 -70 390 -40 {lab=cap}
+N 430 -110 430 -100 {lab=VDD}
+N 430 -30 430 -10 {lab=#net1}
+N 430 50 430 70 {lab=VSS}
+N 430 20 450 20 {lab=VSS}
+N 450 20 450 70 {lab=VSS}
+N 430 70 450 70 {lab=VSS}
+N 430 -70 450 -70 {lab=VDD}
+N 450 -110 450 -70 {lab=VDD}
+N 430 -110 450 -110 {lab=VDD}
+N 450 -110 540 -110 {lab=VDD}
+N 450 70 540 70 {lab=VSS}
+N 500 -30 500 20 {lab=#net1}
+N 540 -110 540 -100 {lab=VDD}
+N 540 50 540 70 {lab=VSS}
+N 540 20 560 20 {lab=VSS}
+N 560 20 560 70 {lab=VSS}
+N 540 70 560 70 {lab=VSS}
+N 540 -70 560 -70 {lab=VDD}
+N 560 -110 560 -70 {lab=VDD}
+N 540 -110 560 -110 {lab=VDD}
+N 260 -110 430 -110 {lab=VDD}
+N 330 70 430 70 {lab=VSS}
+N 430 -30 500 -30 {lab=#net1}
+N 430 -40 430 -30 {lab=#net1}
+N 500 -70 500 -30 {lab=#net1}
+N 150 -110 240 -110 {lab=VDD}
+N 240 -40 390 -40 {lab=cap}
+N 330 20 330 70 {lab=VSS}
+N 260 70 330 70 {lab=VSS}
+N -130 30 -100 30 {lab=in}
+N -200 -10 -100 -10 {lab=delay_reset}
+N 540 -40 540 -10 {lab=#net2}
+N -20 70 130 70 {lab=VSS}
+N 150 70 150 110 {lab=VSS}
+N 150 110 240 110 {lab=VSS}
+N 150 -150 240 -150 {lab=VDD}
+N 150 -150 150 -110 {lab=VDD}
+N 60 -180 60 -60 {lab=out}
+N 60 -180 240 -180 {lab=out}
+N -200 -10 -200 140 {lab=delay_reset}
+N 1650 -30 1680 -30 {lab=Delayed_out}
+N 1500 -20 1500 20 {lab=delay_reset}
+N 1540 -110 1540 -100 {lab=VDD}
+N 1540 -30 1540 -10 {lab=#net3}
+N 1540 50 1540 70 {lab=VSS}
+N 1540 20 1560 20 {lab=VSS}
+N 1560 20 1560 70 {lab=VSS}
+N 1540 70 1560 70 {lab=VSS}
+N 1540 -70 1560 -70 {lab=VDD}
+N 1560 -110 1560 -70 {lab=VDD}
+N 1540 -110 1560 -110 {lab=VDD}
+N 1560 -110 1650 -110 {lab=VDD}
+N 1560 70 1650 70 {lab=VSS}
+N 1610 -30 1610 20 {lab=#net3}
+N 1650 -110 1650 -100 {lab=VDD}
+N 1650 50 1650 70 {lab=VSS}
+N 1650 20 1670 20 {lab=VSS}
+N 1670 20 1670 70 {lab=VSS}
+N 1650 70 1670 70 {lab=VSS}
+N 1650 -70 1670 -70 {lab=VDD}
+N 1670 -110 1670 -70 {lab=VDD}
+N 1650 -110 1670 -110 {lab=VDD}
+N 1540 -30 1610 -30 {lab=#net3}
+N 1540 -40 1540 -30 {lab=#net3}
+N 1610 -70 1610 -30 {lab=#net3}
+N 1650 -30 1650 -10 {lab=Delayed_out}
+N 1650 -40 1650 -30 {lab=Delayed_out}
+N 1500 -70 1500 -20 {lab=delay_reset}
+N 1460 -110 1540 -110 {lab=VDD}
+N 1460 70 1540 70 {lab=VSS}
+N 690 -40 690 20 {lab=#net2}
+N 690 -70 690 -40 {lab=#net2}
+N 730 -110 730 -100 {lab=VDD}
+N 730 -30 730 -10 {lab=#net4}
+N 730 50 730 70 {lab=VSS}
+N 730 20 750 20 {lab=VSS}
+N 750 20 750 70 {lab=VSS}
+N 730 70 750 70 {lab=VSS}
+N 730 -70 750 -70 {lab=VDD}
+N 750 -110 750 -70 {lab=VDD}
+N 730 -110 750 -110 {lab=VDD}
+N 750 -110 840 -110 {lab=VDD}
+N 750 70 840 70 {lab=VSS}
+N 800 -30 800 20 {lab=#net4}
+N 840 -110 840 -100 {lab=VDD}
+N 840 50 840 70 {lab=VSS}
+N 840 20 860 20 {lab=VSS}
+N 860 20 860 70 {lab=VSS}
+N 840 70 860 70 {lab=VSS}
+N 840 -70 860 -70 {lab=VDD}
+N 860 -110 860 -70 {lab=VDD}
+N 840 -110 860 -110 {lab=VDD}
+N 560 -110 730 -110 {lab=VDD}
+N 630 70 730 70 {lab=VSS}
+N 730 -30 800 -30 {lab=#net4}
+N 730 -40 730 -30 {lab=#net4}
+N 800 -70 800 -30 {lab=#net4}
+N 540 -40 690 -40 {lab=#net2}
+N 630 20 630 70 {lab=VSS}
+N 560 70 630 70 {lab=VSS}
+N 840 -40 840 -10 {lab=#net5}
+N 990 -40 990 20 {lab=#net5}
+N 990 -70 990 -40 {lab=#net5}
+N 1030 -110 1030 -100 {lab=VDD}
+N 1030 -30 1030 -10 {lab=#net6}
+N 1030 50 1030 70 {lab=VSS}
+N 1030 20 1050 20 {lab=VSS}
+N 1050 20 1050 70 {lab=VSS}
+N 1030 70 1050 70 {lab=VSS}
+N 1030 -70 1050 -70 {lab=VDD}
+N 1050 -110 1050 -70 {lab=VDD}
+N 1030 -110 1050 -110 {lab=VDD}
+N 1050 -110 1140 -110 {lab=VDD}
+N 1050 70 1140 70 {lab=VSS}
+N 1100 -30 1100 20 {lab=#net6}
+N 1140 -110 1140 -100 {lab=VDD}
+N 1140 50 1140 70 {lab=VSS}
+N 1140 20 1160 20 {lab=VSS}
+N 1160 20 1160 70 {lab=VSS}
+N 1140 70 1160 70 {lab=VSS}
+N 1140 -70 1160 -70 {lab=VDD}
+N 1160 -110 1160 -70 {lab=VDD}
+N 1140 -110 1160 -110 {lab=VDD}
+N 860 -110 1030 -110 {lab=VDD}
+N 930 70 1030 70 {lab=VSS}
+N 1030 -30 1100 -30 {lab=#net6}
+N 1030 -40 1030 -30 {lab=#net6}
+N 1100 -70 1100 -30 {lab=#net6}
+N 840 -40 990 -40 {lab=#net5}
+N 930 20 930 70 {lab=VSS}
+N 860 70 930 70 {lab=VSS}
+N 1140 -40 1140 -10 {lab=#net7}
+N 1290 -40 1290 20 {lab=#net7}
+N 1290 -70 1290 -40 {lab=#net7}
+N 1330 -110 1330 -100 {lab=VDD}
+N 1330 -30 1330 -10 {lab=#net8}
+N 1330 50 1330 70 {lab=VSS}
+N 1330 20 1350 20 {lab=VSS}
+N 1350 20 1350 70 {lab=VSS}
+N 1330 70 1350 70 {lab=VSS}
+N 1330 -70 1350 -70 {lab=VDD}
+N 1350 -110 1350 -70 {lab=VDD}
+N 1330 -110 1350 -110 {lab=VDD}
+N 1350 -110 1440 -110 {lab=VDD}
+N 1350 70 1440 70 {lab=VSS}
+N 1400 -30 1400 20 {lab=#net8}
+N 1440 -110 1440 -100 {lab=VDD}
+N 1440 -20 1440 -10 {lab=delay_reset}
+N 1440 50 1440 70 {lab=VSS}
+N 1440 20 1460 20 {lab=VSS}
+N 1460 20 1460 70 {lab=VSS}
+N 1440 -70 1460 -70 {lab=VDD}
+N 1460 -110 1460 -70 {lab=VDD}
+N 1160 -110 1330 -110 {lab=VDD}
+N 1230 70 1330 70 {lab=VSS}
+N 1330 -30 1400 -30 {lab=#net8}
+N 1330 -40 1330 -30 {lab=#net8}
+N 1400 -70 1400 -30 {lab=#net8}
+N 1140 -40 1290 -40 {lab=#net7}
+N 1230 20 1230 70 {lab=VSS}
+N 1160 70 1230 70 {lab=VSS}
+N 1440 -40 1440 -20 {lab=delay_reset}
+N 1470 -20 1500 -20 {lab=delay_reset}
+N 1440 -110 1460 -110 {lab=VDD}
+N 1440 70 1460 70 {lab=VSS}
+N 1470 -20 1470 140 {lab=delay_reset}
+N 1440 -20 1470 -20 {lab=delay_reset}
+N -200 140 1470 140 {lab=delay_reset}
+C {sg13g2_pr/sg13_hv_nmos.sym} 110 20 0 0 {name=M1
+l=0.45u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_nmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_pmos.sym} 110 -70 0 0 {name=M2
+l=0.4u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_pmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_nmos.sym} 220 20 0 0 {name=M3
+l=0.45u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_nmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_pmos.sym} 220 -70 0 0 {name=M4
+l=0.4u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_pmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_nmos.sym} 410 20 0 0 {name=M5
+l=0.45u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_nmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_pmos.sym} 410 -70 0 0 {name=M6
+l=0.4u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_pmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_nmos.sym} 520 20 0 0 {name=M7
+l=0.45u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_nmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_pmos.sym} 520 -70 0 0 {name=M8
+l=0.4u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_pmos
+spiceprefix=X
+}
+C {sg13g2_pr/cap_cmim.sym} 330 -10 0 0 {name=C1
+model=cap_cmim
+ w=7.0e-6
+ l=7.0e-6
+ m=4
+  mm_ok=1
+ spiceprefix=X}
+C {lab_wire.sym} 180 -30 0 0 {name=p4 sig_type=std_logic lab=Qb}
+C {lab_wire.sym} 360 -40 0 0 {name=p5 sig_type=std_logic lab=cap}
+C {iopin.sym} 240 110 0 0 {name=p7 lab=VSS
+}
+C {iopin.sym} 240 -150 0 0 {name=p8 lab=VDD
+}
+C {ipin.sym} -130 30 0 0 {name=p9 lab=in
+}
+C {opin.sym} 240 -180 0 0 {name=p1 lab=out
+}
+C {opin.sym} 1680 -30 0 0 {name=p3 lab=Delayed_out
+}
+C {sg13g2_pr/sg13_hv_nmos.sym} 1520 20 0 0 {name=M9
+l=0.45u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_nmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_pmos.sym} 1520 -70 0 0 {name=M10
+l=0.4u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_pmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_nmos.sym} 1630 20 0 0 {name=M11
+l=0.45u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_nmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_pmos.sym} 1630 -70 0 0 {name=M12
+l=0.4u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_pmos
+spiceprefix=X
+}
+C {lab_wire.sym} -110 -10 0 0 {name=p10 sig_type=std_logic lab=delay_reset}
+C {sg13g2_pr/sg13_hv_nmos.sym} 710 20 0 0 {name=M13
+l=0.45u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_nmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_pmos.sym} 710 -70 0 0 {name=M14
+l=0.4u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_pmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_nmos.sym} 820 20 0 0 {name=M15
+l=0.45u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_nmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_pmos.sym} 820 -70 0 0 {name=M16
+l=0.4u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_pmos
+spiceprefix=X
+}
+C {sg13g2_pr/cap_cmim.sym} 630 -10 0 0 {name=C2
+model=cap_cmim
+ w=7.0e-6
+ l=7.0e-6
+ m=4
+  mm_ok=1
+ spiceprefix=X}
+C {sg13g2_pr/sg13_hv_nmos.sym} 1010 20 0 0 {name=M17
+l=0.45u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_nmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_pmos.sym} 1010 -70 0 0 {name=M18
+l=0.4u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_pmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_nmos.sym} 1120 20 0 0 {name=M19
+l=0.45u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_nmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_pmos.sym} 1120 -70 0 0 {name=M20
+l=0.4u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_pmos
+spiceprefix=X
+}
+C {sg13g2_pr/cap_cmim.sym} 930 -10 0 0 {name=C3
+model=cap_cmim
+ w=7.0e-6
+ l=7.0e-6
+ m=4
+  mm_ok=1
+ spiceprefix=X}
+C {sg13g2_pr/sg13_hv_nmos.sym} 1310 20 0 0 {name=M21
+l=0.45u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_nmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_pmos.sym} 1310 -70 0 0 {name=M22
+l=0.4u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_pmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_nmos.sym} 1420 20 0 0 {name=M23
+l=0.45u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_nmos
+spiceprefix=X
+}
+C {sg13g2_pr/sg13_hv_pmos.sym} 1420 -70 0 0 {name=M24
+l=0.4u
+w=0.3u
+ ng=1
+ m=1
+  mm_ok=1
+ model=sg13_hv_pmos
+spiceprefix=X
+}
+C {sg13g2_pr/cap_cmim.sym} 1230 -10 0 0 {name=C4
+model=cap_cmim
+ w=7.0e-6
+ l=7.0e-6
+ m=4
+  mm_ok=1
+ spiceprefix=X}
+C {/foss/designs/sarADC/DFF.sym} -20 -20 0 0 {name=x1}
