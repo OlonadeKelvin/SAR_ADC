@@ -1,0 +1,187 @@
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/sar_10_bit.sch
+**.subckt sar_10_bit RSTN busy START valid vcm vrefp ainn ainp CLK C0 C9 C1 C5 C6 C2 C7 C3 C8 C4 vss vdd Voutn
+*.ipin ainn
+*.ipin ainp
+*.ipin CLK
+*.ipin vrefp
+*.ipin vcm
+*.opin C1
+*.opin C2
+*.opin C3
+*.opin C4
+*.opin C5
+*.opin C6
+*.opin C7
+*.opin C8
+*.opin C0
+*.opin C9
+*.opin busy
+*.opin valid
+*.ipin START
+*.ipin RSTN
+*.iopin Voutn
+*.iopin vdd
+*.iopin vss
+x1 Voutn vcn Voutp vcp vdd vss comp_clk strong_arm_comp
+x3 vss sample sampleb vdd ainp vcp tg
+x4 vss sample sampleb vdd ainn vcn tg
+x2 vcp bp3 bp0 bp5 bp2 vcm bp1 bp7 bp6 bp8 bp4 bp9 vcn bn0 bn1 bn8 bn7 bn6 bn5 bn4 bn3 bn9 bn2 vcm cdac_caps_10b_diff
+x15 vdd sample sampleb vss inverter
+x6 dbp0 bp0 vss vdd vrefp vcm dac_sw_2to1_tg
+x7 dbp1 bp1 vss vdd vrefp vcm dac_sw_2to1_tg
+x8 dbp4 bp4 vss vdd vrefp vcm dac_sw_2to1_tg
+x9 dbp5 bp5 vss vdd vrefp vcm dac_sw_2to1_tg
+x10 dbp7 bp7 vss vdd vrefp vcm dac_sw_2to1_tg
+x11 dbp8 bp8 vss vdd vrefp vcm dac_sw_2to1_tg
+x12 dbp2 bp2 vss vdd vrefp vcm dac_sw_2to1_tg
+x13 dbp3 bp3 vss vdd vrefp vcm dac_sw_2to1_tg
+x14 dbp6 bp6 vss vdd vrefp vcm dac_sw_2to1_tg
+x16 dbp9 bp9 vss vdd vrefp vcm dac_sw_2to1_tg
+x17 dbn0 bn0 vss vdd vrefp vcm dac_sw_2to1_tg
+x18 dbn1 bn1 vss vdd vrefp vcm dac_sw_2to1_tg
+x19 dbn4 bn4 vss vdd vrefp vcm dac_sw_2to1_tg
+x20 dbn5 bn5 vss vdd vrefp vcm dac_sw_2to1_tg
+x21 dbn7 bn7 vss vdd vrefp vcm dac_sw_2to1_tg
+x22 dbn8 bn8 vss vdd vrefp vcm dac_sw_2to1_tg
+x23 dbn2 bn2 vss vdd vrefp vcm dac_sw_2to1_tg
+x24 dbn3 bn3 vss vdd vrefp vcm dac_sw_2to1_tg
+x25 dbn6 bn6 vss vdd vrefp vcm dac_sw_2to1_tg
+x27 dbn9 bn9 vss vdd vrefp vcm dac_sw_2to1_tg
+x5 CLK RSTN START Voutp sample comp_clk busy valid dbp9 dbp8 dbp7 dbp6 dbp5 dbp4 dbp3 dbp2 dbp1 dbp0 dbn9 dbn8 dbn7 dbn6 dbn5 dbn4
++ dbn3 dbn2 dbn1 dbn0 C9 C8 C7 C6 C5 C4 C3 C2 C1 C0 vdd vss sar_fsm_wrapper
+**.ends
+
+* expanding   symbol:  strong_arm_comp.sym # of pins=7
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/strong_arm_comp.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/strong_arm_comp.sch
+.subckt strong_arm_comp Voutn Vinn Voutp Vinp vdd vss CLK
+*.ipin Vinn
+*.opin Voutp
+*.iopin vdd
+*.ipin Vinp
+*.ipin CLK
+*.iopin vss
+*.opin Voutn
+XM1 P CLK vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM2 net1 CLK vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=8 mm_ok=1
+XM3 X CLK vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM4 P Vinn net1 vss sg13_hv_nmos w=2u l=0.45u ng=1 m=6 mm_ok=1
+XM5 Q Vinp net1 vss sg13_hv_nmos w=2u l=0.45u ng=1 m=6 mm_ok=1
+XM6 X Y P vss sg13_hv_nmos w=2u l=0.45u ng=1 m=2 mm_ok=1
+XM7 Y X Q vss sg13_hv_nmos w=2u l=0.45u ng=1 m=2 mm_ok=1
+XM8 X Y vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM9 Y CLK vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM10 Q CLK vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM11 Y X vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM12 net2 X vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM13 Voutp net2 vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=2 mm_ok=1
+XM14 Voutn net3 vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=2 mm_ok=1
+XM15 net3 Y vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM16 net2 X vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+XM17 Voutp Voutn vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM18 net3 Y vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+XM19 Voutn Voutp vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+.ends
+
+
+* expanding   symbol:  tg.sym # of pins=6
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/tg.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/tg.sch
+.subckt tg vss ng pg vdd a b
+*.ipin ng
+*.iopin vdd
+*.ipin pg
+*.iopin a
+*.iopin b
+*.iopin vss
+XM12 b ng a vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM16 b pg a vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+.ends
+
+
+* expanding   symbol:  cdac_caps_10b_diff.sym # of pins=24
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/cdac_caps_10b_diff.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/cdac_caps_10b_diff.sch
+.subckt cdac_caps_10b_diff vcp bp3 bp0 bp5 bp2 bpd bp1 bp7 bp6 bp8 bp4 bp9 vcn bn0 bn1 bn8 bn7 bn6 bn5 bn4 bn3 bn9 bn2 bnd
+*.iopin vcp
+*.iopin vcn
+*.iopin bpd
+*.iopin bp0
+*.iopin bp1
+*.iopin bp2
+*.iopin bp3
+*.iopin bp4
+*.iopin bp5
+*.iopin bp6
+*.iopin bp7
+*.iopin bp8
+*.iopin bp9
+*.iopin bnd
+*.iopin bn1
+*.iopin bn2
+*.iopin bn3
+*.iopin bn4
+*.iopin bn5
+*.iopin bn6
+*.iopin bn7
+*.iopin bn8
+*.iopin bn9
+*.iopin bn0
+C2 vcp bp0 {1*Cu}
+C1 vcp bpd {1*Cu}
+C3 vcp bp2 {4*Cu}
+C4 vcp bp1 {2*Cu}
+C5 vcp bp5 {32*Cu}
+C6 vcp bp4 {16*Cu}
+C7 vcp bp7 {128*Cu}
+C8 vcp bp6 {64*Cu}
+C9 vcp bp8 {256*Cu}
+C10 vcp bp3 {8*Cu}
+C12 vcp bp9 {512*Cu}
+C11 vcn bn0 {1*Cu}
+C13 vcn bnd {1*Cu}
+C14 vcn bn2 {4*Cu}
+C15 vcn bn1 {2*Cu}
+C16 vcn bn5 {32*Cu}
+C17 vcn bn4 {16*Cu}
+C18 vcn bn7 {128*Cu}
+C19 vcn bn6 {64*Cu}
+C20 vcn bn8 {256*Cu}
+C21 vcn bn3 {8*Cu}
+C22 vcn bn9 {512*Cu}
+.ends
+
+
+* expanding   symbol:  inverter.sym # of pins=4
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/inverter.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/inverter.sch
+.subckt inverter vdd Vinn Voutp vss
+*.iopin vdd
+*.iopin vss
+*.ipin Vinn
+*.opin Voutp
+XM12 Voutp Vinn vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM16 Voutp Vinn vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+.ends
+
+
+* expanding   symbol:  dac_sw_2to1_tg.sym # of pins=6
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/dac_sw_2to1_tg.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/dac_sw_2to1_tg.sch
+.subckt dac_sw_2to1_tg sel out vss vdd vref vcm
+*.ipin sel
+*.iopin vdd
+*.iopin vref
+*.iopin vcm
+*.iopin vss
+*.iopin out
+x1 vss sel selb vdd vref out tg
+x3 vss selb sel vdd vcm out tg
+x2 vdd sel selb vss inverter
+.ends
+
+
+* expanding   symbol:  /home/arjun/eda/projects/SAR_ADC/circuit_files/src/sar_fsm/sar_fsm_wrapper.sym # of pins=40
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/src/sar_fsm/sar_fsm_wrapper.sym
+.include /home/arjun/eda/projects/SAR_ADC/circuit_files/src/sar_fsm/build/sar_fsm_wrapper_ihp.spice
+.end

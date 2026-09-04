@@ -1,0 +1,28 @@
+v {xschem version=3.4.8RC file_version=1.3}
+G {}
+K {type=subcircuit
+format="@name @pinlist @symname"
+spectre_format="@name ( @pinlist ) @symname"
+template="name=x1"
+}
+V {}
+S {}
+F {}
+E {}
+L 7 0 50 0 70 {}
+L 7 -80 -70 -80 -50 {}
+L 7 60 -70 60 -50 {}
+L 7 130 0 150 0 {}
+L 7 -150 0 -130 0 {}
+B 5 -2.5 67.5 2.5 72.5 {name=vss dir=inout}
+B 5 -82.5 -72.5 -77.5 -67.5 {name=vddl dir=inout}
+B 5 57.5 -72.5 62.5 -67.5 {name=vddh dir=inout}
+B 5 147.5 -2.5 152.5 2.5 {name=out dir=inout}
+B 5 -152.5 -2.5 -147.5 2.5 {name=in dir=inout}
+P 4 5 130 -50 -130 -50 -130 50 130 50 130 -50 {}
+T {Level Shifter 1.2->3.3} -76 -16 0 0 0.3 0.3 {}
+T {vss} 5 36 0 1 0.2 0.2 {}
+T {vddl} -65 -44 0 1 0.2 0.2 {}
+T {vddh} 75 -44 0 1 0.2 0.2 {}
+T {out} 125 -4 0 1 0.2 0.2 {}
+T {in} -115 -4 0 1 0.2 0.2 {}

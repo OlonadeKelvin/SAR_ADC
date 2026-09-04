@@ -1,0 +1,44 @@
+# ------------------------------------------------------------
+# SAR FSM synthesis for IHP SG13CMOS5L
+# Top: sar_fsm_wrapper
+# Corner: typical, 1.20 V, 25 C
+# ------------------------------------------------------------
+
+# RTL
+read_verilog -sv sar_fsm.v
+read_verilog -sv sar_fsm_wrapper.v
+
+# Load IHP cells as blackboxes so Yosys knows their pin directions.
+# This also prevents false "Q has no driver" warnings after dfflibmap.
+read_liberty -lib \
+    /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_typ_1p20V_25C.lib
+
+# Establish top
+hierarchy -check -top sar_fsm_wrapper
+
+# IMPORTANT:
+# -flatten removes the sar_logic hierarchy
+# -noabc prevents the generic ABC pass; we do technology mapping ourselves below
+synth -top sar_fsm_wrapper -flatten -noabc
+
+# Map sequential logic
+dfflibmap -liberty \
+    /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_typ_1p20V_25C.lib
+
+# Map combinational logic to IHP cells
+abc -liberty \
+    /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_typ_1p20V_25C.lib
+
+opt_clean
+clean -purge
+
+# Check final mapped design
+check
+
+# Statistics
+stat -liberty \
+    /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_typ_1p20V_25C.lib
+
+# Outputs
+write_verilog -noattr -noexpr build/sar_fsm_ihp_gate.v
+write_json build/sar_fsm_ihp_gate.json

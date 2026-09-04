@@ -1,0 +1,12 @@
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/tg.sch
+**.subckt tg vss ng pg vdd a b
+*.ipin ng
+*.iopin vdd
+*.ipin pg
+*.iopin a
+*.iopin b
+*.iopin vss
+XM12 b ng a vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM16 b pg a vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+**.ends
+.end

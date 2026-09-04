@@ -330,14 +330,14 @@ C {ipin.sym} 520 530 0 0 {name=p11 lab="Vinp"}
 C {opin.sym} 680 460 0 0 {name=p12 lab="Voutp"}
 C {lab_wire.sym} 450 190 0 0 {name=p7 sig_type=std_logic lab="VDD_samp"}
 C {lab_wire.sym} 90 560 0 0 {name=p8 sig_type=std_logic lab="VSS_samp"}
-C {sg13g2_pr/cap_cmim.sym} 200 390 0 0 {name=C1
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 200 390 0 0 {name=C1
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=8
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 200 -70 0 0 {name=C2
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 200 -70 0 0 {name=C2
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6

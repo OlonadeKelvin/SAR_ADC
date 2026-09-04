@@ -13,7 +13,7 @@ N 105 -245 105 -130 {lab=VDD}
 N -565 60 -565 295 {lab=0}
 N -300 210 -300 225 {lab=#net1}
 N -350 145 -350 295 {lab=0}
-N -225 70 -225 210 {lab=#net1}
+N -225 190 -225 210 {lab=#net1}
 N -390 215 -390 295 {lab=0}
 N -565 -245 105 -245 {lab=VDD}
 N -390 -130 -390 155 {lab=CLK_SH}
@@ -32,7 +32,6 @@ N 1145 -105 1255 -105 {lab=VR}
 N 1140 -55 1255 -55 {lab=VL}
 N -225 295 -225 310 {lab=0}
 N -225 295 130 295 {lab=0}
-N 130 -90 130 295 {lab=0}
 N 90 -90 130 -90 {lab=0}
 N 1295 -220 1295 -70 {lab=Vop}
 N 1170 -70 1295 -70 {lab=Vop}
@@ -357,11 +356,18 @@ N 1535 -635 1535 -335 {lab=settled_OK}
 N 1535 -635 2920 -635 {lab=settled_OK}
 N 2920 -635 2920 375 {lab=settled_OK}
 N 2895 375 2920 375 {lab=settled_OK}
-C {vsource.sym} -350 115 0 1 {name=V2 value="PULSE(0 3.3 215n 1n 1n 500n 1000n)" savecurrent=false}
+N -70 100 -30 100 {lab=V1p}
+N 130 -90 130 295 {lab=0}
+N -225 100 -125 100 {lab=#net1}
+N -225 70 -225 100 {lab=#net1}
+N -225 190 -125 190 {lab=#net1}
+N -225 100 -225 190 {lab=#net1}
+N -65 190 -30 190 {lab=V1n}
+C {vsource.sym} -350 115 0 1 {name=V2 value="PULSE(3.3 0 200n 1n 1n 230n 1000n)" savecurrent=false}
 C {vsource.sym} -300 180 0 0 {name=V5 value="sin(0 -1.65 200000)" savecurrent=false}
 C {vsource.sym} -300 255 0 0 {name=V6 value=1.65 savecurrent=false}
 C {vsource.sym} -225 40 0 0 {name=V7 value="sin(0 1.65 200000)" savecurrent=false}
-C {vsource.sym} -390 185 0 1 {name=V3 value="PULSE(0 3.3 0 1n 1n 200n 1000n)" savecurrent=false}
+C {vsource.sym} -390 185 0 1 {name=V3 value="PULSE(0 3.3 215n 1n 1n 200n 1000n)" savecurrent=false}
 C {gnd.sym} -225 310 0 0 {name=l3 lab=0}
 C {lab_wire.sym} -250 -130 0 0 {name=p1 sig_type=std_logic lab=CLK_SH}
 C {lab_wire.sym} -250 -110 0 0 {name=p2 sig_type=std_logic lab=notCLK_SH}
@@ -374,16 +380,10 @@ C {lab_wire.sym} 1220 -105 0 0 {name=p8 sig_type=std_logic lab=VR}
 C {lab_wire.sym} 1220 -55 0 0 {name=p9 sig_type=std_logic lab=VL}
 C {lab_wire.sym} 1300 -90 0 0 {name=p10 sig_type=std_logic lab=Von}
 C {lab_wire.sym} 1300 -70 0 0 {name=p11 sig_type=std_logic lab=Vop}
-C {code_shown.sym} 700 65 0 0 {
+C {code_shown.sym} 400 875 0 0 {
 name=TT_MODELS
 only_toplevel=true
 value="
-** IHP models
-.lib cornerMOSlv.lib mos_tt
-.lib cornerMOShv.lib mos_tt
-.lib cornerHBT.lib hbt_typ
-.lib cornerRES.lib res_typ
-.lib cornerCAP.lib cap_typ
 
 .param temp=27
 
@@ -399,6 +399,18 @@ value="
 .save v(N9) v(N8) v(N7) v(N6) v(N5) v(N4) v(N3) v(N2) v(N1) v(N0)
 .save v(P9_out) v(P8_out) v(P7_out) v(P6_out) v(P5_out) v(P4_out) v(P3_out) v(P2_out) v(P1_out) v(P0_out)
 .save v(N9_out) v(N8_out) v(N7_out) v(N6_out) v(N5_out) v(N4_out) v(N3_out) v(N2_out) v(N1_out) v(N0_out)
+.save v(x4.x27.net3)
+.save v(x4.x36.net3)
+.save v(x4.x48.net3)
+.save v(x4.x47.net2)
+.save v(x4.x27.net1)
+.save v(x4.x27.net2)
+.save v(x4.x27.net3)
+.save v(x4.x27.net4)
+.save v(x4.x27.net5)
+.save v(x4.x27.net7)
+.save v(x4.x27.net8)
+.save v(x4.x27.net9)
 
 .ic v(P9) = 0
 .ic v(P8) = 0
@@ -437,140 +449,140 @@ write testWhole_debug_noValid.raw
 spice_ignore=false
       }
 C {gnd.sym} 1350 50 0 0 {name=l1 lab=0}
-C {sg13g2_pr/cap_cmim.sym} 165 -15 0 0 {name=C1
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 165 -15 0 0 {name=C1
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=256
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 215 40 0 0 {name=C5
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 215 40 0 0 {name=C5
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=128
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 260 95 0 0 {name=C2
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 260 95 0 0 {name=C2
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=64
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 340 -15 0 0 {name=C3
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 340 -15 0 0 {name=C3
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=32
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 390 40 0 0 {name=C4
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 390 40 0 0 {name=C4
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=16
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 435 95 0 0 {name=C6
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 435 95 0 0 {name=C6
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=8
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 515 -15 0 0 {name=C7
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 515 -15 0 0 {name=C7
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=4
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 565 40 0 0 {name=C8
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 565 40 0 0 {name=C8
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=2
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 610 95 0 0 {name=C9
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 610 95 0 0 {name=C9
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=1
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 695 -15 0 0 {name=C10
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 695 -15 0 0 {name=C10
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=1
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 185 -160 2 1 {name=C11
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 185 -160 2 1 {name=C11
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=256
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 235 -215 2 1 {name=C12
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 235 -215 2 1 {name=C12
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=128
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 280 -270 2 1 {name=C13
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 280 -270 2 1 {name=C13
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=64
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 360 -160 2 1 {name=C14
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 360 -160 2 1 {name=C14
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=32
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 410 -215 2 1 {name=C15
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 410 -215 2 1 {name=C15
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=16
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 455 -270 2 1 {name=C16
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 455 -270 2 1 {name=C16
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=8
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 535 -160 2 1 {name=C17
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 535 -160 2 1 {name=C17
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=4
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 585 -215 2 1 {name=C18
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 585 -215 2 1 {name=C18
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=2
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 630 -270 2 1 {name=C19
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 630 -270 2 1 {name=C19
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
  m=1
   mm_ok=1
  spiceprefix=X}
-C {sg13g2_pr/cap_cmim.sym} 715 -160 2 1 {name=C20
+C {/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/cap_cmim.sym} 715 -160 2 1 {name=C20
 model=cap_cmim
  w=7.0e-6
  l=7.0e-6
@@ -637,13 +649,6 @@ C {lab_wire.sym} 2085 -275 0 0 {name=p64 sig_type=std_logic lab=Ck0}
 C {lab_wire.sym} -440 -245 0 0 {name=p65 sig_type=std_logic lab=VDD}
 C {lab_wire.sym} 2140 -225 0 0 {name=p66 sig_type=std_logic lab=VDD}
 C {gnd.sym} 2195 255 0 0 {name=l6 lab=0}
-C {/foss/designs/xschem_symbols/simp_SH.sym} -60 -100 0 0 {name=x7}
-C {/foss/designs/xschem_symbols/simple_comparator.sym} 1080 -80 0 0 {name=x1}
-C {/foss/designs/xschem_symbols/capDrivers.sym} 1885 -125 0 0 {name=x4}
-C {/foss/designs/xschem_symbols/capDrivers.sym} 2045 75 0 0 {name=x5}
-C {/foss/designs/xschem_symbols/DFF_array2.sym} 1820 75 0 0 {name=x3}
-C {/foss/designs/xschem_symbols/simpNAND.sym} 1350 -230 0 0 {name=x2}
-C {/foss/designs/xschem_symbols/timeDelay_chSelect.sym} 2835 700 0 0 {name=x8}
 C {gnd.sym} 2895 410 0 0 {name=l4 lab=0}
 C {lab_wire.sym} 2465 670 0 0 {name=p71 sig_type=std_logic lab=Sn9B}
 C {lab_wire.sym} 2515 685 0 0 {name=p72 sig_type=std_logic lab=Sn9}
@@ -666,3 +671,32 @@ C {lab_wire.sym} 2515 965 0 0 {name=p88 sig_type=std_logic lab=Sn1}
 C {lab_wire.sym} 2465 985 0 0 {name=p89 sig_type=std_logic lab=Sn0B}
 C {lab_wire.sym} 2515 1000 0 0 {name=p90 sig_type=std_logic lab=Sn0}
 C {lab_wire.sym} 1645 -635 0 0 {name=p67 sig_type=std_logic lab=settled_OK}
+C {simp_SH.sym} -60 -100 0 0 {name=x6}
+C {simple_comparator.sym} 1080 -80 0 0 {name=x7}
+C {simpNAND.sym} 1350 -230 0 0 {name=x1}
+C {capDrivers.sym} 1885 -125 0 0 {name=x2}
+C {DFF_array2.sym} 1820 75 0 0 {name=x4}
+C {capDrivers.sym} 2045 75 0 0 {name=x3}
+C {timeDelay_chSelect.sym} 2835 700 0 0 {name=x5}
+C {code_shown.sym} -770 975 0 0 {name=MODELS1 only_toplevel=true
+format="tcleval( @value )"
+value="
+.lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOSlv.lib mos_tt
+.lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib mos_tt
+.lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerRES.lib res_typ
+
+* TEMPORARY CDAC capacitor model
+.lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/ngspice/models/cornerCAP.lib cap_typ
+"}
+C {res.sym} -95 100 1 0 {name=R1
+value=1T
+footprint=1206
+device=resistor
+m=1}
+C {res.sym} -95 190 1 0 {name=R2
+value=1T
+footprint=1206
+device=resistor
+m=1}
+C {lab_wire.sym} -30 100 1 0 {name=p68 sig_type=std_logic lab=V1p}
+C {lab_wire.sym} -30 190 1 0 {name=p69 sig_type=std_logic lab=V1n}

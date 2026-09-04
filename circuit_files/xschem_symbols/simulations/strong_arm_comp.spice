@@ -1,0 +1,30 @@
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/strong_arm_comp.sch
+**.subckt strong_arm_comp Voutn Vinn Voutp Vinp vdd vss CLK
+*.ipin Vinn
+*.opin Voutp
+*.iopin vdd
+*.ipin Vinp
+*.ipin CLK
+*.iopin vss
+*.opin Voutn
+XM1 P CLK vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM2 net1 CLK vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=8 mm_ok=1
+XM3 X CLK vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM4 P Vinn net1 vss sg13_hv_nmos w=2u l=0.45u ng=1 m=6 mm_ok=1
+XM5 Q Vinp net1 vss sg13_hv_nmos w=2u l=0.45u ng=1 m=6 mm_ok=1
+XM6 X Y P vss sg13_hv_nmos w=2u l=0.45u ng=1 m=2 mm_ok=1
+XM7 Y X Q vss sg13_hv_nmos w=2u l=0.45u ng=1 m=2 mm_ok=1
+XM8 X Y vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM9 Y CLK vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM10 Q CLK vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM11 Y X vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM12 net2 X vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM13 Voutp net2 vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=2 mm_ok=1
+XM14 Voutn net3 vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=2 mm_ok=1
+XM15 net3 Y vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM16 net2 X vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+XM17 Voutp Voutn vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM18 net3 Y vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+XM19 Voutn Voutp vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+**.ends
+.end

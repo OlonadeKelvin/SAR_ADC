@@ -1,0 +1,34 @@
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/xschem_symbols/simp_SH.sch
+**.subckt simp_SH VDD_samp CLK Voutn _CLK Vinn VSS_samp Voutp Vinp
+*.ipin CLK
+*.ipin _CLK
+*.iopin VDD_samp
+*.iopin VSS_samp
+*.ipin Vinn
+*.opin Voutn
+*.ipin Vinp
+*.opin Voutp
+XM3 CLK_pnot CLK VSS_samp VSS_samp sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM1 CLK_pnot CLK VDD_samp VDD_samp sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM2 Cap_pbot _CLK VSS_samp VSS_samp sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM5 Cap_ptop net1 VDD_samp VDD_samp sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM6 net1 CLK_pnot Cap_ptop VDD_samp sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM7 CLK_pnot net1 Cap_pbot VSS_samp sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM8 net2 VDD_samp net1 VSS_samp sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM9 VSS_samp _CLK net2 VSS_samp sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM10 Vinn net1 Cap_pbot VSS_samp sg13_hv_nmos w=0.3u l=0.45u ng=1 m=10 mm_ok=1
+XM12 CLK_nnot CLK VSS_samp VSS_samp sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM13 CLK_nnot CLK VDD_samp VDD_samp sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM14 Cap_nbot _CLK VSS_samp VSS_samp sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM16 Cap_ntop net3 VDD_samp VDD_samp sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM17 net3 CLK_nnot Cap_ntop VDD_samp sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM18 CLK_nnot net3 Cap_nbot VSS_samp sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM19 net4 VDD_samp net3 VSS_samp sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM20 VSS_samp _CLK net4 VSS_samp sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM21 Vinp net3 Cap_nbot VSS_samp sg13_hv_nmos w=0.3u l=0.45u ng=1 m=10 mm_ok=1
+*  C1 -  cap_cmim  IS MISSING !!!!
+XC2 Cap_ptop Cap_pbot cap_cmim w=7.0e-6 l=7.0e-6 m=8 mm_ok=1
+XM4 Voutp net3 Vinp VSS_samp sg13_lv_nmos w=0.15u l=0.13u ng=1 m=20 mm_ok=1
+XM11 Voutn net1 Vinn VSS_samp sg13_lv_nmos w=0.15u l=0.13u ng=1 m=20 mm_ok=1
+**.ends
+.end

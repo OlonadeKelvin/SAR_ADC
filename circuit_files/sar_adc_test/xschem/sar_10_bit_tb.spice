@@ -1,0 +1,518 @@
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/tb/sar_10_bit_tb.sch
+**.subckt sar_10_bit_tb C1 C2 C3 C4 C5 C6 C7 C8 C0 C9 busy valid Voutn
+*.opin C1
+*.opin C2
+*.opin C3
+*.opin C4
+*.opin C5
+*.opin C6
+*.opin C7
+*.opin C8
+*.opin C0
+*.opin C9
+*.opin busy
+*.opin valid
+*.iopin Voutn
+x1 RSTN busy START valid vcm vrefp ainn ainp CLK C0 C9 C1 C5 C6 C2 C7 C3 C8 C4 vss vdd Voutn sar_10_bit
+V_VIN ainn GND dc {VCM - VDIFF/2}
+VDD_SRC vdd GND dc {VDD}
+V_VINP ainp GND dc {VCM + VDIFF/2}
+V_VSS vss GND dc 0
+V_CLK CLK GND PULSE(0 3.3 0n 20p 20p 10n 20n)
+V_VCM1 vcm GND dc {VCM}
+VREFP_SRC vrefp GND dc {VDD}
+V_RSTN RSTN GND PULSE(0 3.3 60n 20p 20p 10u 20u)
+V_START START GND PULSE(0 3.3 100n 20p 20p 20n 2u)
+**** begin user architecture code
+
+
+* ============================================================
+* GF180 / SAR FSM + Comparator + CDAC mixed-signal testbench
+* REAL DAC-switch version
+* ============================================================
+
+
+* ------------------------------------------------------------
+* Main parameters
+* ------------------------------------------------------------
+.param VDD=3.3
+.param VCM=1.65
+.param VDIFF=0.001611328125
+.param Cu=10f
+
+
+* ============================================================
+* SAR ADC FULL-RANGE RAMP DEBUG THROUGH sar_10_bit SYMBOL
+* Top ADC instance name: x1
+*
+* Top-level visible:
+*   CLK RSTN START ainp ainn busy valid C9..C0 Voutn
+*
+* Internal to sar_10_bit:
+*   x1.vcp, x1.vcn, x1.voutp
+*   x1.sample, x1.sampleb, x1.comp_clk
+*   x1.dbp9..x1.dbp0, x1.dbn9..x1.dbn0
+*   x1.bp9..x1.bp0,   x1.bn9..x1.bn0
+* ============================================================
+
+.options reltol=1e-4 abstol=1e-12 vntol=1e-6
+.options method=gear maxord=2
+.options plotwinsize=0
+
+* -----------------------------
+* Save top-level nodes
+* -----------------------------
+.save v(CLK) v(RSTN) v(START)
+.save v(ainp) v(ainn)
+.save v(vrefp) v(vcm)
+.save v(busy) v(valid)
+.save v(Voutn)
+
+.save v(C9) v(C8) v(C7) v(C6) v(C5)
+.save v(C4) v(C3) v(C2) v(C1) v(C0)
+
+* -----------------------------
+* Save internal ADC debug nodes
+* -----------------------------
+.save v(x1.sample) v(x1.sampleb) v(x1.comp_clk)
+.save v(x1.vcp) v(x1.vcn)
+.save v(x1.voutp)
+
+.save v(x1.dbp9) v(x1.dbp8) v(x1.dbp7) v(x1.dbp6) v(x1.dbp5)
+.save v(x1.dbp4) v(x1.dbp3) v(x1.dbp2) v(x1.dbp1) v(x1.dbp0)
+
+.save v(x1.dbn9) v(x1.dbn8) v(x1.dbn7) v(x1.dbn6) v(x1.dbn5)
+.save v(x1.dbn4) v(x1.dbn3) v(x1.dbn2) v(x1.dbn1) v(x1.dbn0)
+
+.save v(x1.bp9) v(x1.bp8) v(x1.bp7) v(x1.bp6) v(x1.bp5)
+.save v(x1.bp4) v(x1.bp3) v(x1.bp2) v(x1.bp1) v(x1.bp0)
+
+.save v(x1.bn9) v(x1.bn8) v(x1.bn7) v(x1.bn6) v(x1.bn5)
+.save v(x1.bn4) v(x1.bn3) v(x1.bn2) v(x1.bn1) v(x1.bn0)
+
+
+.control
+
+set noaskquit
+
+shell rm -f sar_fullrange_symbol_results.txt
+
+let logic_th = 1.65
+let prev_code = -1
+let run_index = 0
+let monotonic_fail_count = 0
+let missing_jump_count = 0
+
+echo VDIFF VIN_MEAS VALID_SEEN T_DEBUG CODE C9 C8 C7 C6 C5 C4 C3 C2 C1 C0 AINP AINN VCP VCN VCP_MINUS_VCN VOUTP VOUTN DBP9 DBP8 DBP7 DBP6 DBP5 DBP4 DBP3 DBP2 DBP1 DBP0 DBN9 DBN8 DBN7 DBN6 DBN5 DBN4 DBN3 DBN2 DBN1 DBN0 BP9 BP8 BP7 BP6 BP5 BP4 BP3 BP2 BP1 BP0 BN9 BN8 BN7 BN6 BN5 BN4 BN3 BN2 BN1 BN0 MONOTONIC_FAIL MISSING_JUMP > sar_fullrange_symbol_results.txt
+
+* Full-range sanity sweep.
+* LSB = 3.3/1024 = 3.22265625m
+* 0.001611328125 = 0.5 LSB
+* 0.00322265625  = 1 LSB
+* 0.0064453125   = 2 LSB
+foreach vdiff_val -1.6 -1.2 -0.8 -0.4 -0.1 -0.020 -0.010 -0.0064453125 -0.00322265625 -0.001611328125 0 0.001611328125 0.00322265625 0.0064453125 0.010 0.020 0.1 0.4 0.8 1.2 1.6
+
+  alterparam VDIFF = $vdiff_val
+  reset
+
+  tran 20p 1.6u
+
+  meas tran valid_max MAX v(valid) FROM=0n TO=1.6u
+
+  let valid_seen = 0
+  if valid_max > logic_th
+    let valid_seen = 1
+  end
+
+  let t_debug = 1.55u
+  if valid_seen > 0.5
+    meas tran t_valid WHEN v(valid)=1.65 RISE=1
+    let t_debug = t_valid + 5n
+  end
+
+  * -----------------------------
+  * Top-level input check
+  * -----------------------------
+  meas tran ainpv FIND v(ainp) AT=$&t_debug
+  meas tran ainnv FIND v(ainn) AT=$&t_debug
+  let vin_meas = ainpv - ainnv
+
+  * -----------------------------
+  * Top-level code bits
+  * -----------------------------
+  meas tran c9v FIND v(C9) AT=$&t_debug
+  meas tran c8v FIND v(C8) AT=$&t_debug
+  meas tran c7v FIND v(C7) AT=$&t_debug
+  meas tran c6v FIND v(C6) AT=$&t_debug
+  meas tran c5v FIND v(C5) AT=$&t_debug
+  meas tran c4v FIND v(C4) AT=$&t_debug
+  meas tran c3v FIND v(C3) AT=$&t_debug
+  meas tran c2v FIND v(C2) AT=$&t_debug
+  meas tran c1v FIND v(C1) AT=$&t_debug
+  meas tran c0v FIND v(C0) AT=$&t_debug
+
+  let b9 = 0
+  if c9v > logic_th
+    let b9 = 1
+  end
+
+  let b8 = 0
+  if c8v > logic_th
+    let b8 = 1
+  end
+
+  let b7 = 0
+  if c7v > logic_th
+    let b7 = 1
+  end
+
+  let b6 = 0
+  if c6v > logic_th
+    let b6 = 1
+  end
+
+  let b5 = 0
+  if c5v > logic_th
+    let b5 = 1
+  end
+
+  let b4 = 0
+  if c4v > logic_th
+    let b4 = 1
+  end
+
+  let b3 = 0
+  if c3v > logic_th
+    let b3 = 1
+  end
+
+  let b2 = 0
+  if c2v > logic_th
+    let b2 = 1
+  end
+
+  let b1 = 0
+  if c1v > logic_th
+    let b1 = 1
+  end
+
+  let b0 = 0
+  if c0v > logic_th
+    let b0 = 1
+  end
+
+  let adc_code = 512*b9 + 256*b8 + 128*b7 + 64*b6 + 32*b5 + 16*b4 + 8*b3 + 4*b2 + 2*b1 + b0
+
+  * -----------------------------
+  * Internal ADC analog values
+  * -----------------------------
+  meas tran vcpv    FIND v(x1.vcp)    AT=$&t_debug
+  meas tran vcnv    FIND v(x1.vcn)    AT=$&t_debug
+  meas tran voutpv  FIND v(x1.voutp)  AT=$&t_debug
+  meas tran voutnv  FIND v(Voutn)     AT=$&t_debug
+
+  let vdiff_cdac = vcpv - vcnv
+
+  * -----------------------------
+  * Internal SAR DAC digital controls
+  * -----------------------------
+  meas tran dbp9v FIND v(x1.dbp9) AT=$&t_debug
+  meas tran dbp8v FIND v(x1.dbp8) AT=$&t_debug
+  meas tran dbp7v FIND v(x1.dbp7) AT=$&t_debug
+  meas tran dbp6v FIND v(x1.dbp6) AT=$&t_debug
+  meas tran dbp5v FIND v(x1.dbp5) AT=$&t_debug
+  meas tran dbp4v FIND v(x1.dbp4) AT=$&t_debug
+  meas tran dbp3v FIND v(x1.dbp3) AT=$&t_debug
+  meas tran dbp2v FIND v(x1.dbp2) AT=$&t_debug
+  meas tran dbp1v FIND v(x1.dbp1) AT=$&t_debug
+  meas tran dbp0v FIND v(x1.dbp0) AT=$&t_debug
+
+  meas tran dbn9v FIND v(x1.dbn9) AT=$&t_debug
+  meas tran dbn8v FIND v(x1.dbn8) AT=$&t_debug
+  meas tran dbn7v FIND v(x1.dbn7) AT=$&t_debug
+  meas tran dbn6v FIND v(x1.dbn6) AT=$&t_debug
+  meas tran dbn5v FIND v(x1.dbn5) AT=$&t_debug
+  meas tran dbn4v FIND v(x1.dbn4) AT=$&t_debug
+  meas tran dbn3v FIND v(x1.dbn3) AT=$&t_debug
+  meas tran dbn2v FIND v(x1.dbn2) AT=$&t_debug
+  meas tran dbn1v FIND v(x1.dbn1) AT=$&t_debug
+  meas tran dbn0v FIND v(x1.dbn0) AT=$&t_debug
+
+  * -----------------------------
+  * Internal actual CDAC bottom plates
+  * -----------------------------
+  meas tran bp9v FIND v(x1.bp9) AT=$&t_debug
+  meas tran bp8v FIND v(x1.bp8) AT=$&t_debug
+  meas tran bp7v FIND v(x1.bp7) AT=$&t_debug
+  meas tran bp6v FIND v(x1.bp6) AT=$&t_debug
+  meas tran bp5v FIND v(x1.bp5) AT=$&t_debug
+  meas tran bp4v FIND v(x1.bp4) AT=$&t_debug
+  meas tran bp3v FIND v(x1.bp3) AT=$&t_debug
+  meas tran bp2v FIND v(x1.bp2) AT=$&t_debug
+  meas tran bp1v FIND v(x1.bp1) AT=$&t_debug
+  meas tran bp0v FIND v(x1.bp0) AT=$&t_debug
+
+  meas tran bn9v FIND v(x1.bn9) AT=$&t_debug
+  meas tran bn8v FIND v(x1.bn8) AT=$&t_debug
+  meas tran bn7v FIND v(x1.bn7) AT=$&t_debug
+  meas tran bn6v FIND v(x1.bn6) AT=$&t_debug
+  meas tran bn5v FIND v(x1.bn5) AT=$&t_debug
+  meas tran bn4v FIND v(x1.bn4) AT=$&t_debug
+  meas tran bn3v FIND v(x1.bn3) AT=$&t_debug
+  meas tran bn2v FIND v(x1.bn2) AT=$&t_debug
+  meas tran bn1v FIND v(x1.bn1) AT=$&t_debug
+  meas tran bn0v FIND v(x1.bn0) AT=$&t_debug
+
+  * -----------------------------
+  * Checks
+  * -----------------------------
+  let monotonic_fail = 0
+  let missing_jump = 0
+
+  if run_index > 0
+    if adc_code < prev_code
+      let monotonic_fail = 1
+      let monotonic_fail_count = monotonic_fail_count + 1
+    end
+
+    * This is only a coarse warning for this sparse sweep.
+    * Large jumps are expected for large input steps, so only flag near-midscale small steps.
+    if vdiff_val > -0.025
+      if vdiff_val < 0.025
+        if adc_code > prev_code + 4
+          let missing_jump = 1
+          let missing_jump_count = missing_jump_count + 1
+        end
+      end
+    end
+  end
+
+  echo $vdiff_val $&vin_meas $&valid_seen $&t_debug $&adc_code $&b9 $&b8 $&b7 $&b6 $&b5 $&b4 $&b3 $&b2 $&b1 $&b0 $&ainpv $&ainnv $&vcpv $&vcnv $&vdiff_cdac $&voutpv $&voutnv $&dbp9v $&dbp8v $&dbp7v $&dbp6v $&dbp5v $&dbp4v $&dbp3v $&dbp2v $&dbp1v $&dbp0v $&dbn9v $&dbn8v $&dbn7v $&dbn6v $&dbn5v $&dbn4v $&dbn3v $&dbn2v $&dbn1v $&dbn0v $&bp9v $&bp8v $&bp7v $&bp6v $&bp5v $&bp4v $&bp3v $&bp2v $&bp1v $&bp0v $&bn9v $&bn8v $&bn7v $&bn6v $&bn5v $&bn4v $&bn3v $&bn2v $&bn1v $&bn0v $&monotonic_fail $&missing_jump >> sar_fullrange_symbol_results.txt
+
+  let prev_code = adc_code
+  let run_index = run_index + 1
+
+end
+
+echo ================================================== >> sar_fullrange_symbol_results.txt
+echo RAMP_SUMMARY >> sar_fullrange_symbol_results.txt
+echo number_of_points = $&run_index >> sar_fullrange_symbol_results.txt
+echo monotonic_fail_count = $&monotonic_fail_count >> sar_fullrange_symbol_results.txt
+echo missing_jump_count_sparse_near_midscale = $&missing_jump_count >> sar_fullrange_symbol_results.txt
+echo Expected: code should move monotonically upward with VDIFF. >> sar_fullrange_symbol_results.txt
+echo Expected: near VDIFF=0, code should be close to 511 or 512. >> sar_fullrange_symbol_results.txt
+echo Expected: near VDIFF=-1.6, code should be close to low end. >> sar_fullrange_symbol_results.txt
+echo Expected: near VDIFF=+1.6, code should be close to high end. >> sar_fullrange_symbol_results.txt
+echo ================================================== >> sar_fullrange_symbol_results.txt
+
+echo ==================================================
+echo SAR full-range symbol-level ramp test complete.
+echo Results written to sar_fullrange_symbol_results.txt
+echo ==================================================
+
+.endc
+
+
+
+
+.lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOSlv.lib mos_tt
+.lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib mos_tt
+.lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerRES.lib res_typ
+
+.include /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/spice/sg13cmos5l_stdcell.spice
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  sar_10_bit.sym # of pins=22
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/sar_10_bit.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/sar_10_bit.sch
+.subckt sar_10_bit RSTN busy START valid vcm vrefp ainn ainp CLK C0 C9 C1 C5 C6 C2 C7 C3 C8 C4 vss vdd Voutn
+*.ipin ainn
+*.ipin ainp
+*.ipin CLK
+*.ipin vrefp
+*.ipin vcm
+*.opin C1
+*.opin C2
+*.opin C3
+*.opin C4
+*.opin C5
+*.opin C6
+*.opin C7
+*.opin C8
+*.opin C0
+*.opin C9
+*.opin busy
+*.opin valid
+*.ipin START
+*.ipin RSTN
+*.iopin Voutn
+*.iopin vdd
+*.iopin vss
+x1 Voutn vcn Voutp vcp vdd vss comp_clk strong_arm_comp
+x3 vss sample sampleb vdd ainp vcp tg
+x4 vss sample sampleb vdd ainn vcn tg
+x2 vcp bp3 bp0 bp5 bp2 vcm bp1 bp7 bp6 bp8 bp4 bp9 vcn bn0 bn1 bn8 bn7 bn6 bn5 bn4 bn3 bn9 bn2 vcm cdac_caps_10b_diff
+x15 vdd sample sampleb vss inverter
+x6 dbp0 bp0 vss vdd vrefp vcm dac_sw_2to1_tg
+x7 dbp1 bp1 vss vdd vrefp vcm dac_sw_2to1_tg
+x8 dbp4 bp4 vss vdd vrefp vcm dac_sw_2to1_tg
+x9 dbp5 bp5 vss vdd vrefp vcm dac_sw_2to1_tg
+x10 dbp7 bp7 vss vdd vrefp vcm dac_sw_2to1_tg
+x11 dbp8 bp8 vss vdd vrefp vcm dac_sw_2to1_tg
+x12 dbp2 bp2 vss vdd vrefp vcm dac_sw_2to1_tg
+x13 dbp3 bp3 vss vdd vrefp vcm dac_sw_2to1_tg
+x14 dbp6 bp6 vss vdd vrefp vcm dac_sw_2to1_tg
+x16 dbp9 bp9 vss vdd vrefp vcm dac_sw_2to1_tg
+x17 dbn0 bn0 vss vdd vrefp vcm dac_sw_2to1_tg
+x18 dbn1 bn1 vss vdd vrefp vcm dac_sw_2to1_tg
+x19 dbn4 bn4 vss vdd vrefp vcm dac_sw_2to1_tg
+x20 dbn5 bn5 vss vdd vrefp vcm dac_sw_2to1_tg
+x21 dbn7 bn7 vss vdd vrefp vcm dac_sw_2to1_tg
+x22 dbn8 bn8 vss vdd vrefp vcm dac_sw_2to1_tg
+x23 dbn2 bn2 vss vdd vrefp vcm dac_sw_2to1_tg
+x24 dbn3 bn3 vss vdd vrefp vcm dac_sw_2to1_tg
+x25 dbn6 bn6 vss vdd vrefp vcm dac_sw_2to1_tg
+x27 dbn9 bn9 vss vdd vrefp vcm dac_sw_2to1_tg
+x5 CLK RSTN START Voutp sample comp_clk busy valid dbp9 dbp8 dbp7 dbp6 dbp5 dbp4 dbp3 dbp2 dbp1 dbp0 dbn9 dbn8 dbn7 dbn6 dbn5 dbn4
++ dbn3 dbn2 dbn1 dbn0 C9 C8 C7 C6 C5 C4 C3 C2 C1 C0 vdd vss sar_fsm_wrapper
+.ends
+
+
+* expanding   symbol:  strong_arm_comp.sym # of pins=7
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/strong_arm_comp.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/strong_arm_comp.sch
+.subckt strong_arm_comp Voutn Vinn Voutp Vinp vdd vss CLK
+*.ipin Vinn
+*.opin Voutp
+*.iopin vdd
+*.ipin Vinp
+*.ipin CLK
+*.iopin vss
+*.opin Voutn
+XM1 P CLK vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM2 net1 CLK vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=8 mm_ok=1
+XM3 X CLK vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM4 P Vinn net1 vss sg13_hv_nmos w=2u l=0.45u ng=1 m=6 mm_ok=1
+XM5 Q Vinp net1 vss sg13_hv_nmos w=2u l=0.45u ng=1 m=6 mm_ok=1
+XM6 X Y P vss sg13_hv_nmos w=2u l=0.45u ng=1 m=2 mm_ok=1
+XM7 Y X Q vss sg13_hv_nmos w=2u l=0.45u ng=1 m=2 mm_ok=1
+XM8 X Y vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM9 Y CLK vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM10 Q CLK vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM11 Y X vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM12 net2 X vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM13 Voutp net2 vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=2 mm_ok=1
+XM14 Voutn net3 vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=2 mm_ok=1
+XM15 net3 Y vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM16 net2 X vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+XM17 Voutp Voutn vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM18 net3 Y vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+XM19 Voutn Voutp vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+.ends
+
+
+* expanding   symbol:  tg.sym # of pins=6
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/tg.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/tg.sch
+.subckt tg vss ng pg vdd a b
+*.ipin ng
+*.iopin vdd
+*.ipin pg
+*.iopin a
+*.iopin b
+*.iopin vss
+XM12 b ng a vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM16 b pg a vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+.ends
+
+
+* expanding   symbol:  cdac_caps_10b_diff.sym # of pins=24
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/cdac_caps_10b_diff.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/cdac_caps_10b_diff.sch
+.subckt cdac_caps_10b_diff vcp bp3 bp0 bp5 bp2 bpd bp1 bp7 bp6 bp8 bp4 bp9 vcn bn0 bn1 bn8 bn7 bn6 bn5 bn4 bn3 bn9 bn2 bnd
+*.iopin vcp
+*.iopin vcn
+*.iopin bpd
+*.iopin bp0
+*.iopin bp1
+*.iopin bp2
+*.iopin bp3
+*.iopin bp4
+*.iopin bp5
+*.iopin bp6
+*.iopin bp7
+*.iopin bp8
+*.iopin bp9
+*.iopin bnd
+*.iopin bn1
+*.iopin bn2
+*.iopin bn3
+*.iopin bn4
+*.iopin bn5
+*.iopin bn6
+*.iopin bn7
+*.iopin bn8
+*.iopin bn9
+*.iopin bn0
+C2 vcp bp0 {1*Cu}
+C1 vcp bpd {1*Cu}
+C3 vcp bp2 {4*Cu}
+C4 vcp bp1 {2*Cu}
+C5 vcp bp5 {32*Cu}
+C6 vcp bp4 {16*Cu}
+C7 vcp bp7 {128*Cu}
+C8 vcp bp6 {64*Cu}
+C9 vcp bp8 {256*Cu}
+C10 vcp bp3 {8*Cu}
+C12 vcp bp9 {512*Cu}
+C11 vcn bn0 {1*Cu}
+C13 vcn bnd {1*Cu}
+C14 vcn bn2 {4*Cu}
+C15 vcn bn1 {2*Cu}
+C16 vcn bn5 {32*Cu}
+C17 vcn bn4 {16*Cu}
+C18 vcn bn7 {128*Cu}
+C19 vcn bn6 {64*Cu}
+C20 vcn bn8 {256*Cu}
+C21 vcn bn3 {8*Cu}
+C22 vcn bn9 {512*Cu}
+.ends
+
+
+* expanding   symbol:  inverter.sym # of pins=4
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/inverter.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/inverter.sch
+.subckt inverter vdd Vinn Voutp vss
+*.iopin vdd
+*.iopin vss
+*.ipin Vinn
+*.opin Voutp
+XM12 Voutp Vinn vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM16 Voutp Vinn vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+.ends
+
+
+* expanding   symbol:  dac_sw_2to1_tg.sym # of pins=6
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/dac_sw_2to1_tg.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/dac_sw_2to1_tg.sch
+.subckt dac_sw_2to1_tg sel out vss vdd vref vcm
+*.ipin sel
+*.iopin vdd
+*.iopin vref
+*.iopin vcm
+*.iopin vss
+*.iopin out
+x1 vss sel selb vdd vref out tg
+x3 vss selb sel vdd vcm out tg
+x2 vdd sel selb vss inverter
+.ends
+
+
+* expanding   symbol:  /home/arjun/eda/projects/SAR_ADC/circuit_files/src/sar_fsm/sar_fsm_wrapper.sym # of pins=40
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/src/sar_fsm/sar_fsm_wrapper.sym
+.include /home/arjun/eda/projects/SAR_ADC/circuit_files/src/sar_fsm/build/sar_fsm_wrapper_ihp.spice
+.GLOBAL GND
+.end

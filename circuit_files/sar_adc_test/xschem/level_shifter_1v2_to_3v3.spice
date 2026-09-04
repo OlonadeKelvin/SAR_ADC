@@ -1,0 +1,17 @@
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/level_shifter_1v2_to_3v3.sch
+**.subckt level_shifter_1v2_to_3v3 vddl vddh out vss in
+*.iopin vddl
+*.iopin vddh
+*.iopin out
+*.iopin vss
+*.iopin in
+XM1 inb in vss vss sg13_lv_nmos w=0.6u l=0.13u ng=1 m=1 mm_ok=1
+XM2 inb in vddl vddl sg13_lv_pmos w=1.2u l=0.13u ng=1 m=1 mm_ok=1
+XM3 a in vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=4 mm_ok=1
+XM4 b inb vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=4 mm_ok=1
+XM5 b a vddh vddh sg13_hv_pmos w=2u l=0.4u ng=1 m=1 mm_ok=1
+XM6 a b vddh vddh sg13_hv_pmos w=2u l=0.4u ng=1 m=1 mm_ok=1
+XM12 out a vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM16 out a vddh vddh sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+**.ends
+.end

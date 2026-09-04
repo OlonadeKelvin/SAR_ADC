@@ -1,0 +1,87 @@
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/xschem_symbols/comp_tb.sch
+**.subckt comp_tb
+V_VIN Vinn GND dc {VCM - VDIFF/2}
+VDD_SRC vdd GND dc {VDD}
+V_VINP Vinp GND dc {VCM + VDIFF/2}
+V_VSS vss GND dc 0
+V_CLK CLK GND PULSE(0 {VDD} 1n 20p 20p 3n 6n)
+COUT Voutp GND {CLOAD}
+COUT1 Voutn GND {CLOAD}
+x1 vdd CLK Voutn Voutp net1 net2 Vinp Vinn vss simple_comparator
+**** begin user architecture code
+
+.lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOSlv.lib mos_tt
+.lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerRES.lib res_typ
+.lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib mos_tt
+.lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerRES.lib res_typ
+
+
+
+.param VDD=3.3
+.param VCM=1.65
+.param VREF=3.3
+.param NBITS=10
+.param VLSB=3.22265625e-3
+.param VHLSB=1.611328125e-3
+.param VDIFF=10e-3
+.param CLOAD=20f
+
+.options savecurrents
+.options reltol=1e-4 abstol=1e-12 vntol=1e-6 method=gear
+
+.save v(CLK) v(Vinp) v(Vinn) v(Voutp) v(Voutn)
+.save v(x1.net1) v(x1.net2) v(x1.net3) v(x1.net4) v(x1.vs_dp)
+.save i(VDD_SRC)
+
+.control
+
+alterparam VDD=3.3
+alterparam VCM=1.65
+alterparam VDIFF=10e-3
+reset
+
+tran 1p 6n
+
+write strong_arm_comp_tb.raw
+
+.endc
+
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  simple_comparator.sym # of pins=9
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/xschem_symbols/simple_comparator.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/xschem_symbols/simple_comparator.sch
+.subckt simple_comparator VDD_comparator CLK Voutn Voutp Debug_NC_Vright_gm Debug_NC_Vleft_gm Vinp Vinn VSS_comparator
+*.ipin CLK
+*.ipin Vinp
+*.iopin VSS_comparator
+*.iopin VDD_comparator
+*.ipin Vinn
+*.opin Debug_NC_Vright_gm
+*.opin Debug_NC_Vleft_gm
+*.opin Voutp
+*.opin Voutn
+XM1 net2 net1 VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM2 Debug_NC_Vleft_gm Vinp VS_dp VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM3 net2 net1 Debug_NC_Vleft_gm VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM4 Debug_NC_Vright_gm Vinn VS_dp VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM5 net1 net2 Debug_NC_Vright_gm VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM6 net1 net2 VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM7 VS_dp CLK VSS_comparator VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM8 net1 CLK VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM9 net2 CLK VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM10 net3 net1 VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM11 net3 net1 VSS_comparator VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM12 Voutn net3 VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM13 Voutn net3 VSS_comparator VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM14 net4 net2 VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM15 net4 net2 VSS_comparator VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM16 Voutp net4 VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM17 Voutp net4 VSS_comparator VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+.ends
+
+.GLOBAL GND
+.end

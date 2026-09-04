@@ -1,0 +1,512 @@
+* ------------------------------------------------------
+* IHP SG13CMOS5L mapped SAR FSM
+* Generated from Yosys mapped JSON
+* Standard cells require external library include
+* ------------------------------------------------------
+
+.subckt sar_fsm_wrapper clk rst_n start comp sample comp_clk busy valid bp9 bp8 bp7 bp6 bp5 bp4 bp3 bp2 bp1 bp0 bn9 bn8 bn7 bn6 bn5 bn4 bn3 bn2 bn1 bn0 code9 code8 code7 code6 code5 code4 code3 code2 code1 code0 VDD VSS
+
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3014
+XU0 n41 n40 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3015
+XU1 n43 n42 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3016
+XU2 n45 n44 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3017
+XU3 n47 n46 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3018
+XU4 n49 n48 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3019
+XU5 n51 n50 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3020
+XU6 n53 n52 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3021
+XU7 n55 n54 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3022
+XU8 n57 n56 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3023
+XU9 n59 n58 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3024
+XU10 n60 bn1 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3025
+XU11 n61 bn2 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3026
+XU12 n62 bn3 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3027
+XU13 n63 bn4 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3028
+XU14 n64 bn5 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3029
+XU15 n65 bn6 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3030
+XU16 n66 bn7 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3031
+XU17 n67 bn8 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3032
+XU18 n68 bn9 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3033
+XU19 n69 bp1 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3034
+XU20 n70 bp2 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3035
+XU21 n71 bp3 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3036
+XU22 n72 bp4 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3037
+XU23 n73 bp5 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3038
+XU24 n74 bp6 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3039
+XU25 n75 bp7 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3040
+XU26 n76 bp8 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3041
+XU27 n77 bp9 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3042
+XU28 n78 comp VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3043
+XU29 n81 n79 n80 VDD VSS sg13cmos5l_nor2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3044
+XU30 n82 n79 n80 VDD VSS sg13cmos5l_or2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3045
+XU31 n83 n80 n79 VDD VSS sg13cmos5l_nor2b_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3046
+XU32 n84 n59 n83 VDD VSS sg13cmos5l_and2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3047
+XU33 n85 n59 n83 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3048
+XU34 n86 n79 n58 VDD VSS sg13cmos5l_nor2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3049
+XU35 n87 n80 n86 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3050
+XU36 n88 n59 n83 n86 n80 VDD VSS sg13cmos5l_a22oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3051
+XU37 n89 n85 n87 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3052
+XU38 n90 n59 n82 VDD VSS sg13cmos5l_nor2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3053
+XU39 n91 n58 n81 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3054
+XU40 n93 n54 n92 VDD VSS sg13cmos5l_nor2b_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3055
+XU41 n94 n54 n92 VDD VSS sg13cmos5l_nand2b_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3056
+XU42 n95 n41 n56 n94 VDD VSS sg13cmos5l_nor3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3057
+XU43 n96 n40 n57 n93 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3058
+XU44 n97 n90 n95 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3059
+XU45 n98 n79 n80 n58 start VDD VSS sg13cmos5l_nor4_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3060
+XU46 n99 n82 n88 n90 n95 n98 VDD VSS sg13cmos5l_a221oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3061
+XU47 n102 n100 n50 n52 n101 VDD VSS sg13cmos5l_nor4_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3062
+XU48 n103 n46 n48 VDD VSS sg13cmos5l_nor2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3063
+XU49 n104 n43 n44 n102 n103 VDD VSS sg13cmos5l_nand4_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3064
+XU50 n105 n87 n104 VDD VSS sg13cmos5l_nor2b_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3065
+XU51 n106 n84 n105 n43 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3066
+XU52 n107 n43 n99 n106 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3067
+XU53 n108 n99 n44 VDD VSS sg13cmos5l_nand2b_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3068
+XU54 n109 n42 n44 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3069
+XU55 n110 n84 n105 n109 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3070
+XU56 n111 n43 n45 n108 n110 VDD VSS sg13cmos5l_a22oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3071
+XU57 n112 n42 n44 n102 n103 VDD VSS sg13cmos5l_nand4_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3072
+XU58 n113 n84 n112 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3073
+XU59 n114 n42 n44 n46 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3074
+XU60 n115 n47 n109 VDD VSS sg13cmos5l_xnor2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3075
+XU61 n116 n87 n113 n115 VDD VSS sg13cmos5l_a21o_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3076
+XU62 n117 n47 n99 n116 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3077
+XU63 n118 n99 n48 VDD VSS sg13cmos5l_nand2b_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3078
+XU64 n119 n42 n44 n46 n48 VDD VSS sg13cmos5l_and4_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3079
+XU65 n120 n88 n119 VDD VSS sg13cmos5l_or2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3080
+XU66 n121 n49 n114 n118 n120 VDD VSS sg13cmos5l_a22oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3081
+XU67 n122 n100 n119 VDD VSS sg13cmos5l_nor2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3082
+XU68 n123 n99 n100 VDD VSS sg13cmos5l_nand2b_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3083
+XU69 n124 n100 n119 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3084
+XU70 n125 n89 n124 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3085
+XU71 n126 n123 n125 n122 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3086
+XU72 n127 n99 n50 VDD VSS sg13cmos5l_nand2b_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3087
+XU73 n128 n100 n50 n119 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3088
+XU74 n129 n89 n128 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3089
+XU75 n130 n51 n124 n127 n129 VDD VSS sg13cmos5l_a22oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3090
+XU76 n131 n100 n50 n52 n119 VDD VSS sg13cmos5l_nand4_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3091
+XU77 n132 n88 n131 VDD VSS sg13cmos5l_nand2b_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3092
+XU78 n133 n99 n132 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3093
+XU79 n134 n88 n128 n53 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3094
+XU80 n135 n133 n134 VDD VSS sg13cmos5l_and2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3095
+XU81 n136 n101 n88 n131 VDD VSS sg13cmos5l_nor3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3096
+XU82 n137 n101 n133 n136 VDD VSS sg13cmos5l_a21o_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3097
+XU83 n138 n82 n98 VDD VSS sg13cmos5l_nor2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3098
+XU84 n139 n91 n96 n138 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3099
+XU85 n140 n92 n139 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3100
+XU86 n141 n92 n91 n140 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3101
+XU87 n142 n92 n54 VDD VSS sg13cmos5l_xor2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3102
+XU88 n143 n90 n142 n139 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3103
+XU89 n144 n55 n139 n143 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3104
+XU90 n145 n56 n93 VDD VSS sg13cmos5l_xnor2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3105
+XU91 n146 n91 n139 n145 VDD VSS sg13cmos5l_nor3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3106
+XU92 n147 n56 n139 n146 VDD VSS sg13cmos5l_a21o_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3107
+XU93 n148 n57 n93 n40 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3108
+XU94 n149 n91 n95 n148 VDD VSS sg13cmos5l_nor3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3109
+XU95 n150 n40 n139 n149 VDD VSS sg13cmos5l_a21o_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3110
+XU96 n151 n84 n112 n98 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3111
+XU97 n152 n105 n151 VDD VSS sg13cmos5l_nand2b_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3112
+XU98 n153 n90 n95 n86 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3113
+XU99 n154 n152 n153 n113 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3114
+XU100 n155 n91 n95 n88 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3115
+XU101 n156 n151 n155 n105 VDD VSS sg13cmos5l_a21o_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3116
+XU102 n157 n79 n80 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3117
+XU103 n158 n58 n157 VDD VSS sg13cmos5l_nor2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3118
+XU104 n159 n58 n157 n97 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3119
+XU105 n160 n91 n95 n138 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3120
+XU106 n161 code0 n160 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3121
+XU107 n162 n78 n97 n161 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3122
+XU108 n163 n95 n148 VDD VSS sg13cmos5l_nor2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3123
+XU109 n164 n41 n92 n54 n56 VDD VSS sg13cmos5l_nor4_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3124
+XU110 n165 n91 n164 n138 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3125
+XU111 n166 n92 n55 comp VDD VSS sg13cmos5l_nand3b_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3126
+XU112 n167 n92 n54 n56 n78 VDD VSS sg13cmos5l_or4_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3127
+XU113 n168 n91 n95 n148 n167 VDD VSS sg13cmos5l_nor4_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3128
+XU114 n169 code1 n165 n168 VDD VSS sg13cmos5l_a21o_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3129
+XU115 n170 n40 n92 n54 n57 VDD VSS sg13cmos5l_and4_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3130
+XU116 n171 n91 n170 n138 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3131
+XU117 n172 code2 n171 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3132
+XU118 n173 n92 n54 comp VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3133
+XU119 n174 n90 n145 n163 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3134
+XU120 n175 n173 n174 n172 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3135
+XU121 n176 n41 n92 n55 n56 VDD VSS sg13cmos5l_nor4_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3136
+XU122 n177 n91 n176 n138 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3137
+XU123 n178 code3 n177 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3138
+XU124 n179 n92 n54 comp VDD VSS sg13cmos5l_nand3b_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3139
+XU125 n180 n174 n179 n178 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3140
+XU126 n181 n41 n57 n94 VDD VSS sg13cmos5l_nor3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3141
+XU127 n182 n91 n181 n138 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3142
+XU128 n183 code4 n182 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3143
+XU129 n184 n92 n55 comp n96 VDD VSS sg13cmos5l_nand4_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3144
+XU130 n185 n174 n184 n183 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3145
+XU131 n186 n41 n92 n54 n57 VDD VSS sg13cmos5l_nor4_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3146
+XU132 n187 n91 n186 n138 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3147
+XU133 n188 code5 n187 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3148
+XU134 n189 n145 n163 n90 VDD VSS sg13cmos5l_nand3b_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3149
+XU135 n190 n166 n189 n188 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3150
+XU136 n191 n40 n92 n54 n56 VDD VSS sg13cmos5l_and4_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3151
+XU137 n192 n91 n191 n138 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3152
+XU138 n193 code6 n192 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3153
+XU139 n194 n173 n189 n193 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3154
+XU140 n195 n41 n92 n55 n57 VDD VSS sg13cmos5l_nor4_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3155
+XU141 n196 n91 n195 n138 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3156
+XU142 n197 code7 n196 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3157
+XU143 n198 n179 n189 n197 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3158
+XU144 n199 n40 n56 n94 VDD VSS sg13cmos5l_nor3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3159
+XU145 n200 n91 n199 n138 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3160
+XU146 n201 n91 n145 n184 VDD VSS sg13cmos5l_nor3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3161
+XU147 n202 code8 n200 n201 VDD VSS sg13cmos5l_a21o_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3162
+XU148 n203 n40 n92 n54 n56 VDD VSS sg13cmos5l_nor4_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3163
+XU149 n204 n91 n203 n138 VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3164
+XU150 n205 n91 n163 n167 VDD VSS sg13cmos5l_nor3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3165
+XU151 n206 code9 n204 n205 VDD VSS sg13cmos5l_a21o_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3166
+XU152 n207 n82 n85 n90 n95 n98 VDD VSS sg13cmos5l_a221oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3167
+XU153 n208 n78 n90 n96 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3168
+XU154 n209 comp n90 n96 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3169
+XU155 n210 n95 n207 bn0 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3170
+XU156 n211 n91 n207 VDD VSS sg13cmos5l_and2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3171
+XU157 n212 n210 n211 VDD VSS sg13cmos5l_nor2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3172
+XU158 n213 n164 n207 n208 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3173
+XU159 n214 n60 n213 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3174
+XU160 n215 n170 n207 n208 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3175
+XU161 n216 n61 n215 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3176
+XU162 n217 n176 n207 n208 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3177
+XU163 n218 n62 n217 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3178
+XU164 n219 n181 n207 n208 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3179
+XU165 n220 n63 n219 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3180
+XU166 n221 n186 n207 n208 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3181
+XU167 n222 n64 n221 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3182
+XU168 n223 n191 n207 n208 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3183
+XU169 n224 n65 n223 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3184
+XU170 n225 n195 n207 n208 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3185
+XU171 n226 n66 n225 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3186
+XU172 n227 n199 n207 n208 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3187
+XU173 n228 n67 n227 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3188
+XU174 n229 n203 n207 n208 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3189
+XU175 n230 n68 n229 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3190
+XU176 n231 n95 n207 bp0 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3191
+XU177 n232 n211 n231 VDD VSS sg13cmos5l_nor2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3192
+XU178 n233 n164 n207 n209 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3193
+XU179 n234 n69 n233 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3194
+XU180 n235 n170 n207 n209 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3195
+XU181 n236 n70 n235 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3196
+XU182 n237 n176 n207 n209 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3197
+XU183 n238 n71 n237 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3198
+XU184 n239 n181 n207 n209 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3199
+XU185 n240 n72 n239 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3200
+XU186 n241 n186 n207 n209 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3201
+XU187 n242 n73 n241 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3202
+XU188 n243 n191 n207 n209 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3203
+XU189 n244 n74 n243 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3204
+XU190 n245 n195 n207 n209 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3205
+XU191 n246 n75 n245 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3206
+XU192 n247 n199 n207 n209 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3207
+XU193 n248 n76 n247 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3208
+XU194 n249 n203 n207 n209 VDD VSS sg13cmos5l_nand3_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3209
+XU195 n250 n77 n249 n211 VDD VSS sg13cmos5l_a21oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3210
+XU196 n251 n58 n83 VDD VSS sg13cmos5l_nand2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3211
+XU197 n252 n251 VDD VSS sg13cmos5l_inv_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3212
+XU198 n253 n59 n81 n251 busy VDD VSS sg13cmos5l_a22oi_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3213
+XU199 n254 n98 n253 VDD VSS sg13cmos5l_nor2_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3214
+XU200 n255 n80 n58 sample VDD VSS sg13cmos5l_o21ai_1
+* $abc$3013$auto$blifparse.cc:386:parse_blif$3215
+XU201 n256 n113 n255 VDD VSS sg13cmos5l_nand2_1
+* $auto$ff.cc:266:slice$758
+XU202 n42 clk n107 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$759
+XU203 n44 clk n111 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$760
+XU204 n46 clk n117 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$761
+XU205 n48 clk n121 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$762
+XU206 n100 clk n126 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$763
+XU207 n50 clk n130 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$764
+XU208 n52 clk n135 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$765
+XU209 n101 clk n137 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$766
+XU210 n92 clk n141 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$767
+XU211 n54 clk n144 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$768
+XU212 n56 clk n147 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$769
+XU213 n40 clk n150 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$770
+XU214 n79 clk n154 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$771
+XU215 n80 clk n156 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$772
+XU216 n58 clk n159 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$773
+XU217 code0 clk n162 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$774
+XU218 code1 clk n169 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$775
+XU219 code2 clk n175 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$776
+XU220 code3 clk n180 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$777
+XU221 code4 clk n185 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$778
+XU222 code5 clk n190 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$779
+XU223 code6 clk n194 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$780
+XU224 code7 clk n198 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$781
+XU225 code8 clk n202 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$782
+XU226 code9 clk n206 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$783
+XU227 bn0 clk n212 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$784
+XU228 bn1 clk n214 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$785
+XU229 bn2 clk n216 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$786
+XU230 bn3 clk n218 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$787
+XU231 bn4 clk n220 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$788
+XU232 bn5 clk n222 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$789
+XU233 bn6 clk n224 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$790
+XU234 bn7 clk n226 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$791
+XU235 bn8 clk n228 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$792
+XU236 bn9 clk n230 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$793
+XU237 bp0 clk n232 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$794
+XU238 bp1 clk n234 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$795
+XU239 bp2 clk n236 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$796
+XU240 bp3 clk n238 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$797
+XU241 bp4 clk n240 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$798
+XU242 bp5 clk n242 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$799
+XU243 bp6 clk n244 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$800
+XU244 bp7 clk n246 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$801
+XU245 bp8 clk n248 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$802
+XU246 bp9 clk n250 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$803
+XU247 busy clk n254 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$804
+XU248 valid clk n252 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$805
+XU249 sample clk n256 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+* $auto$ff.cc:266:slice$806
+XU250 comp_clk clk n158 rst_n VDD VSS sg13cmos5l_dfrbpq_1
+
+.ends sar_fsm_wrapper

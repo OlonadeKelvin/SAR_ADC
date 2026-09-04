@@ -1,0 +1,953 @@
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2020  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.33 (git sha1 2584903a060)
+
+
+-- Executing script file `synth_sar_ihp.ys' --
+
+1. Executing Verilog-2005 frontend: sar_fsm.v
+Parsing SystemVerilog input from `sar_fsm.v' to AST representation.
+Generating RTLIL representation for module `\sar_logic'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: sar_fsm_wrapper.v
+Parsing SystemVerilog input from `sar_fsm_wrapper.v' to AST representation.
+Generating RTLIL representation for module `\sar_fsm_wrapper'.
+Successfully finished Verilog frontend.
+
+3. Executing Liberty frontend: /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_typ_1p20V_25C.lib
+Imported 84 cell types from liberty file.
+
+4. Executing HIERARCHY pass (managing design hierarchy).
+
+4.1. Analyzing design hierarchy..
+Top module:  \sar_fsm_wrapper
+Used module:     \sar_logic
+Parameter \N = 10
+Parameter \SAMPLE_CYCLES = 4
+Parameter \DAC_SETTLE_CYCLES = 3
+Parameter \INVERT_COMP = 1'0
+
+4.2. Executing AST frontend in derive mode using pre-parsed AST for module `\sar_logic'.
+Parameter \N = 10
+Parameter \SAMPLE_CYCLES = 4
+Parameter \DAC_SETTLE_CYCLES = 3
+Parameter \INVERT_COMP = 1'0
+Generating RTLIL representation for module `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic'.
+
+4.3. Analyzing design hierarchy..
+Top module:  \sar_fsm_wrapper
+Used module:     $paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic
+
+4.4. Analyzing design hierarchy..
+Top module:  \sar_fsm_wrapper
+Used module:     $paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic
+Removing unused module `\sar_logic'.
+Removed 1 unused modules.
+
+5. Executing SYNTH pass.
+
+5.1. Executing HIERARCHY pass (managing design hierarchy).
+
+5.1.1. Analyzing design hierarchy..
+Top module:  \sar_fsm_wrapper
+Used module:     $paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic
+
+5.1.2. Analyzing design hierarchy..
+Top module:  \sar_fsm_wrapper
+Used module:     $paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic
+Removed 0 unused modules.
+
+5.2. Executing PROC pass (convert processes to netlists).
+
+5.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+5.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 7 switch rules as full_case in process $proc$sar_fsm.v:48$116 in module $paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.
+Removed a total of 0 dead cases.
+
+5.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 2 redundant assignments.
+Promoted 15 assignments to connections.
+
+5.2.4. Executing PROC_INIT pass (extract init attributes).
+
+5.2.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \rst_n in `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+
+5.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~6 debug messages>
+
+5.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+     1/50: $5$lookahead\bn$114[9:0]$186
+     2/50: $4$bitselwrite$data$sar_fsm.v:101$108[9:0]$181
+     3/50: $4$bitselwrite$mask$sar_fsm.v:101$107[9:0]$180
+     4/50: $4$bitselwrite$sel$sar_fsm.v:101$109[3:0]$182
+     5/50: $5$lookahead\bp$115[9:0]$187
+     6/50: $4$bitselwrite$sel$sar_fsm.v:102$112[3:0]$185
+     7/50: $4$bitselwrite$data$sar_fsm.v:102$111[9:0]$184
+     8/50: $4$bitselwrite$mask$sar_fsm.v:102$110[9:0]$183
+     9/50: $4$lookahead\bp$115[9:0]$179
+    10/50: $4$lookahead\bn$114[9:0]$178
+    11/50: $3$bitselwrite$sel$sar_fsm.v:102$112[3:0]$177
+    12/50: $3$bitselwrite$data$sar_fsm.v:102$111[9:0]$176
+    13/50: $3$bitselwrite$mask$sar_fsm.v:102$110[9:0]$175
+    14/50: $3$bitselwrite$sel$sar_fsm.v:101$109[3:0]$174
+    15/50: $3$bitselwrite$data$sar_fsm.v:101$108[9:0]$173
+    16/50: $3$bitselwrite$mask$sar_fsm.v:101$107[9:0]$172
+    17/50: $3$lookahead\code$113[9:0]$154
+    18/50: $3$lookahead\bn$114[9:0]$155
+    19/50: $3$lookahead\bp$115[9:0]$156
+    20/50: $2$lookahead\bp$115[9:0]$153
+    21/50: $2$lookahead\bn$114[9:0]$152
+    22/50: $2$lookahead\code$113[9:0]$151
+    23/50: $2$bitselwrite$sel$sar_fsm.v:102$112[3:0]$150
+    24/50: $2$bitselwrite$data$sar_fsm.v:102$111[9:0]$149
+    25/50: $2$bitselwrite$mask$sar_fsm.v:102$110[9:0]$148
+    26/50: $2$bitselwrite$sel$sar_fsm.v:101$109[3:0]$147
+    27/50: $2$bitselwrite$data$sar_fsm.v:101$108[9:0]$146
+    28/50: $2$bitselwrite$mask$sar_fsm.v:101$107[9:0]$145
+    29/50: $2$bitselwrite$sel$sar_fsm.v:97$106[3:0]$144
+    30/50: $2$bitselwrite$data$sar_fsm.v:97$105[9:0]$143
+    31/50: $2$bitselwrite$mask$sar_fsm.v:97$104[9:0]$142
+    32/50: $1$lookahead\bp$115[9:0]$141
+    33/50: $1$lookahead\bn$114[9:0]$140
+    34/50: $1$lookahead\code$113[9:0]$139
+    35/50: $1$bitselwrite$sel$sar_fsm.v:102$112[3:0]$138
+    36/50: $1$bitselwrite$data$sar_fsm.v:102$111[9:0]$137
+    37/50: $1$bitselwrite$mask$sar_fsm.v:102$110[9:0]$136
+    38/50: $1$bitselwrite$sel$sar_fsm.v:101$109[3:0]$135
+    39/50: $1$bitselwrite$data$sar_fsm.v:101$108[9:0]$134
+    40/50: $1$bitselwrite$mask$sar_fsm.v:101$107[9:0]$133
+    41/50: $1$bitselwrite$sel$sar_fsm.v:97$106[3:0]$132
+    42/50: $1$bitselwrite$data$sar_fsm.v:97$105[9:0]$131
+    43/50: $1$bitselwrite$mask$sar_fsm.v:97$104[9:0]$130
+    44/50: $0\valid[0:0]
+    45/50: $0\comp_clk[0:0]
+    46/50: $0\count[7:0]
+    47/50: $0\bit_idx[3:0]
+    48/50: $0\state[2:0]
+    49/50: $0\busy[0:0]
+    50/50: $0\sample[0:0]
+
+5.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+5.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.\sample' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$505' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.\comp_clk' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$506' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.\busy' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$507' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.\valid' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$508' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.\bp' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$509' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.\bn' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$510' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.\code' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$511' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.\state' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$512' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.\bit_idx' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$513' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.\count' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$514' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$bitselwrite$mask$sar_fsm.v:97$104' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$515' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$bitselwrite$data$sar_fsm.v:97$105' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$516' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$bitselwrite$sel$sar_fsm.v:97$106' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$517' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$bitselwrite$mask$sar_fsm.v:101$107' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$518' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$bitselwrite$data$sar_fsm.v:101$108' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$519' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$bitselwrite$sel$sar_fsm.v:101$109' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$520' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$bitselwrite$mask$sar_fsm.v:102$110' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$521' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$bitselwrite$data$sar_fsm.v:102$111' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$522' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$bitselwrite$sel$sar_fsm.v:102$112' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$523' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$lookahead\code$113' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$524' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$lookahead\bn$114' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$525' with positive edge clock and negative level reset.
+Creating register for signal `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$lookahead\bp$115' using process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+  created $adff cell `$procdff$526' with positive edge clock and negative level reset.
+
+5.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+5.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 6 empty switches in `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+Removing empty process `$paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.$proc$sar_fsm.v:48$116'.
+Cleaned up 6 empty switches.
+
+5.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_fsm_wrapper.
+Optimizing module $paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.
+<suppressed ~13 debug messages>
+
+5.3. Executing FLATTEN pass (flatten design).
+Deleting now unused module $paramod$57df0a4bb30d03d36f00461365e6fa1eb8eb0133\sar_logic.
+<suppressed ~1 debug messages>
+
+5.4. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_fsm_wrapper.
+<suppressed ~6 debug messages>
+
+5.5. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+Removed 73 unused cells and 184 unused wires.
+<suppressed ~80 debug messages>
+
+5.6. Executing CHECK pass (checking for obvious problems).
+Checking module sar_fsm_wrapper...
+Found and reported 0 problems.
+
+5.7. Executing OPT pass (performing simple optimizations).
+
+5.7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_fsm_wrapper.
+
+5.7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_fsm_wrapper'.
+<suppressed ~114 debug messages>
+Removed a total of 38 cells.
+
+5.7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \sar_fsm_wrapper..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $flatten\u_sar.$procmux$292.
+    dead port 2/2 on $mux $flatten\u_sar.$procmux$299.
+    dead port 2/2 on $mux $flatten\u_sar.$procmux$352.
+    dead port 2/2 on $mux $flatten\u_sar.$procmux$363.
+    dead port 2/2 on $mux $flatten\u_sar.$procmux$374.
+    dead port 2/2 on $mux $flatten\u_sar.$procmux$255.
+    dead port 2/2 on $mux $flatten\u_sar.$procmux$213.
+    dead port 2/2 on $mux $flatten\u_sar.$procmux$215.
+    dead port 2/2 on $mux $flatten\u_sar.$procmux$253.
+Removed 9 multiplexer ports.
+<suppressed ~10 debug messages>
+
+5.7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \sar_fsm_wrapper.
+Performed a total of 0 changes.
+
+5.7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_fsm_wrapper'.
+Removed a total of 0 cells.
+
+5.7.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.7.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+Removed 0 unused cells and 47 unused wires.
+<suppressed ~1 debug messages>
+
+5.7.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_fsm_wrapper.
+
+5.7.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.7.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \sar_fsm_wrapper..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~10 debug messages>
+
+5.7.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \sar_fsm_wrapper.
+Performed a total of 0 changes.
+
+5.7.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_fsm_wrapper'.
+Removed a total of 0 cells.
+
+5.7.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.7.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+
+5.7.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_fsm_wrapper.
+
+5.7.16. Finished OPT passes. (There is nothing left to do.)
+
+5.8. Executing FSM pass (extract and optimize FSM).
+
+5.8.1. Executing FSM_DETECT pass (finding FSMs in design).
+Not marking sar_fsm_wrapper.u_sar.state as FSM state register:
+    Circuit seems to be self-resetting.
+
+5.8.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+5.8.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+5.8.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+
+5.8.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+5.8.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+5.8.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+5.8.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+5.9. Executing OPT pass (performing simple optimizations).
+
+5.9.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_fsm_wrapper.
+
+5.9.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_fsm_wrapper'.
+Removed a total of 0 cells.
+
+5.9.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \sar_fsm_wrapper..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~10 debug messages>
+
+5.9.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \sar_fsm_wrapper.
+Performed a total of 0 changes.
+
+5.9.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_fsm_wrapper'.
+Removed a total of 0 cells.
+
+5.9.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $flatten\u_sar.$procdff$514 ($adff) from module sar_fsm_wrapper (D = $flatten\u_sar.$0\count[7:0], Q = \u_sar.count).
+Adding EN signal on $flatten\u_sar.$procdff$513 ($adff) from module sar_fsm_wrapper (D = $flatten\u_sar.$0\bit_idx[3:0], Q = \u_sar.bit_idx).
+Adding EN signal on $flatten\u_sar.$procdff$512 ($adff) from module sar_fsm_wrapper (D = $flatten\u_sar.$0\state[2:0], Q = \u_sar.state).
+Adding EN signal on $flatten\u_sar.$procdff$511 ($adff) from module sar_fsm_wrapper (D = $flatten\u_sar.$0$lookahead\code$113[9:0]$126, Q = \u_sar.code).
+Adding EN signal on $flatten\u_sar.$procdff$510 ($adff) from module sar_fsm_wrapper (D = $flatten\u_sar.$0$lookahead\bn$114[9:0]$127, Q = \u_sar.bn).
+Adding EN signal on $flatten\u_sar.$procdff$509 ($adff) from module sar_fsm_wrapper (D = $flatten\u_sar.$0$lookahead\bp$115[9:0]$128, Q = \u_sar.bp).
+Adding EN signal on $flatten\u_sar.$procdff$507 ($adff) from module sar_fsm_wrapper (D = $flatten\u_sar.$0\busy[0:0], Q = \u_sar.busy).
+Adding EN signal on $flatten\u_sar.$procdff$505 ($adff) from module sar_fsm_wrapper (D = $flatten\u_sar.$0\sample[0:0], Q = \u_sar.sample).
+
+5.9.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+
+5.9.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_fsm_wrapper.
+<suppressed ~7 debug messages>
+
+5.9.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.9.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \sar_fsm_wrapper..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~10 debug messages>
+
+5.9.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \sar_fsm_wrapper.
+Performed a total of 0 changes.
+
+5.9.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_fsm_wrapper'.
+<suppressed ~36 debug messages>
+Removed a total of 12 cells.
+
+5.9.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.9.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+Removed 0 unused cells and 12 unused wires.
+<suppressed ~1 debug messages>
+
+5.9.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_fsm_wrapper.
+
+5.9.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.9.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \sar_fsm_wrapper..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~11 debug messages>
+
+5.9.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \sar_fsm_wrapper.
+Performed a total of 0 changes.
+
+5.9.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_fsm_wrapper'.
+Removed a total of 0 cells.
+
+5.9.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.9.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+
+5.9.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_fsm_wrapper.
+
+5.9.23. Finished OPT passes. (There is nothing left to do.)
+
+5.10. Executing WREDUCE pass (reducing word size of cells).
+Removed top 1 bits (of 2) from port B of cell sar_fsm_wrapper.$auto$opt_dff.cc:195:make_patterns_logic$551 ($ne).
+Removed top 1 bits (of 2) from port B of cell sar_fsm_wrapper.$auto$opt_dff.cc:195:make_patterns_logic$549 ($ne).
+Removed top 1 bits (of 2) from port B of cell sar_fsm_wrapper.$auto$opt_dff.cc:195:make_patterns_logic$533 ($ne).
+Removed top 1 bits (of 3) from port B of cell sar_fsm_wrapper.$flatten\u_sar.$procmux$447_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell sar_fsm_wrapper.$flatten\u_sar.$procmux$436_CMP0 ($eq).
+Removed top 2 bits (of 3) from port B of cell sar_fsm_wrapper.$flatten\u_sar.$procmux$380_CMP0 ($eq).
+Removed top 27 bits (of 32) from port A of cell sar_fsm_wrapper.$flatten\u_sar.$neg$sar_fsm.v:0$162 ($neg).
+Converting cell sar_fsm_wrapper.$flatten\u_sar.$neg$sar_fsm.v:0$162 ($neg) from signed to unsigned.
+Removed top 1 bits (of 5) from port A of cell sar_fsm_wrapper.$flatten\u_sar.$neg$sar_fsm.v:0$162 ($neg).
+Removed top 6 bits (of 8) from port B of cell sar_fsm_wrapper.$flatten\u_sar.$eq$sar_fsm.v:85$159 ($eq).
+Removed top 6 bits (of 8) from port B of cell sar_fsm_wrapper.$flatten\u_sar.$eq$sar_fsm.v:77$157 ($eq).
+
+5.11. Executing PEEPOPT pass (run peephole optimizers).
+
+5.12. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+
+5.13. Executing ALUMACC pass (create $alu and $macc cells).
+Extracting $alu and $macc cells in module sar_fsm_wrapper:
+  creating $macc model for $flatten\u_sar.$add$sar_fsm.v:81$158 ($add).
+  creating $macc model for $flatten\u_sar.$neg$sar_fsm.v:0$162 ($neg).
+  creating $macc model for $flatten\u_sar.$sub$sar_fsm.v:103$206 ($sub).
+  creating $alu model for $macc $flatten\u_sar.$sub$sar_fsm.v:103$206.
+  creating $alu model for $macc $flatten\u_sar.$neg$sar_fsm.v:0$162.
+  creating $alu model for $macc $flatten\u_sar.$add$sar_fsm.v:81$158.
+  creating $alu cell for $flatten\u_sar.$add$sar_fsm.v:81$158: $auto$alumacc.cc:485:replace_alu$589
+  creating $alu cell for $flatten\u_sar.$neg$sar_fsm.v:0$162: $auto$alumacc.cc:485:replace_alu$592
+  creating $alu cell for $flatten\u_sar.$sub$sar_fsm.v:103$206: $auto$alumacc.cc:485:replace_alu$595
+  created 3 $alu and 0 $macc cells.
+
+5.14. Executing SHARE pass (SAT-based resource sharing).
+
+5.15. Executing OPT pass (performing simple optimizations).
+
+5.15.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_fsm_wrapper.
+
+5.15.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_fsm_wrapper'.
+Removed a total of 0 cells.
+
+5.15.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \sar_fsm_wrapper..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~11 debug messages>
+
+5.15.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \sar_fsm_wrapper.
+Performed a total of 0 changes.
+
+5.15.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_fsm_wrapper'.
+Removed a total of 0 cells.
+
+5.15.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.15.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+
+5.15.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_fsm_wrapper.
+
+5.15.9. Finished OPT passes. (There is nothing left to do.)
+
+5.16. Executing MEMORY pass.
+
+5.16.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+5.16.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+5.16.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+5.16.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+5.16.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+5.16.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+
+5.16.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+5.16.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+5.16.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+
+5.16.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+5.17. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+
+5.18. Executing OPT pass (performing simple optimizations).
+
+5.18.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_fsm_wrapper.
+<suppressed ~24 debug messages>
+
+5.18.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_fsm_wrapper'.
+Removed a total of 0 cells.
+
+5.18.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.18.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+Removed 0 unused cells and 15 unused wires.
+<suppressed ~1 debug messages>
+
+5.18.5. Finished fast OPT passes.
+
+5.19. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+5.20. Executing OPT pass (performing simple optimizations).
+
+5.20.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_fsm_wrapper.
+
+5.20.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_fsm_wrapper'.
+Removed a total of 0 cells.
+
+5.20.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \sar_fsm_wrapper..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~7 debug messages>
+
+5.20.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \sar_fsm_wrapper.
+    New ctrl vector for $pmux cell $flatten\u_sar.$procmux$378: $flatten\u_sar.$procmux$216_CMP
+    New ctrl vector for $pmux cell $flatten\u_sar.$procmux$384: $flatten\u_sar.$procmux$216_CMP
+    New ctrl vector for $pmux cell $flatten\u_sar.$procmux$442: { $flatten\u_sar.$procmux$380_CMP $flatten\u_sar.$procmux$447_CMP }
+    Consolidated identical input bits for $mux cell $flatten\u_sar.$procmux$470:
+      Old ports: A=3'101, B=3'010, Y=$flatten\u_sar.$procmux$470_Y
+      New ports: A=2'01, B=2'10, Y=$flatten\u_sar.$procmux$470_Y [1:0]
+      New connections: $flatten\u_sar.$procmux$470_Y [2] = $flatten\u_sar.$procmux$470_Y [0]
+  Optimizing cells in module \sar_fsm_wrapper.
+Performed a total of 4 changes.
+
+5.20.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_fsm_wrapper'.
+Removed a total of 0 cells.
+
+5.20.6. Executing OPT_SHARE pass.
+
+5.20.7. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.20.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+
+5.20.9. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_fsm_wrapper.
+
+5.20.10. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.20.11. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \sar_fsm_wrapper..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~7 debug messages>
+
+5.20.12. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \sar_fsm_wrapper.
+Performed a total of 0 changes.
+
+5.20.13. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_fsm_wrapper'.
+Removed a total of 0 cells.
+
+5.20.14. Executing OPT_SHARE pass.
+
+5.20.15. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.20.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+
+5.20.17. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_fsm_wrapper.
+
+5.20.18. Finished OPT passes. (There is nothing left to do.)
+
+5.21. Executing TECHMAP pass (map to technology primitives).
+
+5.21.1. Executing Verilog-2005 frontend: /usr/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/usr/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `\$__div_mod_u'.
+Generating RTLIL representation for module `\$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `\$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_pmux'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Successfully finished Verilog frontend.
+
+5.21.2. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $reduce_and.
+Using extmapper simplemap for cells of type $reduce_bool.
+Using extmapper simplemap for cells of type $ne.
+Using template $paramod$c3cd1564c35d873179656addd6052d7ea8b6d991\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $adffe.
+Using extmapper simplemap for cells of type $adff.
+Using extmapper simplemap for cells of type $and.
+Using extmapper simplemap for cells of type $not.
+Using extmapper simplemap for cells of type $mux.
+Using template $paramod$56f7ce6d87f8add68ca646dc02d7695a3189f8e5\_90_pmux for cells of type $pmux.
+Using extmapper simplemap for cells of type $eq.
+Using template $paramod$fc16b9f758000d363d24f130038bd99b46b4fa1b\_90_pmux for cells of type $pmux.
+Using extmapper simplemap for cells of type $logic_not.
+Using extmapper simplemap for cells of type $or.
+Using template $paramod$5fb3cea3e36078ed44b85aadf768a6588af6651e\_90_alu for cells of type $alu.
+Using template $paramod$constmap:ca6cf48d457636a05ebaac40cf89f20e9e5e1322$paramod$9421649991c1e50cecfad604ada09533a8d6e989\_90_shift_shiftx for cells of type $shift.
+Analyzing pattern of constant bits for this cell:
+  Constant input on bit 0 of port A: 1'1
+Creating constmapped module `$paramod$constmap:42535e8b21a1073b603875cefc0cffc80617b3a4$paramod$9421649991c1e50cecfad604ada09533a8d6e989\_90_shift_shiftx'.
+
+5.21.16. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod$constmap:42535e8b21a1073b603875cefc0cffc80617b3a4$paramod$9421649991c1e50cecfad604ada09533a8d6e989\_90_shift_shiftx..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$1096.
+    dead port 2/2 on $mux $procmux$1090.
+    dead port 2/2 on $mux $procmux$1084.
+    dead port 2/2 on $mux $procmux$1078.
+    dead port 2/2 on $mux $procmux$1072.
+Removed 5 multiplexer ports.
+<suppressed ~429 debug messages>
+
+5.21.17. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$constmap:42535e8b21a1073b603875cefc0cffc80617b3a4$paramod$9421649991c1e50cecfad604ada09533a8d6e989\_90_shift_shiftx.
+<suppressed ~28 debug messages>
+Removed 0 unused cells and 10 unused wires.
+Using template $paramod$constmap:42535e8b21a1073b603875cefc0cffc80617b3a4$paramod$9421649991c1e50cecfad604ada09533a8d6e989\_90_shift_shiftx for cells of type $shift.
+Using template $paramod$8742280fdebca84e1c87f2a86ed84f62d558f4cc\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $reduce_or.
+Using extmapper simplemap for cells of type $pos.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000100000 for cells of type $lcu.
+Using extmapper simplemap for cells of type $xor.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000001000 for cells of type $lcu.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000000100 for cells of type $lcu.
+No more expansions possible.
+<suppressed ~725 debug messages>
+
+5.22. Executing OPT pass (performing simple optimizations).
+
+5.22.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module sar_fsm_wrapper.
+<suppressed ~997 debug messages>
+
+5.22.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\sar_fsm_wrapper'.
+<suppressed ~390 debug messages>
+Removed a total of 130 cells.
+
+5.22.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.22.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+Removed 73 unused cells and 502 unused wires.
+<suppressed ~74 debug messages>
+
+5.22.5. Finished fast OPT passes.
+
+5.23. Executing HIERARCHY pass (managing design hierarchy).
+
+5.23.1. Analyzing design hierarchy..
+Top module:  \sar_fsm_wrapper
+
+5.23.2. Analyzing design hierarchy..
+Top module:  \sar_fsm_wrapper
+Removed 0 unused modules.
+
+5.24. Printing statistics.
+
+=== sar_fsm_wrapper ===
+
+   Number of wires:                187
+   Number of wire bits:           1153
+   Number of public wires:          56
+   Number of public wire bits:     122
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                420
+     $_AND_                         76
+     $_DFFE_PN0P_                   45
+     $_DFFE_PN1P_                    2
+     $_DFF_PN0_                      2
+     $_MUX_                        141
+     $_NOT_                         31
+     $_OR_                         109
+     $_XOR_                         14
+
+5.25. Executing CHECK pass (checking for obvious problems).
+Checking module sar_fsm_wrapper...
+Found and reported 0 problems.
+
+6. Executing DFFLIBMAP pass (mapping DFF cells to sequential cells from liberty file).
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_2' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_2' - skipping.
+  cell sg13cmos5l_dfrbpq_1 (noninv, pins=4, area=48.99) is a direct match for cell type $_DFF_PN0_.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_2' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_2' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_2' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_2' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_2' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_2' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_1' - skipping.
+Warning: Found unsupported expression 'SCE*SCD+!SCE*D' in pin attribute of cell 'sg13cmos5l_sdfrbpq_2' - skipping.
+  final dff cell mappings:
+    unmapped dff cell: $_DFF_N_
+    unmapped dff cell: $_DFF_P_
+    unmapped dff cell: $_DFF_NN0_
+    unmapped dff cell: $_DFF_NN1_
+    unmapped dff cell: $_DFF_NP0_
+    unmapped dff cell: $_DFF_NP1_
+    \sg13cmos5l_dfrbpq_1 _DFF_PN0_ (.CLK( C), .D( D), .Q( Q), .RESET_B( R));
+    unmapped dff cell: $_DFF_PN1_
+    unmapped dff cell: $_DFF_PP0_
+    unmapped dff cell: $_DFF_PP1_
+    unmapped dff cell: $_DFFSR_NNN_
+    unmapped dff cell: $_DFFSR_NNP_
+    unmapped dff cell: $_DFFSR_NPN_
+    unmapped dff cell: $_DFFSR_NPP_
+    unmapped dff cell: $_DFFSR_PNN_
+    unmapped dff cell: $_DFFSR_PNP_
+    unmapped dff cell: $_DFFSR_PPN_
+    unmapped dff cell: $_DFFSR_PPP_
+
+6.1. Executing DFFLEGALIZE pass (convert FFs to types supported by the target).
+Mapping DFF cells in module `\sar_fsm_wrapper':
+  mapped 49 $_DFF_PN0_ cells to \sg13cmos5l_dfrbpq_1 cells.
+
+7. Executing ABC pass (technology mapping using ABC).
+
+7.1. Extracting gate netlist of module `\sar_fsm_wrapper' to `<abc-temp-dir>/input.blif'..
+Extracted 422 gates and 473 wires to a netlist network with 49 inputs and 49 outputs.
+
+7.1.1. Executing ABC.
+Running ABC command: "<yosys-exe-dir>/yosys-abc" -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_lib -w /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_typ_1p20V_25C.lib 
+ABC: Parsing finished successfully.  Parsing time =     0.01 sec
+ABC: Scl_LibertyReadGenlib() skipped cell "sg13cmos5l_antennanp" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped cell "sg13cmos5l_decap_4" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped cell "sg13cmos5l_decap_8" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sg13cmos5l_dfrbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sg13cmos5l_dfrbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sg13cmos5l_dfrbpq_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sg13cmos5l_dfrbpq_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sg13cmos5l_dlhq_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sg13cmos5l_dlhr_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sg13cmos5l_dlhrq_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sg13cmos5l_dllr_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sg13cmos5l_dllrq_1".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sg13cmos5l_ebufn_2".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sg13cmos5l_ebufn_4".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sg13cmos5l_ebufn_8".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sg13cmos5l_einvn_2".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sg13cmos5l_einvn_4".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sg13cmos5l_einvn_8".
+ABC: Scl_LibertyReadGenlib() skipped cell "sg13cmos5l_fill_1" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped cell "sg13cmos5l_fill_2" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped cell "sg13cmos5l_fill_4" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped cell "sg13cmos5l_fill_8" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped cell "sg13cmos5l_lgcp_1" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sg13cmos5l_sdfbbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sg13cmos5l_sdfrbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sg13cmos5l_sdfrbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sg13cmos5l_sdfrbpq_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sg13cmos5l_sdfrbpq_2".
+ABC: Scl_LibertyReadGenlib() skipped cell "sg13cmos5l_sighold" due to dont_use attribute.
+ABC: Scl_LibertyReadGenlib() skipped cell "sg13cmos5l_slgcp_1" due to dont_use attribute.
+ABC: Library "sg13cmos5l_stdcell_typ_1p20V_25C" from "/home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_typ_1p20V_25C.lib" has 54 cells (20 skipped: 14 seq; 6 tri-state; 0 no func; 10 dont_use).  Time =     0.01 sec
+ABC: Memory =    2.86 MB. Time =     0.01 sec
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+7.1.2. Re-integrating ABC results.
+ABC RESULTS:   sg13cmos5l_nor2b_1 cells:        3
+ABC RESULTS:   sg13cmos5l_or2_1 cells:        2
+ABC RESULTS:   sg13cmos5l_xor2_1 cells:        1
+ABC RESULTS:   sg13cmos5l_xnor2_1 cells:        2
+ABC RESULTS:   sg13cmos5l_nand2b_1 cells:        7
+ABC RESULTS:   sg13cmos5l_or4_1 cells:        1
+ABC RESULTS:   sg13cmos5l_nand4_1 cells:        4
+ABC RESULTS:   sg13cmos5l_nand3b_1 cells:        3
+ABC RESULTS:   sg13cmos5l_and4_1 cells:        3
+ABC RESULTS:   sg13cmos5l_nor4_1 cells:        8
+ABC RESULTS:   sg13cmos5l_nor3_1 cells:        8
+ABC RESULTS:   sg13cmos5l_a21o_1 cells:        8
+ABC RESULTS:   sg13cmos5l_a221oi_1 cells:        2
+ABC RESULTS:   sg13cmos5l_and2_1 cells:        3
+ABC RESULTS:   sg13cmos5l_nand3_1 cells:       25
+ABC RESULTS:   sg13cmos5l_a21oi_1 cells:       26
+ABC RESULTS:   sg13cmos5l_inv_1 cells:       30
+ABC RESULTS:   sg13cmos5l_a22oi_1 cells:        5
+ABC RESULTS:   sg13cmos5l_nor2_1 cells:       11
+ABC RESULTS:   sg13cmos5l_o21ai_1 cells:       28
+ABC RESULTS:   sg13cmos5l_nand2_1 cells:       22
+ABC RESULTS:        internal signals:      375
+ABC RESULTS:           input signals:       49
+ABC RESULTS:          output signals:       49
+Removing temp directory.
+
+8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \sar_fsm_wrapper..
+Removed 0 unused cells and 229 unused wires.
+<suppressed ~1 debug messages>
+Removed 0 unused cells and 15 unused wires.
+
+9. Executing CHECK pass (checking for obvious problems).
+Checking module sar_fsm_wrapper...
+Found and reported 0 problems.
+
+10. Printing statistics.
+
+=== sar_fsm_wrapper ===
+
+   Number of wires:                245
+   Number of wire bits:            271
+   Number of public wires:          41
+   Number of public wire bits:      53
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                251
+     sg13cmos5l_a21o_1               8
+     sg13cmos5l_a21oi_1             26
+     sg13cmos5l_a221oi_1             2
+     sg13cmos5l_a22oi_1              5
+     sg13cmos5l_and2_1               3
+     sg13cmos5l_and4_1               3
+     sg13cmos5l_dfrbpq_1            49
+     sg13cmos5l_inv_1               30
+     sg13cmos5l_nand2_1             22
+     sg13cmos5l_nand2b_1             7
+     sg13cmos5l_nand3_1             25
+     sg13cmos5l_nand3b_1             3
+     sg13cmos5l_nand4_1              4
+     sg13cmos5l_nor2_1              11
+     sg13cmos5l_nor2b_1              3
+     sg13cmos5l_nor3_1               8
+     sg13cmos5l_nor4_1               8
+     sg13cmos5l_o21ai_1             28
+     sg13cmos5l_or2_1                2
+     sg13cmos5l_or4_1                1
+     sg13cmos5l_xnor2_1              2
+     sg13cmos5l_xor2_1               1
+
+   Chip area for module '\sar_fsm_wrapper': 4183.817400
+
+11. Executing Verilog backend.
+Dumping module `\sar_fsm_wrapper'.
+
+12. Executing JSON backend.
+
+Warnings: 4 unique messages, 36 total
+End of script. Logfile hash: 551ee2b3bb, CPU: user 0.30s system 0.01s, MEM: 20.47 MB peak
+Yosys 0.33 (git sha1 2584903a060)
+Time spent: 22% 1x abc (0 sec), 18% 25x opt_expr (0 sec), ...

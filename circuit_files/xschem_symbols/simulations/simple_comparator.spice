@@ -1,0 +1,30 @@
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/xschem_symbols/simple_comparator.sch
+**.subckt simple_comparator VDD_comparator CLK Voutn Voutp Debug_NC_Vright_gm Debug_NC_Vleft_gm Vinp Vinn VSS_comparator
+*.ipin CLK
+*.ipin Vinp
+*.iopin VSS_comparator
+*.iopin VDD_comparator
+*.ipin Vinn
+*.opin Debug_NC_Vright_gm
+*.opin Debug_NC_Vleft_gm
+*.opin Voutp
+*.opin Voutn
+XM1 net2 net1 VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM2 Debug_NC_Vleft_gm Vinp VS_dp VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM3 net2 net1 Debug_NC_Vleft_gm VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM4 Debug_NC_Vright_gm Vinn VS_dp VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM5 net1 net2 Debug_NC_Vright_gm VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM6 net1 net2 VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM7 VS_dp CLK VSS_comparator VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM8 net1 CLK VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM9 net2 CLK VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM10 net3 net1 VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM11 net3 net1 VSS_comparator VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM12 Voutn net3 VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM13 Voutn net3 VSS_comparator VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM14 net4 net2 VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM15 net4 net2 VSS_comparator VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM16 Voutp net4 VDD_comparator VDD_comparator sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM17 Voutp net4 VSS_comparator VSS_comparator sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+**.ends
+.end

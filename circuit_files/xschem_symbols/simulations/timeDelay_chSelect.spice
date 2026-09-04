@@ -1,0 +1,91 @@
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/xschem_symbols/timeDelay_chSelect.sch
+**.subckt timeDelay_chSelect Sn8B Sn9B P5 P6 P9 P7 P8 VDD Sn9 Sn5 Sn7B Sn6B Sn5B N9 N6 N5 N8 N7 Sn8 Sn7 Sn6 Sn4B Out P1 P0 P2 P3
+*+ P4 VSS Sn0 Sn1 Sn2 Sn3 Sn0B Sn1B Sn2B Sn3B N0 N1 N2 N3 N4 Sn4
+*.ipin Sn9B
+*.ipin P9
+*.ipin N9
+*.ipin Sn8B
+*.ipin Sn8
+*.ipin P8
+*.ipin N8
+*.ipin Sn7B
+*.ipin Sn7
+*.ipin P7
+*.ipin N7
+*.ipin Sn6B
+*.ipin Sn6
+*.ipin P6
+*.ipin N6
+*.ipin Sn5B
+*.ipin Sn5
+*.ipin P5
+*.ipin N5
+*.ipin Sn4B
+*.ipin Sn4
+*.ipin P4
+*.ipin N4
+*.ipin Sn3B
+*.ipin Sn3
+*.ipin P3
+*.ipin N3
+*.ipin Sn2B
+*.ipin Sn2
+*.ipin P2
+*.ipin N2
+*.ipin Sn1B
+*.ipin Sn1
+*.ipin P1
+*.ipin N1
+*.ipin Sn0B
+*.ipin Sn0
+*.ipin P0
+*.ipin N0
+*.opin Out
+*.iopin VDD
+*.iopin VSS
+*.ipin Sn9
+XM5 Out A VSS VSS sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM6 Out B VSS VSS sg13_hv_nmos w=0.3u l=0.45u ng=1 m=1 mm_ok=1
+XM7 net1 A VDD VDD sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+XM8 Out B net1 VDD sg13_hv_pmos w=0.3u l=0.4u ng=1 m=1 mm_ok=1
+x1 Sn9B VDD P9 A VSS Sn9 TxGate
+x2 Sn9B VDD N9 B VSS Sn9 TxGate
+x3 Sn8B VDD P8 A VSS Sn8 TxGate
+x4 Sn8B VDD N8 B VSS Sn8 TxGate
+x5 Sn7B VDD P7 A VSS Sn7 TxGate
+x6 Sn7B VDD N7 B VSS Sn7 TxGate
+x7 Sn6B VDD P6 A VSS Sn6 TxGate
+x8 Sn6B VDD N6 B VSS Sn6 TxGate
+x9 Sn5B VDD P5 A VSS Sn5 TxGate
+x10 Sn5B VDD N5 B VSS Sn5 TxGate
+x11 Sn4B VDD P4 A VSS Sn4 TxGate
+x12 Sn4B VDD N4 B VSS Sn4 TxGate
+x13 Sn3B VDD P3 A VSS Sn3 TxGate
+x14 Sn3B VDD N3 B VSS Sn3 TxGate
+x15 Sn2B VDD P2 A VSS Sn2 TxGate
+x16 Sn2B VDD N2 B VSS Sn2 TxGate
+x17 Sn1B VDD P1 A VSS Sn1 TxGate
+x18 Sn1B VDD N1 B VSS Sn1 TxGate
+x19 Sn0B VDD P0 A VSS Sn0 TxGate
+x20 Sn0B VDD N0 B VSS Sn0 TxGate
+**.ends
+
+* expanding   symbol:  TxGate.sym # of pins=6
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/xschem_symbols/TxGate.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/xschem_symbols/TxGate.sch
+.subckt TxGate Ngate VDD TxGIn TxGOut VSS Pgate
+*.ipin Ngate
+*.ipin Pgate
+*.ipin TxGIn
+*.opin TxGOut
+*.iopin VDD
+*.iopin VSS
+XM13 TxGOut Ngate net1 VSS sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
+XM14 TxGOut Pgate net1 VDD sg13_lv_pmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
+XM1 net1 net2 VSS VSS sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
+XM2 net1 net2 VDD VDD sg13_lv_pmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
+XM3 net2 TxGIn VSS VSS sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
+XM4 net2 TxGIn VDD VDD sg13_lv_pmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
+.ends
+
+.end

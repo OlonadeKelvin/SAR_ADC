@@ -1,0 +1,41 @@
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/dac_sw_2to1_tg.sch
+**.subckt dac_sw_2to1_tg sel out vss vdd vref vcm
+*.ipin sel
+*.iopin vdd
+*.iopin vref
+*.iopin vcm
+*.iopin vss
+*.iopin out
+x1 vss sel selb vdd vref out tg
+x3 vss selb sel vdd vcm out tg
+x2 vdd sel selb vss inverter
+**.ends
+
+* expanding   symbol:  /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/tg.sym # of pins=6
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/tg.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/tg.sch
+.subckt tg vss ng pg vdd a b
+*.ipin ng
+*.iopin vdd
+*.ipin pg
+*.iopin a
+*.iopin b
+*.iopin vss
+XM12 b ng a vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM16 b pg a vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+.ends
+
+
+* expanding   symbol:  /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/inverter.sym # of pins=4
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/inverter.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/inverter.sch
+.subckt inverter vdd Vinn Voutp vss
+*.iopin vdd
+*.iopin vss
+*.ipin Vinn
+*.opin Voutp
+XM12 Voutp Vinn vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM16 Voutp Vinn vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+.ends
+
+.end
