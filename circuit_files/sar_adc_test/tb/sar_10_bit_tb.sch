@@ -338,7 +338,7 @@ value="
 
 .lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerCAP.lib cap_typ
 .include /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/spice/sg13cmos5l_stdcell.spice
-
+.include /path/to/SAR_ADC/circuit_files/src/sar_fsm/build/sar_fsm_wrapper_ihp.spice
 "}
 C {lab_pin.sym} 280 -540 0 0 {name=p11 sig_type=std_logic lab=vddl
 

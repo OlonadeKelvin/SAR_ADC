@@ -3,7 +3,6 @@ G {}
 K {type=subcircuit
 format="@name @pinlist @symname"
 template="name=x1"
-spice_sym_def=".include /home/arjun/eda/projects/SAR_ADC/circuit_files/src/sar_fsm/build/sar_fsm_wrapper_ihp.spice"
 }
 V {}
 S {}
