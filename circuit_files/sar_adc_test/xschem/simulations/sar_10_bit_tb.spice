@@ -1,0 +1,473 @@
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/tb/sar_10_bit_tb.sch
+**.subckt sar_10_bit_tb C1 C2 C3 C4 C5 C6 C7 C8 C0 C9 busy valid Voutn
+*.opin C1
+*.opin C2
+*.opin C3
+*.opin C4
+*.opin C5
+*.opin C6
+*.opin C7
+*.opin C8
+*.opin C0
+*.opin C9
+*.opin busy
+*.opin valid
+*.iopin Voutn
+x1 RSTN busy START valid vcm vrefp ainn ainp CLK C0 C9 C1 C5 C6 C2 C7 C3 C8 C4 vss vddh Voutn vddl sar_10_bit
+V_VIN ainn GND dc {VCM - VDIFF/2}
+VDD_SRC vddh GND dc {VDDH}
+V_VINP ainp GND dc {VCM + VDIFF/2}
+V_VSS vss GND dc 0
+V_CLK CLK GND PULSE(0 {VDDL} 0n 20p 20p 10n 20n)
+V_VCM1 vcm GND dc {VCM}
+VREFP_SRC vrefp GND dc {VDDH}
+V_RSTN RSTN GND PULSE(0 {VDDL} 60n 20p 20p 10u 20u)
+V_START START GND PULSE(0 {VDDL} 100n 20p 20p 20n 2u)
+VDD_SRC1 vddl GND dc {VDDL}
+**** begin user architecture code
+
+
+.control
+
+set noaskquit
+set num_threads=6
+
+setplot const
+
+let vin_vec = vector(3)
+let code_vec = vector(3)
+let valid_vec = vector(3)
+
+let vin_vec[0] = -1.6
+let vin_vec[1] = 0
+let vin_vec[2] = 1.6
+
+let index = 0
+
+
+echo
+echo ============================================================
+echo BASIC_SAR_ADC_FUNCTIONAL_TEST
+echo ============================================================
+
+
+repeat 3
+
+  let vdiff_now = vin_vec[index]
+  let vinp_now = 1.65 + vdiff_now/2
+  let vinn_now = 1.65 - vdiff_now/2
+
+  echo
+  echo ============================================================
+  echo TEST_POINT
+  echo INDEX
+  print index
+  echo VDIFF
+  print vdiff_now
+  echo VINP
+  print vinp_now
+  echo VINN
+  print vinn_now
+  echo ============================================================
+
+  alter V_VINP $&vinp_now
+  alter V_VIN $&vinn_now
+
+
+  * One complete ADC conversion
+  tran 100p 1.30u 0 100p
+
+
+  * Check conversion completed
+  meas tran valid_max MAX v(valid) FROM=100n TO=1.30u
+
+
+  * Read result after VALID
+  meas tran c9v FIND v(C9) AT=1.28u
+  meas tran c8v FIND v(C8) AT=1.28u
+  meas tran c7v FIND v(C7) AT=1.28u
+  meas tran c6v FIND v(C6) AT=1.28u
+  meas tran c5v FIND v(C5) AT=1.28u
+  meas tran c4v FIND v(C4) AT=1.28u
+  meas tran c3v FIND v(C3) AT=1.28u
+  meas tran c2v FIND v(C2) AT=1.28u
+  meas tran c1v FIND v(C1) AT=1.28u
+  meas tran c0v FIND v(C0) AT=1.28u
+
+
+  * Decode 10-bit output
+  let adc_code = 512*(c9v gt 0.6) + 256*(c8v gt 0.6) + 128*(c7v gt 0.6) + 64*(c6v gt 0.6) + 32*(c5v gt 0.6) + 16*(c4v gt 0.6) + 8*(c3v gt 0.6) + 4*(c2v gt 0.6) + 2*(c1v gt 0.6) + (c0v gt 0.6)
+
+  let valid_ok = valid_max gt 0.6
+
+
+  * Store results
+  let code_vec[index] = adc_code
+  let valid_vec[index] = valid_ok
+
+
+  echo
+  echo ADC_CODE
+  print adc_code
+
+  echo VALID_OK
+  print valid_ok
+
+
+  * Delete transient waveform to save memory
+  destroy $curplot
+
+  setplot const
+
+  let index = index + 1
+
+end
+
+
+echo
+echo ============================================================
+echo BASIC_ADC_TEST_RESULTS
+echo ============================================================
+
+echo INPUTS
+print vin_vec
+
+echo CODES
+print code_vec
+
+echo VALID_FLAGS
+print valid_vec
+
+
+plot code_vec vs vin_vec pointplot
+
+
+.endc
+
+
+
+.lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOSlv.lib mos_tt
+.lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib mos_tt
+.lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerRES.lib res_typ
+
+.lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerCAP.lib cap_typ
+.include /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/spice/sg13cmos5l_stdcell.spice
+
+
+
+
+
+.param VDDH=3.3
+.param VDDL=1.2
+
+.param VREF=3.3
+.param VCM=1.65
+
+.param NBITS=10
+.param Cu=10f
+
+* LSB = 3.3 / 1024 = 3.22265625 mV
+.param VDIFF=0
+
+
+*.options savecurrents
+.options reltol=1e-4
+.options abstol=1e-12
+.options vntol=1e-6
+
+.options method=gear
+.options maxord=2
+
+.options plotwinsize=0
+.options itl4=500
+
+.save v(valid)
+
+.save v(C9)
+.save v(C8)
+.save v(C7)
+.save v(C6)
+.save v(C5)
+.save v(C4)
+.save v(C3)
+.save v(C2)
+.save v(C1)
+.save v(C0)
+
+
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  sar_10_bit.sym # of pins=23
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/sar_10_bit.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/sar_10_bit.sch
+.subckt sar_10_bit RSTN busy START valid vcm vrefp ainn ainp CLK C0 C9 C1 C5 C6 C2 C7 C3 C8 C4 vss vddh Voutn vddl
+*.ipin ainn
+*.ipin ainp
+*.ipin CLK
+*.ipin vrefp
+*.ipin vcm
+*.opin C1
+*.opin C2
+*.opin C3
+*.opin C4
+*.opin C5
+*.opin C6
+*.opin C7
+*.opin C8
+*.opin C0
+*.opin C9
+*.opin busy
+*.opin valid
+*.ipin START
+*.ipin RSTN
+*.iopin Voutn
+*.iopin vddh
+*.iopin vss
+*.iopin vddl
+x1 Voutn vcn Voutp vcp vddh vss comp_clk_hv strong_arm_comp
+x3 vss sample_hv sampleb_hv vddh ainp vcp tg
+x4 vss sample_hv sampleb_hv vddh ainn vcn tg
+x2 vcp bp3 bp0 bp5 bp2 vcm bp1 bp7 bp6 bp8 bp4 bp9 vcn bn0 bn1 bn8 bn7 bn6 bn5 bn4 bn3 bn9 bn2 vcm cdac_caps_10b_diff
+x15 vddh sample_hv sampleb_hv vss inverter
+x6 dbp0_hv bp0 vss vddh vrefp vcm dac_sw_2to1_tg
+x7 dbp1_hv bp1 vss vddh vrefp vcm dac_sw_2to1_tg
+x8 dbp4_hv bp4 vss vddh vrefp vcm dac_sw_2to1_tg
+x9 dbp5_hv bp5 vss vddh vrefp vcm dac_sw_2to1_tg
+x10 dbp7_hv bp7 vss vddh vrefp vcm dac_sw_2to1_tg
+x11 dbp8_hv bp8 vss vddh vrefp vcm dac_sw_2to1_tg
+x12 dbp2_hv bp2 vss vddh vrefp vcm dac_sw_2to1_tg
+x13 dbp3_hv bp3 vss vddh vrefp vcm dac_sw_2to1_tg
+x14 dbp6_hv bp6 vss vddh vrefp vcm dac_sw_2to1_tg
+x16 dbp9_hv bp9 vss vddh vrefp vcm dac_sw_2to1_tg
+x17 dbn0_hv bn0 vss vddh vrefp vcm dac_sw_2to1_tg
+x18 dbn1_hv bn1 vss vddh vrefp vcm dac_sw_2to1_tg
+x19 dbn4_hv bn4 vss vddh vrefp vcm dac_sw_2to1_tg
+x20 dbn5_hv bn5 vss vddh vrefp vcm dac_sw_2to1_tg
+x21 dbn7_hv bn7 vss vddh vrefp vcm dac_sw_2to1_tg
+x22 dbn8_hv bn8 vss vddh vrefp vcm dac_sw_2to1_tg
+x23 dbn2_hv bn2 vss vddh vrefp vcm dac_sw_2to1_tg
+x24 dbn3_hv bn3 vss vddh vrefp vcm dac_sw_2to1_tg
+x25 dbn6_hv bn6 vss vddh vrefp vcm dac_sw_2to1_tg
+x27 dbn9_hv bn9 vss vddh vrefp vcm dac_sw_2to1_tg
+x5 CLK RSTN START comp_lv sample comp_clk busy valid dbp9 dbp8 dbp7 dbp6 dbp5 dbp4 dbp3 dbp2 dbp1 dbp0 dbn9 dbn8 dbn7 dbn6 dbn5
++ dbn4 dbn3 dbn2 dbn1 dbn0 C9 C8 C7 C6 C5 C4 C3 C2 C1 C0 vddl vss sar_fsm_wrapper
+x26 vss vddl vddh comp_lv Voutp Voutn comp_clk_hv level_shifter_3v3_to_1v2
+x28 vss vddl vddh comp_clk_hv comp_clk level_shifter_1v2_to_3v3
+x29 vss vddl vddh sample_hv sample level_shifter_1v2_to_3v3
+x30 vss vddl vddh dbp0_hv dbp0 level_shifter_1v2_to_3v3
+x31 vss vddl vddh dbp1_hv dbp1 level_shifter_1v2_to_3v3
+x32 vss vddl vddh dbp5_hv dbp5 level_shifter_1v2_to_3v3
+x33 vss vddl vddh dbp6_hv dbp6 level_shifter_1v2_to_3v3
+x34 vss vddl vddh dbp2_hv dbp2 level_shifter_1v2_to_3v3
+x35 vss vddl vddh dbp3_hv dbp3 level_shifter_1v2_to_3v3
+x36 vss vddl vddh dbp7_hv dbp7 level_shifter_1v2_to_3v3
+x37 vss vddl vddh dbp8_hv dbp8 level_shifter_1v2_to_3v3
+x38 vss vddl vddh dbp4_hv dbp4 level_shifter_1v2_to_3v3
+x39 vss vddl vddh dbp9_hv dbp9 level_shifter_1v2_to_3v3
+x40 vss vddl vddh dbn0_hv dbn0 level_shifter_1v2_to_3v3
+x41 vss vddl vddh dbn1_hv dbn1 level_shifter_1v2_to_3v3
+x42 vss vddl vddh dbn5_hv dbn5 level_shifter_1v2_to_3v3
+x43 vss vddl vddh dbn6_hv dbn6 level_shifter_1v2_to_3v3
+x44 vss vddl vddh dbn2_hv dbn2 level_shifter_1v2_to_3v3
+x45 vss vddl vddh dbn3_hv dbn3 level_shifter_1v2_to_3v3
+x46 vss vddl vddh dbn7_hv dbn7 level_shifter_1v2_to_3v3
+x47 vss vddl vddh dbn8_hv dbn8 level_shifter_1v2_to_3v3
+x48 vss vddl vddh dbn4_hv dbn4 level_shifter_1v2_to_3v3
+x49 vss vddl vddh dbn9_hv dbn9 level_shifter_1v2_to_3v3
+.ends
+
+
+* expanding   symbol:  strong_arm_comp.sym # of pins=7
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/strong_arm_comp.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/strong_arm_comp.sch
+.subckt strong_arm_comp Voutn Vinn Voutp Vinp vdd vss CLK
+*.ipin Vinn
+*.opin Voutp
+*.iopin vdd
+*.ipin Vinp
+*.ipin CLK
+*.iopin vss
+*.opin Voutn
+XM1 P CLK vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM2 net1 CLK vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=8 mm_ok=1
+XM3 X CLK vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM4 P Vinn net1 vss sg13_hv_nmos w=2u l=0.45u ng=1 m=6 mm_ok=1
+XM5 Q Vinp net1 vss sg13_hv_nmos w=2u l=0.45u ng=1 m=6 mm_ok=1
+XM6 X Y P vss sg13_hv_nmos w=2u l=0.45u ng=1 m=2 mm_ok=1
+XM7 Y X Q vss sg13_hv_nmos w=2u l=0.45u ng=1 m=2 mm_ok=1
+XM8 X Y vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM9 Y CLK vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM10 Q CLK vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM11 Y X vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM12 net2 X vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM13 Voutp net2 vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=2 mm_ok=1
+XM14 Voutn net3 vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=2 mm_ok=1
+XM15 net3 Y vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM16 net2 X vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+XM17 Voutp Voutn vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+XM18 net3 Y vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+XM19 Voutn Voutp vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=4 mm_ok=1
+.ends
+
+
+* expanding   symbol:  tg.sym # of pins=6
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/tg.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/tg.sch
+.subckt tg vss ng pg vdd a b
+*.ipin ng
+*.iopin vdd
+*.ipin pg
+*.iopin a
+*.iopin b
+*.iopin vss
+XM12 b ng a vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM16 b pg a vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+.ends
+
+
+* expanding   symbol:  cdac_caps_10b_diff.sym # of pins=24
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/cdac_caps_10b_diff.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/cdac_caps_10b_diff.sch
+.subckt cdac_caps_10b_diff vcp bp3 bp0 bp5 bp2 bpd bp1 bp7 bp6 bp8 bp4 bp9 vcn bn0 bn1 bn8 bn7 bn6 bn5 bn4 bn3 bn9 bn2 bnd
+*.iopin vcp
+*.iopin vcn
+*.iopin bpd
+*.iopin bp0
+*.iopin bp1
+*.iopin bp2
+*.iopin bp3
+*.iopin bp4
+*.iopin bp5
+*.iopin bp6
+*.iopin bp7
+*.iopin bp8
+*.iopin bp9
+*.iopin bnd
+*.iopin bn1
+*.iopin bn2
+*.iopin bn3
+*.iopin bn4
+*.iopin bn5
+*.iopin bn6
+*.iopin bn7
+*.iopin bn8
+*.iopin bn9
+*.iopin bn0
+XC1 vcp bpd cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=1 mm_ok=1
+XC2 vcp bp0 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=1 mm_ok=1
+XC3 vcp bp1 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=2 mm_ok=1
+XC4 vcp bp2 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=4 mm_ok=1
+XC5 vcp bp3 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=8 mm_ok=1
+XC6 vcp bp4 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=16 mm_ok=1
+XC7 vcp bp5 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=32 mm_ok=1
+XC8 vcp bp6 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=64 mm_ok=1
+XC9 vcp bp7 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=128 mm_ok=1
+XC10 vcp bp8 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=256 mm_ok=1
+XC12 vcp bp9 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=512 mm_ok=1
+XC11 vcn bnd cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=1 mm_ok=1
+XC13 vcn bn0 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=1 mm_ok=1
+XC14 vcn bn1 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=2 mm_ok=1
+XC15 vcn bn2 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=4 mm_ok=1
+XC16 vcn bn3 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=8 mm_ok=1
+XC17 vcn bn4 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=16 mm_ok=1
+XC18 vcn bn5 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=32 mm_ok=1
+XC19 vcn bn6 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=64 mm_ok=1
+XC20 vcn bn7 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=128 mm_ok=1
+XC21 vcn bn8 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=256 mm_ok=1
+XC22 vcn bn9 cap_cmomi w=5e-6 l=5e-6 mmin=1 mmax=4 feed=double subblock=0 m=512 mm_ok=1
+.ends
+
+
+* expanding   symbol:  inverter.sym # of pins=4
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/inverter.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/inverter.sch
+.subckt inverter vdd Vinn Voutp vss
+*.iopin vdd
+*.iopin vss
+*.ipin Vinn
+*.opin Voutp
+XM12 Voutp Vinn vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM16 Voutp Vinn vdd vdd sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+.ends
+
+
+* expanding   symbol:  dac_sw_2to1_tg.sym # of pins=6
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/dac_sw_2to1_tg.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/dac_sw_2to1_tg.sch
+.subckt dac_sw_2to1_tg sel out vss vdd vref vcm
+*.ipin sel
+*.iopin vdd
+*.iopin vref
+*.iopin vcm
+*.iopin vss
+*.iopin out
+x1 vss sel selb vdd vref out tg
+x3 vss selb sel vdd vcm out tg
+x2 vdd sel selb vss inverter
+.ends
+
+
+* expanding   symbol:  /home/arjun/eda/projects/SAR_ADC/circuit_files/src/sar_fsm/sar_fsm_wrapper.sym # of pins=40
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/src/sar_fsm/sar_fsm_wrapper.sym
+.include /home/arjun/eda/projects/SAR_ADC/circuit_files/src/sar_fsm/build/sar_fsm_wrapper_ihp.spice
+
+* expanding   symbol:  level_shifter_3v3_to_1v2.sym # of pins=7
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/level_shifter_3v3_to_1v2.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/level_shifter_3v3_to_1v2.sch
+.subckt level_shifter_3v3_to_1v2 vss vddl vddh out inp inn en_hv
+*.iopin vddl
+*.iopin out
+*.iopin vss
+*.iopin inp
+*.iopin inn
+*.iopin en_hv
+*.iopin vddh
+XM7 q vddl xp vss sg13_hv_nmos w=2u l=0.45u ng=1 m=4 mm_ok=1
+XM9 xp gatep vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=4 mm_ok=1
+XM8 qb vddl xn vss sg13_hv_nmos w=2u l=0.45u ng=1 m=4 mm_ok=1
+XM11 xn gaten vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=4 mm_ok=1
+XM17 lvbuf hbuf2 vss vss sg13_lv_nmos w=0.6u l=0.13u ng=1 m=1 mm_ok=1
+XM18 lvbuf hbuf2 vddl vddl sg13_lv_pmos w=1.2u l=0.13u ng=1 m=1 mm_ok=1
+XM3 q qb vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM4 qb q vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM5 qb q vddl vddl sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+XM6 q qb vddl vddl sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+XM14 hbuf qb vddl vddl sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+XM15 hbuf qb vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM19 hbuf2 hbuf vddl vddl sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+XM20 hbuf2 hbuf vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM21 out lvbuf vss vss sg13_lv_nmos w=0.6u l=0.13u ng=1 m=1 mm_ok=1
+XM22 out lvbuf vddl vddl sg13_lv_pmos w=1.2u l=0.13u ng=1 m=1 mm_ok=1
+XM23 enb en_hv vddh vddh sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+XM24 enb en_hv vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+x1 vss en_hv enb vddh inp gatep tg
+x2 vss en_hv enb vddh inn gaten tg
+XM25 gatep enb vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM26 gaten enb vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+.ends
+
+
+* expanding   symbol:  level_shifter_1v2_to_3v3.sym # of pins=5
+** sym_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/level_shifter_1v2_to_3v3.sym
+** sch_path: /home/arjun/eda/projects/SAR_ADC/circuit_files/sar_adc_test/xschem/level_shifter_1v2_to_3v3.sch
+.subckt level_shifter_1v2_to_3v3 vss vddl vddh out in
+*.iopin vddl
+*.iopin vddh
+*.iopin out
+*.iopin vss
+*.iopin in
+XM1 inb in vss vss sg13_lv_nmos w=0.6u l=0.13u ng=1 m=1 mm_ok=1
+XM2 inb in vddl vddl sg13_lv_pmos w=1.2u l=0.13u ng=1 m=1 mm_ok=1
+XM3 a in vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=4 mm_ok=1
+XM4 b inb vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=4 mm_ok=1
+XM5 b a vddh vddh sg13_hv_pmos w=2u l=0.4u ng=1 m=1 mm_ok=1
+XM6 a b vddh vddh sg13_hv_pmos w=2u l=0.4u ng=1 m=1 mm_ok=1
+XM12 out a vss vss sg13_hv_nmos w=2u l=0.45u ng=1 m=1 mm_ok=1
+XM16 out a vddh vddh sg13_hv_pmos w=2u l=0.4u ng=1 m=2 mm_ok=1
+.ends
+
+.GLOBAL GND
+.end

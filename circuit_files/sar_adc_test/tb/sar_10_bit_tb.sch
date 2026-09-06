@@ -141,393 +141,119 @@ C {lab_pin.sym} -650 -620 1 0 {name=p9 sig_type=std_logic lab=START}
 C {code.sym} 1570 135 0 0 {name=s1
 only_toplevel=true
 value="
-
 .control
 
 set noaskquit
 set num_threads=6
-reset
 
-tran 20p 1.6u
+setplot const
 
-let logic_th_lv = 0.6
-let logic_th_hv = 1.65
+let vin_vec = vector(3)
+let code_vec = vector(3)
+let valid_vec = vector(3)
 
-meas tran ainp_dc FIND v(ainp) AT=90n
-meas tran ainn_dc FIND v(ainn) AT=90n
+let vin_vec[0] = -1.6
+let vin_vec[1] = 0
+let vin_vec[2] = 1.6
 
-let vin_diff = ainp_dc-ainn_dc
-
-
-meas tran vddl_check FIND v(vddl) AT=90n
-meas tran vddh_check FIND v(vddh) AT=90n
-
-meas tran rstn_hi MAX v(RSTN) FROM=60n TO=90n
-
-meas tran start_hi MAX v(START) FROM=100n TO=120n
+let index = 0
 
 
-meas tran busy_max MAX v(busy) FROM=100n TO=1.6u
+echo
+echo BASIC_SAR_ADC_FUNCTIONAL_TEST
 
-meas tran valid_max MAX v(valid) FROM=100n TO=1.6u
+repeat 3
+
+  let vdiff_now = vin_vec[index]
+  let vinp_now = 1.65 + vdiff_now/2
+  let vinn_now = 1.65 - vdiff_now/2
+
+  echo
+  echo TEST_POINT
+  echo INDEX
+  print index
+  echo VDIFF
+  print vdiff_now
+  echo VINP
+  print vinp_now
+  echo VINN
+  print vinn_now
 
 
-let pass_busy=0
-if busy_max > logic_th_lv
-  let pass_busy=1
+  alter V_VINP $&vinp_now
+  alter V_VIN $&vinn_now
+
+
+  * One complete ADC conversion
+  tran 100p 1.30u 0 100p
+
+
+  * Check conversion completed
+  meas tran valid_max MAX v(valid) FROM=100n TO=1.30u
+
+
+  * Read result after VALID
+  meas tran c9v FIND v(C9) AT=1.28u
+  meas tran c8v FIND v(C8) AT=1.28u
+  meas tran c7v FIND v(C7) AT=1.28u
+  meas tran c6v FIND v(C6) AT=1.28u
+  meas tran c5v FIND v(C5) AT=1.28u
+  meas tran c4v FIND v(C4) AT=1.28u
+  meas tran c3v FIND v(C3) AT=1.28u
+  meas tran c2v FIND v(C2) AT=1.28u
+  meas tran c1v FIND v(C1) AT=1.28u
+  meas tran c0v FIND v(C0) AT=1.28u
+
+
+  * Decode 10-bit output
+  let adc_code = 512*(c9v gt 0.6) + 256*(c8v gt 0.6) + 128*(c7v gt 0.6) + 64*(c6v gt 0.6) + 32*(c5v gt 0.6) + 16*(c4v gt 0.6) + 8*(c3v gt 0.6) + 4*(c2v gt 0.6) + 2*(c1v gt 0.6) + (c0v gt 0.6)
+
+  let valid_ok = valid_max gt 0.6
+
+
+  * Store results
+  let code_vec[index] = adc_code
+  let valid_vec[index] = valid_ok
+
+
+  echo
+  echo ADC_CODE
+  print adc_code
+
+  echo VALID_OK
+  print valid_ok
+
+
+  * Delete transient waveform to save memory
+  destroy $curplot
+
+  setplot const
+
+  let index = index + 1
+
 end
 
 
-let pass_valid=0
-if valid_max > logic_th_lv
-  let pass_valid=1
-end
+echo
 
+echo BASIC_ADC_TEST_RESULTS
 
-let t_debug = 1.55u
+echo INPUTS
+print vin_vec
 
-if valid_max > logic_th_lv
+echo CODES
+print code_vec
 
-  meas tran t_valid WHEN v(valid)=0.6 RISE=1
+echo VALID_FLAGS
+print valid_vec
 
-  let t_debug=t_valid+5n
 
-end
+plot code_vec vs vin_vec pointplot
 
-
-meas tran sample_lv_max MAX v(x1.sample) FROM=100n TO=1.5u
-meas tran sample_hv_max MAX v(x1.sample_hv) FROM=100n TO=1.5u
-
-meas tran sample_lv_min MIN v(x1.sample) FROM=100n TO=1.5u
-meas tran sample_hv_min MIN v(x1.sample_hv) FROM=100n TO=1.5u
-
-
-let pass_sample_ls=0
-
-if sample_lv_max > 1.08
-  if sample_hv_max > 3.0
-    if sample_lv_min < 0.12
-      if sample_hv_min < 0.3
-        let pass_sample_ls=1
-      end
-    end
-  end
-end
-
-
-meas tran cclk_lv_max MAX v(x1.comp_clk) FROM=100n TO=1.5u
-meas tran cclk_hv_max MAX v(x1.comp_clk_hv) FROM=100n TO=1.5u
-
-meas tran cclk_lv_min MIN v(x1.comp_clk) FROM=100n TO=1.5u
-meas tran cclk_hv_min MIN v(x1.comp_clk_hv) FROM=100n TO=1.5u
-
-
-let pass_clk_ls=0
-
-if cclk_lv_max > 1.08
-  if cclk_hv_max > 3.0
-    if cclk_lv_min < 0.12
-      if cclk_hv_min < 0.3
-        let pass_clk_ls=1
-      end
-    end
-  end
-end
-
-
-meas tran comp_lv_max MAX v(x1.comp_lv) FROM=100n TO=1.5u
-meas tran comp_lv_min MIN v(x1.comp_lv) FROM=100n TO=1.5u
-
-meas tran voutp_max MAX v(x1.Voutp) FROM=100n TO=1.5u
-meas tran voutp_min MIN v(x1.Voutp) FROM=100n TO=1.5u
-
-meas tran voutn_max MAX v(Voutn) FROM=100n TO=1.5u
-meas tran voutn_min MIN v(Voutn) FROM=100n TO=1.5u
-
-
-let pass_comp_ls=0
-
-if comp_lv_max > 1.08
-  if comp_lv_min < 0.12
-    let pass_comp_ls=1
-  end
-end
-
-
-meas tran gatep_max MAX v(x1.x26.gatep) FROM=100n TO=1.5u
-meas tran gatep_min MIN v(x1.x26.gatep) FROM=100n TO=1.5u
-
-meas tran gaten_max MAX v(x1.x26.gaten) FROM=100n TO=1.5u
-meas tran gaten_min MIN v(x1.x26.gaten) FROM=100n TO=1.5u
-
-
-meas tran vcp_final FIND v(x1.vcp) AT=$&t_debug
-meas tran vcn_final FIND v(x1.vcn) AT=$&t_debug
-
-let vcdac_diff=vcp_final-vcn_final
-
-
-meas tran c9v FIND v(C9) AT=$&t_debug
-meas tran c8v FIND v(C8) AT=$&t_debug
-meas tran c7v FIND v(C7) AT=$&t_debug
-meas tran c6v FIND v(C6) AT=$&t_debug
-meas tran c5v FIND v(C5) AT=$&t_debug
-meas tran c4v FIND v(C4) AT=$&t_debug
-meas tran c3v FIND v(C3) AT=$&t_debug
-meas tran c2v FIND v(C2) AT=$&t_debug
-meas tran c1v FIND v(C1) AT=$&t_debug
-meas tran c0v FIND v(C0) AT=$&t_debug
-
-
-let b9=0
-if c9v > logic_th_lv
-  let b9=1
-end
-
-let b8=0
-if c8v > logic_th_lv
-  let b8=1
-end
-
-let b7=0
-if c7v > logic_th_lv
-  let b7=1
-end
-
-let b6=0
-if c6v > logic_th_lv
-  let b6=1
-end
-
-let b5=0
-if c5v > logic_th_lv
-  let b5=1
-end
-
-let b4=0
-if c4v > logic_th_lv
-  let b4=1
-end
-
-let b3=0
-if c3v > logic_th_lv
-  let b3=1
-end
-
-let b2=0
-if c2v > logic_th_lv
-  let b2=1
-end
-
-let b1=0
-if c1v > logic_th_lv
-  let b1=1
-end
-
-let b0=0
-if c0v > logic_th_lv
-  let b0=1
-end
-
-
-let adc_code = 512*b9 + 256*b8 + 128*b7 + 64*b6 + 32*b5 + 16*b4 + 8*b3 + 4*b2 + 2*b1 + b0
-echo ADC_CODE
-print adc_code
-
-meas tran dbp9_lv FIND v(x1.dbp9) AT=$&t_debug
-meas tran dbp9_hv FIND v(x1.dbp9_hv) AT=$&t_debug
-
-meas tran dbn9_lv FIND v(x1.dbn9) AT=$&t_debug
-meas tran dbn9_hv FIND v(x1.dbn9_hv) AT=$&t_debug
-
-meas tran bp9v FIND v(x1.bp9) AT=$&t_debug
-meas tran bp8v FIND v(x1.bp8) AT=$&t_debug
-meas tran bp7v FIND v(x1.bp7) AT=$&t_debug
-meas tran bp6v FIND v(x1.bp6) AT=$&t_debug
-meas tran bp5v FIND v(x1.bp5) AT=$&t_debug
-meas tran bp4v FIND v(x1.bp4) AT=$&t_debug
-meas tran bp3v FIND v(x1.bp3) AT=$&t_debug
-meas tran bp2v FIND v(x1.bp2) AT=$&t_debug
-meas tran bp1v FIND v(x1.bp1) AT=$&t_debug
-meas tran bp0v FIND v(x1.bp0) AT=$&t_debug
-
-meas tran bn9v FIND v(x1.bn9) AT=$&t_debug
-meas tran bn8v FIND v(x1.bn8) AT=$&t_debug
-meas tran bn7v FIND v(x1.bn7) AT=$&t_debug
-meas tran bn6v FIND v(x1.bn6) AT=$&t_debug
-meas tran bn5v FIND v(x1.bn5) AT=$&t_debug
-meas tran bn4v FIND v(x1.bn4) AT=$&t_debug
-meas tran bn3v FIND v(x1.bn3) AT=$&t_debug
-meas tran bn2v FIND v(x1.bn2) AT=$&t_debug
-meas tran bn1v FIND v(x1.bn1) AT=$&t_debug
-meas tran bn0v FIND v(x1.bn0) AT=$&t_debug
-
-
-meas tran h2l_q_max MAX v(x1.x26.q) FROM=100n TO=1.5u
-meas tran h2l_q_min MIN v(x1.x26.q) FROM=100n TO=1.5u
-
-meas tran h2l_qb_max MAX v(x1.x26.qb) FROM=100n TO=1.5u
-meas tran h2l_qb_min MIN v(x1.x26.qb) FROM=100n TO=1.5u
-
-meas tran h2l_hbuf2_max MAX v(x1.x26.hbuf2) FROM=100n TO=1.5u
-meas tran h2l_hbuf2_min MIN v(x1.x26.hbuf2) FROM=100n TO=1.5u
-
-meas tran h2l_out_max MAX v(x1.comp_lv) FROM=100n TO=1.5u
-meas tran h2l_out_min MIN v(x1.comp_lv) FROM=100n TO=1.5u
-
-meas tran iddh_avg AVG i(VDD_SRC) FROM=100n TO=1.5u
-meas tran iddl_avg AVG i(VDD_SRC1) FROM=100n TO=1.5u
-
-let pavg_hv=-3.3*iddh_avg
-let pavg_lv=-1.2*iddl_avg
-
-let pavg_total=pavg_hv+pavg_lv
-
-
-let pass_total=0
-
-if pass_busy > 0.5
-  if pass_valid > 0.5
-    if pass_sample_ls > 0.5
-      if pass_clk_ls > 0.5
-        if pass_comp_ls > 0.5
-          let pass_total=1
-        end
-      end
-    end
-  end
-end
-
-
-echo .
-echo IHP 10 BIT SAR ADC INTEGRATED NOMINAL TEST
-echo .
-
-echo SUPPLIES
-print vddl_check
-print vddh_check
-echo .
-
-echo INPUT
-print ainp_dc
-print ainn_dc
-print vin_diff
-echo .
-
-echo FSM
-print busy_max
-print valid_max
-print t_debug
-echo .
-
-echo SAMPLE_LEVEL_SHIFT
-print sample_lv_min
-print sample_lv_max
-print sample_hv_min
-print sample_hv_max
-echo .
-
-echo COMPARATOR_CLOCK_LEVEL_SHIFT
-print cclk_lv_min
-print cclk_lv_max
-print cclk_hv_min
-print cclk_hv_max
-echo .
-
-echo COMPARATOR
-print voutp_min
-print voutp_max
-print voutn_min
-print voutn_max
-echo .
-
-echo COMPARATOR_H2L
-print comp_lv_min
-print comp_lv_max
-echo .
-
-echo H2L_INTERNAL
-print h2l_q_max
-print h2l_q_min
-print h2l_qb_max
-print h2l_qb_min
-print h2l_hbuf2_max
-print h2l_hbuf2_min
-print h2l_out_max
-print h2l_out_min
-echo .
-
-echo CDAC_FINAL
-print vcp_final
-print vcn_final
-print vcdac_diff
-echo .
-
-echo CODE_BITS
-print b9
-print b8
-print b7
-print b6
-print b5
-print b4
-print b3
-print b2
-print b1
-print b0
-echo .
-
-echo ADC_CODE
-print adc_code
-echo .
-
-echo MSB_LEVEL_SHIFT
-print dbp9_lv
-print dbp9_hv
-print dbn9_lv
-print dbn9_hv
-echo .
-
-echo POWER_WATTS
-print pavg_hv
-print pavg_lv
-print pavg_total
-echo .
-
-echo PASS_FLAGS
-print pass_busy
-print pass_valid
-print pass_sample_ls
-print pass_clk_ls
-print pass_comp_ls
-print pass_total
-
-echo .
-echo END
-
-
-plot v(CLK) v(RSTN) v(START)
-
-plot v(busy) v(valid)
-
-plot v(x1.sample) v(x1.sample_hv) v(x1.sampleb_hv)
-
-plot v(x1.comp_clk) v(x1.comp_clk_hv)
-
-plot v(x1.Voutp) v(Voutn) v(x1.comp_lv)
-
-plot v(x1.vcp) v(x1.vcn)
-
-plot v(x1.dbp9) v(x1.dbp9_hv)
-
-plot v(x1.dbn9) v(x1.dbn9_hv)
-
-plot v(C9) v(C8) v(C7) v(C6) v(C5)
-
-plot v(C4) v(C3) v(C2) v(C1) v(C0)
 
 .endc
-
-"}
+"
+spice_ignore=true}
 C {lab_pin.sym} 60 -250 0 0 {name=p1 sig_type=std_logic lab=RSTN}
 C {lab_pin.sym} 60 -230 0 0 {name=p2 sig_type=std_logic lab=START}
 C {lab_pin.sym} 60 -410 0 0 {name=V_VCM2 sig_type=std_logic lab=vrefp
@@ -610,6 +336,7 @@ value="
 .lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib mos_tt
 .lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerRES.lib res_typ
 
+.lib /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerCAP.lib cap_typ
 .include /home/arjun/eda/pdks/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/spice/sg13cmos5l_stdcell.spice
 
 "}
@@ -773,4 +500,159 @@ C {code_shown.sym} 730 140 0 0 {name=s2 only_toplevel=false value="
 .save i(VDD_SRC1)
 
 
+"
+spice_ignore=true}
+C {code_shown.sym} 1090 140 0 0 {name=s3 only_toplevel=false value="
+
+.param VDDH=3.3
+.param VDDL=1.2
+
+.param VREF=3.3
+.param VCM=1.65
+
+.param NBITS=10
+.param Cu=10f
+
+* LSB = 3.3 / 1024 = 3.22265625 mV
+.param VDIFF=0
+
+
+*.options savecurrents
+.options reltol=1e-4
+.options abstol=1e-12
+.options vntol=1e-6
+
+.options method=gear
+.options maxord=2
+
+.options plotwinsize=0
+.options itl4=500
+
+.save v(valid)
+
+.save v(C9)
+.save v(C8)
+.save v(C7)
+.save v(C6)
+.save v(C5)
+.save v(C4)
+.save v(C3)
+.save v(C2)
+.save v(C1)
+.save v(C0)
+
+
 "}
+C {code.sym} 1770 145 0 0 {name=s4
+only_toplevel=true
+value="
+.control
+
+set noaskquit
+set num_threads=6
+
+setplot const
+
+let npts = 1025
+
+let vin_vec = -1.65 + (3.3/1024)*vector(npts)
+let code_vec = 0*vector(npts)
+let valid_vec = 0*vector(npts)
+
+let index = 0
+
+echo
+echo FULL_10_BIT_SAR_ADC_TRANSFER
+echo 1025_INPUT_POINTS
+
+
+repeat 1025
+
+  let vdiff_now = vin_vec[index]
+
+  let vinp_now = 1.65 + vdiff_now/2
+  let vinn_now = 1.65 - vdiff_now/2
+
+
+  echo
+  echo POINT
+  print index
+  echo VDIFF
+  print vdiff_now
+
+
+  alter V_VINP $&vinp_now
+  alter V_VIN  $&vinn_now
+
+
+  tran 500p 1.30u 0 500p
+
+
+  meas tran valid_max MAX v(valid) FROM=100n TO=1.30u
+
+  meas tran c9v FIND v(C9) AT=1.28u
+  meas tran c8v FIND v(C8) AT=1.28u
+  meas tran c7v FIND v(C7) AT=1.28u
+  meas tran c6v FIND v(C6) AT=1.28u
+  meas tran c5v FIND v(C5) AT=1.28u
+  meas tran c4v FIND v(C4) AT=1.28u
+  meas tran c3v FIND v(C3) AT=1.28u
+  meas tran c2v FIND v(C2) AT=1.28u
+  meas tran c1v FIND v(C1) AT=1.28u
+  meas tran c0v FIND v(C0) AT=1.28u
+
+
+  let adc_code = 512*(c9v gt 0.6) + 256*(c8v gt 0.6) + 128*(c7v gt 0.6) + 64*(c6v gt 0.6) + 32*(c5v gt 0.6) + 16*(c4v gt 0.6) + 8*(c3v gt 0.6) + 4*(c2v gt 0.6) + 2*(c1v gt 0.6) + (c0v gt 0.6)
+
+  let valid_ok = valid_max gt 0.6
+
+
+  let code_vec[index] = adc_code
+  let valid_vec[index] = valid_ok
+
+
+  echo CODE
+  print adc_code
+
+  echo VALID
+  print valid_ok
+
+
+  destroy $curplot
+
+  setplot const
+
+  let index = index + 1
+
+end
+
+
+setplot const
+
+
+echo
+echo FULL_TRANSFER_COMPLETE
+
+setscale code_vec vin_vec
+setscale valid_vec vin_vec
+
+set wr_singlescale
+set wr_vecnames
+
+option numdgt=10
+
+wrdata adc_full_transfer.dat code_vec valid_vec
+
+
+plot code_vec vs vin_vec linplot xlimit -1.65 1.65 ylimit 0 1023 xlabel VDIFF_V ylabel ADC_CODE title FULL_10_BIT_SAR_ADC_TRANSFER
+
+
+echo
+echo Results_written_to_adc_full_transfer.dat
+echo
+
+rusage
+
+.endc
+"
+}
